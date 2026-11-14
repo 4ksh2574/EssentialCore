@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, HTMLAttributes, ReactNode } from "react";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost";
 
@@ -7,7 +7,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-const buttonStyles: Record<ButtonVariant, React.CSSProperties> = {
+const buttonStyles: Record<ButtonVariant, CSSProperties> = {
   primary: {
     background: "var(--ec-accent)",
     color: "#06130F",
