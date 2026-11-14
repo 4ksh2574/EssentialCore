@@ -1,0 +1,39 @@
+:root {
+  color-scheme: light;
+  --ec-bg: #F7F8F7;
+  --ec-surface: #FFFFFF;
+  --ec-surface-raised: #FFFFFF;
+  --ec-text: #141B17;
+  --ec-text-muted: #64736A;
+  --ec-border: #DCE2DE;
+  --ec-accent: #168E7D;
+  --ec-accent-soft: #C5F4E8;
+  --ec-focus: #126F63;
+  --ec-radius-sm: 0.5rem;
+  --ec-radius-md: 0.875rem;
+  --ec-radius-lg: 1.25rem;
+  --ec-radius-xl: 1.75rem;
+  --ec-motion-fast: 140ms;
+  --ec-motion-normal: 220ms;
+  --ec-easing: cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ec-bg: #000000;
+  --ec-surface: #0B100D;
+  --ec-surface-raised: #141B17;
+  --ec-text: #F2F6F3;
+  --ec-text-muted: #A3B0A8;
+  --ec-border: #303D35;
+  --ec-accent: #6CD9C4;
+  --ec-accent-soft: #10574F;
+  --ec-focus: #9AE8D6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ec-motion-fast: 0ms;
+    --ec-motion-normal: 0ms;
+  }
+}
