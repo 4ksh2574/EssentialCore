@@ -195,7 +195,7 @@ function HomeHeader() {
     return () => window.clearInterval(timer);
   }, []);
   const hour = now.getHours();
-  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const greeting = hour < 12 ? "Good morning" : hour < 16 ? "Good afternoon" : "Good evening";
   const dateLabel = new Intl.DateTimeFormat("en-IN", {
     weekday: "long", month: "long", day: "numeric"
   }).format(now).toUpperCase();
@@ -204,7 +204,7 @@ function HomeHeader() {
   }).format(now);
   return (
     <div className="home-header-copy">
-      <h1>{greeting}<span className="accent-dot">.</span></h1>
+      <h1>{greeting}<span className="accent-dot">,</span></h1>
       <div className="home-header-meta"><span className="home-time">{timeLabel}</span><span className="home-meta-divider" /><span className="eyebrow home-date">{dateLabel}</span></div>
     </div>
   );
