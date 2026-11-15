@@ -102,7 +102,6 @@ function App() {
         </nav>
         <div className="sidebar-bottom">
           <div className="system-card"><div className="system-icon"><Layers3 size={17} /></div><strong>Essential Core</strong><span>Demo environment</span><div className="system-progress"><i /></div><small>FOUNDATION · v0.1</small></div>
-          <button className={activeTab === "settings" ? "side-link muted active" : "side-link muted"} onClick={() => setActiveTab("settings")}><Settings2 size={18} />Settings</button>
           <div className="side-user"><div className="avatar small-avatar">A</div><div><strong>AX</strong><span>Personal workspace</span></div><MoreHorizontal size={18} /></div>
         </div>
       </aside>
