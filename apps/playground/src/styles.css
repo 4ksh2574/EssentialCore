@@ -748,7 +748,11 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
       inset -2px 0 3px rgba(255,255,255,.08);
     backdrop-filter:blur(20px) saturate(155%);
     -webkit-backdrop-filter:blur(20px) saturate(155%);
-    pointer-events:none;
+    pointer-events:auto;
+    touch-action:none;
+    cursor:grab;
+    user-select:none;
+    -webkit-user-select:none;
     will-change:transform,border-radius;
     transition:
       transform .72s cubic-bezier(.22,1.25,.32,1),
