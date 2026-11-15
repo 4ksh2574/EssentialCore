@@ -270,40 +270,52 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const categories = [
-    { title: "General", subtitle: "Core preferences", icon: Settings2 },
-    { title: "Workspace", subtitle: "Personal", icon: BriefcaseBusiness },
-    { title: "Appearance", subtitle: "Theme and visual style", icon: Palette },
-    { title: "Notifications", subtitle: "Alerts and updates", icon: Bell },
-    { title: "Privacy & security", subtitle: "Your data and account", icon: ShieldCheck },
-    { title: "Accessibility", subtitle: "Comfort and readability", icon: Accessibility },
-    { title: "Language & region", subtitle: "Language preferences", icon: Languages },
-    { title: "Help & feedback", subtitle: "Support and suggestions", icon: CircleHelp },
-    { title: "About", subtitle: "Essential Core", icon: Info }
+    { title: "General", description: "Core preferences and behaviour", icon: Settings2 },
+    { title: "Workspace", description: "Personal workspace", icon: BriefcaseBusiness },
+    { title: "Appearance", description: "Theme and visual preferences", icon: Palette },
+    { title: "Notifications", description: "Notification preferences", icon: Bell },
+    { title: "Privacy & security", description: "Privacy and account protection", icon: ShieldCheck },
+    { title: "Accessibility", description: "Comfort and accessibility options", icon: Accessibility },
+    { title: "Language & region", description: "Language and regional preferences", icon: Languages },
+    { title: "Help & feedback", description: "Guides, support and suggestions", icon: CircleHelp },
+    { title: "About Essential", description: "One Core. Infinite Possibilities.", icon: Info }
   ];
-  const filtered = categories.filter(item => (item.title + " " + item.subtitle).toLowerCase().includes(search.toLowerCase()));
-  const groups = [filtered.filter(x => ["General", "Workspace"].includes(x.title)), filtered.filter(x => !["General", "Workspace"].includes(x.title))].filter(x => x.length);
-  const selected = categories.find(x => x.title === selectedCategory);
+  const selected = categories.find(item => item.title === selectedCategory);
+  const filtered = categories.filter(item => (item.title + " " + item.description).toLowerCase().includes(search.toLowerCase()));
   return (
-    <div className="page settings-page core-settings-page nothing-settings">
+    <div className="page settings-page core-settings-page nothing-settings-page">
+      <header className="nothing-settings-top">
+        {selected ? <button className="nothing-settings-back" onClick={() => setSelectedCategory(null)} aria-label="Back to settings"><ArrowLeft size={22} /></button> : <span />}
+        <button className="nothing-settings-avatar" onClick={onOpenProfile} aria-label="Open account profile"><span>AX</span></button>
+      </header>
       {selected ? <>
-        <header className="nothing-settings-detail-head">
-          <button className="nothing-back" onClick={() => setSelectedCategory(null)} aria-label="Back to settings"><ArrowLeft size={22}/></button>
-          <h1>{selected.title}</h1>
-          <button className="nothing-avatar" onClick={onOpenProfile} aria-label="Open profile"><UserRound size={20}/></button>
-        </header>
-        {selected.title === "Appearance" ? <div className="nothing-detail-card"><div className="nothing-detail-row"><span>Theme</span><div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={16}/></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={16}/></button></div></div></div> : selected.title === "Notifications" ? <div className="nothing-detail-card"><button className="nothing-detail-row" onClick={() => onNotificationsChange(!notifications)}><span>Allow notifications</span><span className={notifications ? "toggle on" : "toggle"}><i/></span></button></div> : <div className="nothing-detail-card nothing-detail-copy"><strong>{selected.title}</strong><p>{selected.title === "Workspace" ? "Your personal Essential workspace." : selected.title === "General" ? "General preferences shared across the Essential ecosystem." : selected.title === "Privacy & security" ? "Privacy and account protection controls will appear here as Essential account services are connected." : selected.title === "Accessibility" ? "Accessibility preferences for a more comfortable experience." : selected.title === "Language & region" ? "Language and regional preferences will be managed here as localization support is added." : selected.title === "Help & feedback" ? "Guides and feedback options for Essential Core." : "The shared foundation for the Essential ecosystem. One Core. Infinite Possibilities."}</p>{selected.title === "About" && <small>Version 0.1.0</small>}</div>}
+        <h1 className="nothing-settings-title">{selected.title}</h1>
+        <section className="nothing-settings-group nothing-settings-detail">
+          {selected.title === "Appearance" ? <div className="nothing-settings-row">
+            <span className="nothing-settings-icon"><Palette size={22} /></span><span className="nothing-settings-copy"><strong>Theme</strong><small>Choose your preferred appearance</small></span>
+            <div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={16} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={16} /></button></div>
+          </div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
+            <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
+          </button> : <div className="nothing-settings-info">
+            <span className="nothing-settings-icon"><selected.icon size={23} /></span>
+            <strong>{selected.title}</strong>
+            <p>{selected.title === "Workspace" ? "Your personal workspace is where shared Essential tools and preferences come together." : selected.title === "General" ? "General preferences for Essential Core will live here. Product-wide defaults are kept simple and consistent." : selected.title === "Privacy & security" ? "Privacy and account protection controls will appear here when Essential Core account services are connected." : selected.title === "Accessibility" ? "Accessibility preferences will be shared across Essential apps as the common settings framework grows." : selected.title === "Language & region" ? "Language and regional options will be managed here when localization support is added." : selected.title === "Help & feedback" ? "Help resources and feedback options will appear here as Essential ecosystem services are connected." : "Essential Core is the shared foundation for the Essential ecosystem."}</p>
+            {selected.title === "About Essential" && <small>Version 0.1.0</small>}
+          </div>}
+        </section>
       </> : <>
-        <header className="nothing-settings-head">
-          <div className="nothing-status-spacer"/>
-          <div className="nothing-heading-row"><h1>Settings</h1><button className="nothing-avatar" onClick={onOpenProfile} aria-label="Open profile"><UserRound size={21}/></button></div>
-        </header>
-        <label className="nothing-search"><Search size={21}/><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search settings" aria-label="Search settings"/>{search && <button onClick={() => setSearch("")} aria-label="Clear search">×</button>}</label>
-        <div className="nothing-settings-groups">
-          {groups.map((group,index) => <section className="nothing-settings-group" key={index}>{group.map(({title,subtitle,icon:Icon}) => <button className="nothing-settings-item" key={title} onClick={() => setSelectedCategory(title)}><span className="nothing-item-icon"><Icon size={23} strokeWidth={1.9}/></span><span className="nothing-item-copy"><strong>{title}</strong>{subtitle && <small>{subtitle}</small>}</span><ChevronRight className="nothing-item-chevron" size={18}/></button>)}</section>)}
-          {filtered.length === 0 && <p className="nothing-no-results">No settings found for “{search}”.</p>}
-        </div>
-        <div className="nothing-settings-bottom-space"/>
+        <h1 className="nothing-settings-title">Settings</h1>
+        <label className="nothing-settings-search"><Search size={21} /><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search settings" aria-label="Search settings" />{search && <button onClick={() => setSearch("")} aria-label="Clear search">×</button>}</label>
+        <section className="nothing-settings-group" aria-label="Settings categories">
+          {filtered.map(({ title, description, icon: Icon }) => <button className="nothing-settings-row" key={title} onClick={() => setSelectedCategory(title)}>
+            <span className="nothing-settings-icon"><Icon size={22} strokeWidth={1.9} /></span>
+            <span className="nothing-settings-copy"><strong>{title}</strong><small>{title === "Notifications" ? (notifications ? "Enabled" : "Disabled") : title === "Appearance" ? (theme === "dark" ? "Dark theme" : "Light theme") : description}</small></span>
+            <ChevronRight size={19} className="nothing-settings-chevron" />
+          </button>)}
+          {filtered.length === 0 && <p className="nothing-settings-empty">No settings found for “{search}”.</p>}
+        </section>
       </>}
+      <div className="nothing-settings-safe-bottom" />
     </div>
   );
 }
