@@ -246,3 +246,94 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 @media (prefers-reduced-motion: reduce) {
   .home-ecosystem-link { transition: none; }
 }
+
+
+/* Home header layout: content moves into the header, not decorative guide frames. */
+.home-topbar {
+  min-height: 154px;
+  height: auto;
+  position: relative;
+  align-items: flex-start;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.home-header-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+  max-width: min(68%, 560px);
+}
+.home-header-copy h1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: 600 clamp(34px, 5.1vw, 58px)/1.08 'Manrope', sans-serif;
+  letter-spacing: -.065em;
+  color: var(--ec-text);
+  white-space: nowrap;
+}
+.home-header-copy .home-date {
+  min-height: 0;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  line-height: 1.4;
+  color: var(--ec-text-muted);
+}
+.home-header-copy .home-date .eyebrow-line {
+  width: 20px;
+  height: 2px;
+  background: var(--ec-accent);
+}
+.home-topbar .top-actions {
+  position: absolute;
+  top: 20px;
+  right: 5.3%;
+  gap: 7px;
+}
+.home-topbar .breadcrumbs { display: none; }
+.home-minimal {
+  min-height: calc(100svh - 230px);
+  padding-top: 0;
+}
+.home-minimal .home-ecosystem-link { margin-left: 0; }
+@media (max-width: 760px) {
+  .home-topbar {
+    min-height: 139px;
+    padding: 18px 18px 17px;
+    align-items: flex-start;
+  }
+  .home-header-copy { max-width: calc(100% - 112px); gap: 6px; }
+  .home-header-copy h1 {
+    font-size: clamp(31px, 9.2vw, 42px);
+    letter-spacing: -.07em;
+  }
+  .home-header-copy .home-date {
+    font-size: 8px;
+    letter-spacing: 1.25px;
+    gap: 7px;
+    white-space: nowrap;
+  }
+  .home-header-copy .home-date .eyebrow-line { width: 15px; }
+  .home-topbar .top-actions {
+    top: 19px;
+    right: 15px;
+    gap: 2px;
+  }
+  .home-topbar .top-actions .icon-button { width: 34px; height: 34px; }
+  .home-topbar .top-avatar { width: 35px; height: 35px; font-size: 13px; }
+  .home-minimal { min-height: calc(100svh - 232px); padding-top: 0; }
+}
+@media (max-width: 370px) {
+  .home-header-copy { max-width: calc(100% - 100px); }
+  .home-header-copy h1 { font-size: 29px; }
+  .home-topbar .top-actions .icon-button { width: 30px; height: 32px; }
+  .home-topbar .top-avatar { width: 31px; height: 31px; }
+}
