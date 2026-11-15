@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private enum class CoreDestination(val label: String) {
+internal enum class CoreDestination(val label: String) {
     HOME("Home"), ESSENTIAL("Essential"), PROFILE("Profile")
 }
 
@@ -128,34 +128,3 @@ private fun EssentialCoreNativeApp() {
     }
 }
 
-@Composable
-private fun LiquidDropNavigation(
-    selected: CoreDestination,
-    onSelect: (CoreDestination) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val items = listOf(
-        LiquidNavItem(CoreDestination.HOME, Icons.Rounded.Home),
-        LiquidNavItem(CoreDestination.ESSENTIAL, Icons.Rounded.GridView),
-        LiquidNavItem(CoreDestination.PROFILE, Icons.Rounded.Person)
-    )
-    Row(
-        modifier = modifier
-            .padding(horizontal = 28.dp)
-            .height(54.dp)
-            .clip(RoundedCornerShape(50))
-            .background(Color(0xF2050606))
-            .padding(5.dp),
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        items.forEach { item ->
-            LiquidDropNavigationItem(
-                item = item,
-                selected = item.destination == selected,
-                onClick = { onSelect(item.destination) },
-                modifier = Modifier.weight(1f)
-            )
-        }
-    }
-}
