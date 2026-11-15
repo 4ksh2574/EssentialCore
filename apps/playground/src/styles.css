@@ -803,6 +803,47 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
   .mobile-nav.liquid-nav{width:min(270px,calc(100% - 68px));height:46px;bottom:max(16px,env(safe-area-inset-bottom))}
   .liquid-nav-drop{height:38px;border-radius:999px}
 }
+
+/* Light theme: keep the same liquid capsule, but use a bright glass rail. */
+@media (max-width:760px){
+  :root[data-theme="light"] .liquid-nav-track{
+    background:rgba(247,250,248,.92);
+    border-color:rgba(31,55,42,.10);
+    box-shadow:0 9px 28px rgba(35,58,43,.12),inset 0 1px 1px rgba(255,255,255,.95);
+  }
+  :root[data-theme="light"] .mobile-nav-item{
+    color:rgba(27,45,35,.42);
+  }
+  :root[data-theme="light"] .mobile-nav-item svg{
+    filter:none;
+  }
+  :root[data-theme="light"] .liquid-nav-drop{
+    color:#183126;
+    background:
+      radial-gradient(120% 85% at 22% 0%,rgba(255,255,255,.98),transparent 52%),
+      linear-gradient(155deg,rgba(255,255,255,.98),rgba(224,235,228,.98) 60%,rgba(244,248,245,.99));
+    border-color:rgba(39,69,51,.15);
+    box-shadow:
+      0 5px 13px rgba(35,58,43,.14),
+      0 0 0 1px rgba(255,255,255,.8),
+      inset 0 1px 1.5px rgba(255,255,255,.98),
+      inset 0 -2px 3px rgba(39,69,51,.06),
+      inset 2px 0 3px rgba(255,255,255,.8),
+      inset -2px 0 3px rgba(255,255,255,.8);
+  }
+  :root[data-theme="light"] .liquid-nav-drop::before{
+    background:
+      linear-gradient(145deg,rgba(255,255,255,.9),transparent 28% 68%,rgba(255,255,255,.58)),
+      radial-gradient(70% 38% at 50% 100%,rgba(39,69,51,.06),transparent 100%);
+  }
+  :root[data-theme="light"] .liquid-nav-active-icon{
+    color:#183126;
+    filter:none;
+  }
+  :root[data-theme="light"] .liquid-nav-drop span{
+    color:rgba(24,49,38,.94);
+  }
+}
 @media(prefers-reduced-motion:reduce){
   .liquid-nav-drop,.mobile-nav-item,.mobile-nav-item svg{transition-duration:.01ms!important}
 }
