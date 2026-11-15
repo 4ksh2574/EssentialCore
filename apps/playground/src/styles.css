@@ -1064,3 +1064,16 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 .profile-quick-actions{position:relative;z-index:10002}
 .nothing-settings-top{position:relative;z-index:10000;isolation:isolate}
 .nothing-settings-avatar{position:relative;z-index:10001}
+
+
+/* Settings page spacing and single-avatar correction */
+.main-area.settings-active > .topbar{display:none}
+.main-area.settings-active > .content-wrap{padding-top:10px}
+.main-area.settings-active .nothing-settings-page{padding-top:0;min-height:calc(100svh - 100px)}
+.main-area.settings-active .nothing-settings-top{margin-bottom:18px}
+@media(max-width:760px){
+  .main-area.settings-active > .content-wrap{padding:8px 19px 25px}
+  .main-area.settings-active .nothing-settings-page{min-height:calc(100svh - 82px);padding-top:0}
+  .main-area.settings-active .nothing-settings-top{height:36px;margin:0 4px 14px}
+  .main-area.settings-active .nothing-settings-title{margin-top:0}
+}
