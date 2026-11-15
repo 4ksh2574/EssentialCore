@@ -1,4 +1,8 @@
 :root {
+  --ec-font-display: 'Zen Dots', 'Arial Black', sans-serif;
+  --ec-font-interface: 'DM Sans', Inter, system-ui, sans-serif;
+  --ec-font-editorial: 'Playfair Display', Georgia, serif;
+  --ec-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
   color-scheme: light;
   --ec-bg: #F7F8F7;
   --ec-surface: #FFFFFF;
