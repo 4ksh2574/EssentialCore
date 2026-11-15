@@ -37,8 +37,10 @@ export const color = {
 
 export const typography = {
   fontFamily: {
-    sans: 'Inter, "Roboto", system-ui, sans-serif',
-    mono: '"SFMono-Regular", Consolas, monospace'
+    display: "'Zen Dots', 'Arial Black', sans-serif",
+    sans: "'DM Sans', Inter, system-ui, sans-serif",
+    editorial: "'Playfair Display', Georgia, serif",
+    mono: "'SFMono-Regular', Consolas, 'Liberation Mono', monospace"
   },
   size: {
     xs: "0.75rem",
