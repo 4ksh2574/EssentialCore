@@ -1,0 +1,23 @@
+uniform shader content;
+uniform float2 resolution;
+uniform float2 lensCenter;
+uniform float2 lensRadius;
+half4 main(float2 coord) {
+    float2 p = (coord - lensCenter) / lensRadius;
+    float radius = length(p);
+    float mask = 1.0 - smoothstep(0.82, 1.02, radius);
+    float safeRadius = max(radius, 0.0001);
+    float2 normal = p / safeRadius;
+    float depth = sqrt(max(0.0, 1.0 - min(dot(p, p), 1.0)));
+    float edge = 1.0 - depth;
+    float2 bend = normal * edge * 13.0;
+    float2 samplePoint = coord + bend * mask;
+    half4 base = content.eval(samplePoint);
+    half4 redSample = content.eval(samplePoint + normal * (1.1 * mask));
+    half4 blueSample = content.eval(samplePoint - normal * (1.1 * mask));
+    half3 refracted = half3(redSample.r, base.g, blueSample.b);
+    half highlight = half(0.10 * mask * smoothstep(0.15, 0.95, edge));
+    half3 result = mix(base.rgb, refracted, half(0.34 * mask));
+    result = mix(result, half3(0.92, 0.97, 1.0), highlight);
+    return half4(result, base.a);
+}
