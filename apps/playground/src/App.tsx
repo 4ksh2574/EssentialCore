@@ -144,7 +144,7 @@ function App() {
         <div className="content-wrap">
           {activeTab === "home" && <HomeScreen onOpenEssential={() => setActiveTab("essential")} />}
           {activeTab === "essential" && <EssentialScreen />}
-          {activeTab === "settings" && <SettingsScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} onBack={() => setActiveTab("home")} onOpenProfile={() => setActiveTab("profile")} />}
+          {activeTab === "settings" && <SettingsScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} onOpenProfile={() => setActiveTab("profile")} />}
           {activeTab === "profile" && <ProfileScreen />}
         </div>
       </main>
@@ -263,9 +263,9 @@ function ProfileScreen() {
   );
 }
 
-function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsChange, onBack, onOpenProfile }: {
+function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsChange, onOpenProfile }: {
   theme: Theme; onThemeChange: (theme: Theme) => void; notifications: boolean;
-  onNotificationsChange: (enabled: boolean) => void; onBack: () => void; onOpenProfile: () => void;
+  onNotificationsChange: (enabled: boolean) => void; onOpenProfile: () => void;
 }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
