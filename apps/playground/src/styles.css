@@ -727,13 +727,13 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
     left:5px;
     top:50%;
     width:calc((100% - 10px)/3);
-    height:58px;
+    height:40px;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     gap:3px;
-    border-radius:19px;
+    border-radius:15px;
     color:#fff;
     background:
       radial-gradient(120% 85% at 22% 0%,rgba(255,255,255,.17),transparent 52%),
@@ -761,7 +761,7 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
     content:"";
     position:absolute;
     inset:1px;
-    border-radius:17px;
+    border-radius:13px;
     background:
       linear-gradient(145deg,rgba(255,255,255,.17),transparent 28% 68%,rgba(255,255,255,.11)),
       radial-gradient(70% 38% at 50% 100%,rgba(255,255,255,.13),transparent 100%);
@@ -801,7 +801,7 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 }
 @media(max-width:390px){
   .mobile-nav.liquid-nav{width:min(270px,calc(100% - 68px));height:46px;bottom:max(16px,env(safe-area-inset-bottom))}
-  .liquid-nav-drop{height:56px;border-radius:18px}
+  .liquid-nav-drop{height:38px;border-radius:14px}
 }
 @media(prefers-reduced-motion:reduce){
   .liquid-nav-drop,.mobile-nav-item,.mobile-nav-item svg{transition-duration:.01ms!important}
