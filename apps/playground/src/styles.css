@@ -1,7 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Zen+Dots&display=swap');
 
 :root {
-  font-family: 'DM Sans', Inter, system-ui, sans-serif;
+  --ec-font-display: 'Zen Dots', 'Arial Black', sans-serif;
+  --ec-font-interface: 'DM Sans', Inter, system-ui, sans-serif;
+  --ec-font-editorial: 'Playfair Display', Georgia, serif;
+  --ec-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  font-family: var(--ec-font-interface);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -851,3 +855,17 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 @media(prefers-reduced-motion:reduce){
   .liquid-nav-drop,.mobile-nav-item,.mobile-nav-item svg{transition-duration:.01ms!important}
 }
+
+
+/* Essential Type System — shared typographic roles */
+:where(.home-header-copy h1, .page-heading-row h1, .hero-card h2, .essential-feature h2, .section-heading h2, .product-info h3, .brand-copy strong) {
+  font-family: var(--ec-font-display) !important;
+  font-weight: 400 !important;
+  letter-spacing: .015em !important;
+  font-synthesis: none;
+}
+.type-display { font-family: var(--ec-font-display); font-weight: 400; letter-spacing: .015em; }
+.type-interface { font-family: var(--ec-font-interface); }
+.type-editorial { font-family: var(--ec-font-editorial); font-weight: 500; letter-spacing: -.025em; }
+.type-editorial-italic { font-family: var(--ec-font-editorial); font-style: italic; font-weight: 700; }
+.type-mono { font-family: var(--ec-font-mono); font-variant-numeric: tabular-nums lining-nums; letter-spacing: .015em; }
