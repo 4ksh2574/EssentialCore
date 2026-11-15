@@ -21,6 +21,7 @@ function App() {
     return saved === "light" ? "light" : "dark";
   });
   const [notifications, setNotifications] = useState(true);
+  const [profileActionsOpen, setProfileActionsOpen] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const touchStartY = useRef(0);
   const touchStartX = useRef(0);
@@ -30,6 +31,16 @@ function App() {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem("ec-demo-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    const closeOnOutside = (event: PointerEvent) => {
+      if (!(event.target as HTMLElement).closest(".profile-action-anchor")) {
+        setProfileActionsOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", closeOnOutside);
+    return () => document.removeEventListener("pointerdown", closeOnOutside);
+  }, []);
 
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
     touchStartY.current = event.touches[0].clientY;
@@ -46,11 +57,12 @@ function App() {
       if (nextIndex !== currentIndex) {
         setActiveTab(navItems[nextIndex].id);
         setHeaderCollapsed(false);
+        setProfileActionsOpen(false);
       }
       return;
     }
 
-    if (deltaY > 48) setHeaderCollapsed(true);
+    if (deltaY > 48) { setHeaderCollapsed(true); setProfileActionsOpen(false); }
     if (deltaY < -48) setHeaderCollapsed(false);
   };
 
@@ -58,6 +70,7 @@ function App() {
     if (event.pointerType === "mouse" && event.button !== 0) return;
     pillDragging.current = true;
     event.currentTarget.setPointerCapture(event.pointerId);
+    setProfileActionsOpen(false);
   };
   const updatePillPreview = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!pillDragging.current) return;
@@ -80,21 +93,26 @@ function App() {
   };
 
   const handleProfileTap = () => {
-    setActiveTab("profile");
-    setHeaderCollapsed(false);
+    if (profileActionsOpen) {
+      setProfileActionsOpen(false);
+      setActiveTab("profile");
+      setHeaderCollapsed(false);
+    } else {
+      setProfileActionsOpen(true);
+    }
   };
 
   return (
     <div className={headerCollapsed ? "app-shell header-is-collapsed" : "app-shell"}>
       <aside className="sidebar">
-        <a className="brand" href="#home" onClick={() => setActiveTab("home")}>
+        <a className="brand" href="#home" onClick={() => { setActiveTab("home"); setProfileActionsOpen(false); }}>
           <span className="brand-mark"><span>e</span></span>
           <span className="brand-copy"><strong>essential</strong><small>CORE SYSTEM</small></span>
         </a>
         <div className="side-label">WORKSPACE</div>
         <nav className="side-nav" aria-label="Main navigation">
           {navItems.map(({ id, label, icon: Icon }) => (
-            <button key={id} className={activeTab === id ? "side-link active" : "side-link"} onClick={() => setActiveTab(id)}>
+            <button key={id} className={activeTab === id ? "side-link active" : "side-link"} onClick={() => { setActiveTab(id); setProfileActionsOpen(false); }}>
               <Icon size={18} strokeWidth={1.8} /><span>{label}</span>
               {activeTab === id && <span className="active-dot" />}
             </button>
@@ -111,8 +129,14 @@ function App() {
           {activeTab === "home" && <HomeHeader />}
           {activeTab !== "home" && <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
           <div className="breadcrumbs"><span>Workspace</span><ChevronRight size={14} /><strong>{navItems.find(x => x.id === activeTab)?.label}</strong></div>
-          <div className="top-actions profile-action-anchor">
-            <button className="avatar top-avatar" onClick={handleProfileTap} aria-label="Open profile">A</button>
+          <div className={profileActionsOpen ? "top-actions profile-action-anchor actions-open" : "top-actions profile-action-anchor"}>
+            <button className="avatar top-avatar" onClick={handleProfileTap} aria-label="Profile and quick settings" aria-expanded={profileActionsOpen}>A</button>
+            <div className="profile-quick-actions" aria-hidden={!profileActionsOpen}>
+              <button className={notifications ? "icon-button notification-on" : "icon-button"} aria-label="Toggle notifications" onClick={() => setNotifications(!notifications)}><Bell size={18} /></button>
+              <button className="icon-button" aria-label="Toggle theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+            </div>
           </div>
         </header>
 
@@ -154,7 +178,7 @@ function App() {
               className={activeTab === id ? "mobile-nav-item active" : "mobile-nav-item"}
               aria-label={label}
               aria-current={activeTab === id ? "page" : undefined}
-              onClick={() => { setActiveTab(id); setHeaderCollapsed(false); }}
+              onClick={() => { setActiveTab(id); setHeaderCollapsed(false); setProfileActionsOpen(false); }}
             >
               <Icon size={17} strokeWidth={1.9} />
             </button>
