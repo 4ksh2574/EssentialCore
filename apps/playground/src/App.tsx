@@ -70,7 +70,7 @@ function App() {
     event.currentTarget.setPointerCapture(event.pointerId);
     setProfileActionsOpen(false);
   };
-  const updatePillPreview = (event: PointerEvent<HTMLDivElement>) => {
+  const updatePillPreview = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!pillDragging.current) return;
     const track = event.currentTarget.parentElement;
     if (!track) return;
@@ -81,7 +81,7 @@ function App() {
     setActiveTab(nextTab);
     setHeaderCollapsed(false);
   };
-  const handlePillPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+  const handlePillPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!pillDragging.current) return;
     updatePillPreview(event);
     pillDragging.current = false;
