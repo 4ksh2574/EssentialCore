@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type TouchEvent, type PointerEvent as ReactPointerEvent } from "react";
 import {
-  ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
+  ArrowLeft, ArrowUpRight, Bell, BookOpen, BriefcaseBusiness, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
-  Palette, Settings2, ShieldCheck, Sparkles, Sun, UserRound,
+  LockKeyhole, Palette, Search, Settings2, ShieldCheck, Sparkles, Sun, UserRound,
   Accessibility, Languages, Info
 } from "lucide-react";
 
@@ -144,7 +144,7 @@ function App() {
         <div className="content-wrap">
           {activeTab === "home" && <HomeScreen onOpenEssential={() => setActiveTab("essential")} />}
           {activeTab === "essential" && <EssentialScreen />}
-          {activeTab === "settings" && <SettingsScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} />}
+          {activeTab === "settings" && <SettingsScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} onBack={() => setActiveTab("home")} onOpenProfile={() => setActiveTab("profile")} />}
           {activeTab === "profile" && <ProfileScreen />}
         </div>
       </main>
@@ -263,77 +263,58 @@ function ProfileScreen() {
   );
 }
 
-function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsChange }: {
-  theme: Theme;
-  onThemeChange: (theme: Theme) => void;
-  notifications: boolean;
-  onNotificationsChange: (enabled: boolean) => void;
+function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsChange, onBack, onOpenProfile }: {
+  theme: Theme; onThemeChange: (theme: Theme) => void; notifications: boolean;
+  onNotificationsChange: (enabled: boolean) => void; onBack: () => void; onOpenProfile: () => void;
 }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
   const categories = [
+    { title: "General", description: "Core preferences and behaviour", icon: Settings2 },
     { title: "Appearance", description: "Theme and visual preferences", icon: Palette },
     { title: "Notifications", description: "Choose what can notify you", icon: Bell },
-    { title: "Privacy & security", description: "Your privacy and account protection", icon: ShieldCheck },
-    { title: "Accessibility", description: "Make Essential more comfortable to use", icon: Accessibility },
+    { title: "Privacy & security", description: "Privacy and account protection", icon: ShieldCheck },
+    { title: "Accessibility", description: "Comfort and accessibility options", icon: Accessibility },
     { title: "Language & region", description: "Language and regional preferences", icon: Languages },
     { title: "Help & feedback", description: "Guides, support and suggestions", icon: CircleHelp },
     { title: "About", description: "Essential Core and version information", icon: Info }
   ];
-  const selected = categories.find(item => item.title === selectedCategory);
-
+  const selected = selectedCategory === "Workspace" ? { title: "Workspace", description: "Your personal Essential workspace", icon: BriefcaseBusiness } : categories.find(item => item.title === selectedCategory);
+  const filtered = categories.filter(item => (item.title + " " + item.description).toLowerCase().includes(search.toLowerCase()));
   return (
     <div className="page settings-page core-settings-page">
-      <div className="core-settings-top">
-        {selected && <button className="core-settings-back" onClick={() => setSelectedCategory(null)} aria-label="Back to settings"><ChevronRight size={18} /></button>}
-        <div className="core-settings-title">
-          <h1>{selected?.title ?? "Settings"}</h1>
-          <p>{selected?.description ?? "Your Essential Core preferences"}</p>
-        </div>
-      </div>
-
+      <header className="native-settings-header">
+        <button className="native-settings-round" onClick={selected ? () => setSelectedCategory(null) : onBack} aria-label={selected ? "Back to settings" : "Back"}><ArrowLeft size={25} strokeWidth={2.1} /></button>
+        <h1>{selected?.title ?? "Settings"}</h1>
+        <button className="native-settings-round" onClick={() => setSelectedCategory("About")} aria-label="About Essential Core"><Info size={23} strokeWidth={2} /></button>
+      </header>
       {selected ? (
-        <section className="core-settings-detail">
-          {selected.title === "Appearance" ? (
-            <div className="core-setting-row">
-              <span className="core-setting-icon"><Palette size={21} /></span>
-              <span className="core-setting-copy"><strong>Theme</strong><small>Choose your preferred appearance</small></span>
-              <div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={15} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={15} /></button></div>
-            </div>
-          ) : selected.title === "Notifications" ? (
-            <button className="core-setting-row" onClick={() => onNotificationsChange(!notifications)}>
-              <span className="core-setting-icon"><Bell size={21} /></span>
-              <span className="core-setting-copy"><strong>Notifications</strong><small>Product updates and activity</small></span>
-              <span className={notifications ? "toggle on" : "toggle"}><i /></span>
-            </button>
-          ) : (
-            <div className="core-settings-info">
-              <span className="core-setting-icon"><selected.icon size={21} /></span>
-              <strong>{selected.title}</strong>
-              <p>{selected.title === "Privacy & security"
-                ? "Privacy and account controls will be available here when Essential Core account services are connected."
-                : selected.title === "Accessibility"
-                ? "Accessibility preferences will be shared across Essential apps as the common settings framework grows."
-                : selected.title === "Language & region"
-                ? "Language and regional options will be managed here when localization support is added."
-                : selected.title === "Help & feedback"
-                ? "Help resources and feedback options will appear here as the Essential ecosystem services are connected."
-                : "Essential Core provides the shared foundation for the Essential ecosystem."}</p>
-              {selected.title === "About" && <small>One Core. Infinite Possibilities. · Version 0.1.0</small>}
-            </div>
-          )}
+        <section className="native-settings-detail">
+          {selected.title === "Appearance" ? <div className="native-settings-panel"><div className="native-settings-row">
+            <span className="native-settings-icon"><Palette size={23} /></span><span className="native-settings-copy"><strong>Theme</strong><small>Choose your preferred appearance</small></span>
+            <div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={16} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={16} /></button></div>
+          </div></div> : selected.title === "Notifications" ? <div className="native-settings-panel"><button className="native-settings-row" onClick={() => onNotificationsChange(!notifications)}>
+            <span className="native-settings-icon"><Bell size={23} /></span><span className="native-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
+          </button></div> : <div className="native-settings-panel native-settings-info">
+            <span className="native-settings-icon"><selected.icon size={23} /></span><strong>{selected.title}</strong>
+            <p>{selected.title === "Workspace" ? "Your personal workspace is where shared Essential tools and preferences come together." : selected.title === "General" ? "General preferences for Essential Core will live here. Product-wide defaults are kept simple and consistent." : selected.title === "Privacy & security" ? "Privacy and account protection controls will appear here when Essential Core account services are connected." : selected.title === "Accessibility" ? "Accessibility preferences will be shared across Essential apps as the common settings framework grows." : selected.title === "Language & region" ? "Language and regional options will be managed here when localization support is added." : selected.title === "Help & feedback" ? "Help resources and feedback options will appear here as Essential ecosystem services are connected." : "Essential Core is the shared foundation for the Essential ecosystem."}</p>
+            {selected.title === "About" && <small>One Core. Infinite Possibilities. · Version 0.1.0</small>}
+          </div>}
         </section>
-      ) : (
-        <section className="core-settings-list" aria-label="Common settings">
-          {categories.map(({ title, description, icon: Icon }) => (
-            <button className="core-setting-row" key={title} onClick={() => setSelectedCategory(title)}>
-              <span className="core-setting-icon"><Icon size={21} strokeWidth={1.8} /></span>
-              <span className="core-setting-copy"><strong>{title}</strong><small>{description}</small></span>
-              <ChevronRight size={18} className="core-setting-chevron" />
-            </button>
-          ))}
+      ) : <>
+        <section className="native-settings-panel native-settings-account">
+          <button className="native-settings-row" onClick={onOpenProfile}><span className="native-account-mark">e<span>AX</span></span><span className="native-settings-copy"><strong>Account</strong></span><span className="native-settings-value">AX <ChevronRight size={19} /></span></button>
+          <button className="native-settings-row" onClick={() => setSelectedCategory("Workspace")}><span className="native-settings-icon"><BriefcaseBusiness size={24} /></span><span className="native-settings-copy"><strong>Workspace</strong></span><span className="native-settings-value">Personal</span></button>
+          <button className="native-settings-row native-settings-accent" onClick={() => setSelectedCategory("About")}><span className="native-settings-icon"><Sparkles size={24} /></span><span className="native-settings-copy"><strong>Explore Essential Core</strong></span><ChevronRight size={19} /></button>
         </section>
-      )}
-      <div className="core-settings-footnote"><span>ESSENTIAL CORE</span><span>BUILT BY AX</span></div>
+        <button className="native-settings-feature" onClick={() => setSelectedCategory("General")}><span className="native-settings-icon"><Settings2 size={25} /></span><span className="native-settings-copy"><strong>Customize Essential</strong><small>Appearance, preferences and more</small></span><ChevronRight size={19} /></button>
+        <section className="native-settings-panel native-settings-categories" aria-label="Settings categories">
+          {filtered.map(({ title, description, icon: Icon }) => <button className="native-settings-row" key={title} onClick={() => setSelectedCategory(title)}><span className="native-settings-icon"><Icon size={24} strokeWidth={1.9} /></span><span className="native-settings-copy"><strong>{title}</strong></span><ChevronRight size={19} /></button>)}
+          {filtered.length === 0 && <p className="native-settings-empty">No settings found for “{search}”.</p>}
+        </section>
+        <div className="native-settings-bottom-space" />
+        <div className="native-settings-search"><Search size={22} /><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search settings" aria-label="Search settings" />{search && <button onClick={() => setSearch("")} aria-label="Clear search">×</button>}</div>
+      </>}
     </div>
   );
 }
