@@ -117,7 +117,7 @@ function App() {
 function HomeHeader() {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
-    const timer = window.setInterval(() => setNow(new Date()), 30_000);
+    const timer = window.setInterval(() => setNow(new Date()), 15_000);
     return () => window.clearInterval(timer);
   }, []);
   const hour = now.getHours();
@@ -125,10 +125,13 @@ function HomeHeader() {
   const dateLabel = new Intl.DateTimeFormat("en-IN", {
     weekday: "long", month: "long", day: "numeric"
   }).format(now).toUpperCase();
+  const timeLabel = new Intl.DateTimeFormat("en-IN", {
+    hour: "2-digit", minute: "2-digit", hour12: true
+  }).format(now);
   return (
     <div className="home-header-copy">
       <h1>{greeting}<span className="accent-dot">.</span></h1>
-      <div className="eyebrow home-date"><span className="eyebrow-line" />{dateLabel}</div>
+      <div className="home-header-meta"><span className="home-time">{timeLabel}</span><span className="home-meta-divider" /><span className="eyebrow home-date">{dateLabel}</span></div>
     </div>
   );
 }
