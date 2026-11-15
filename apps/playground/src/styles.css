@@ -1055,3 +1055,12 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 :root:not([data-theme="light"]) .nothing-settings-row:active{background:rgba(255,255,255,.04)}
 :root:not([data-theme="light"]) .nothing-settings-copy small,:root:not([data-theme="light"]) .nothing-settings-chevron,:root:not([data-theme="light"]) .nothing-settings-info p{color:#a3aaa5}
 @media(prefers-reduced-motion:reduce){.nothing-settings-row{transition:none}}
+
+/* Keep the floating profile control above every page surface and card */
+.home-topbar{position:relative;z-index:9998;isolation:isolate}
+.home-topbar .top-actions.profile-action-anchor{z-index:10000}
+.header-is-collapsed .home-topbar{z-index:9998}
+.header-is-collapsed .home-topbar .top-actions.profile-action-anchor{z-index:10001}
+.profile-quick-actions{position:relative;z-index:10002}
+.nothing-settings-top{position:relative;z-index:10000;isolation:isolate}
+.nothing-settings-avatar{position:relative;z-index:10001}
