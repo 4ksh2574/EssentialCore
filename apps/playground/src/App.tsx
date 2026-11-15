@@ -21,14 +21,44 @@ function App() {
     return saved === "light" ? "light" : "dark";
   });
   const [notifications, setNotifications] = useState(true);
+  const [profileActionsOpen, setProfileActionsOpen] = useState(false);
+  const [headerCollapsed, setHeaderCollapsed] = useState(false);
+  const touchStartY = useState({ current: 0 })[0];
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem("ec-demo-theme", theme);
   }, [theme]);
 
+  useEffect(() => {
+    const closeOnOutside = (event: PointerEvent) => {
+      if (!(event.target as HTMLElement).closest(".profile-action-anchor")) setProfileActionsOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutside);
+    return () => document.removeEventListener("pointerdown", closeOnOutside);
+  }, []);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
+    touchStartY.current = event.touches[0].clientY;
+  };
+  const handleTouchEnd = (event: React.TouchEvent<HTMLElement>) => {
+    const delta = touchStartY.current - event.changedTouches[0].clientY;
+    if (delta > 48) { setHeaderCollapsed(true); setProfileActionsOpen(false); }
+    if (delta < -48) setHeaderCollapsed(false);
+  };
+
+  const handleProfileTap = () => {
+    if (profileActionsOpen) {
+      setProfileActionsOpen(false);
+      setActiveTab("profile");
+      setHeaderCollapsed(false);
+    } else {
+      setProfileActionsOpen(true);
+    }
+  };
+
   return (
-    <div className="app-shell">
+    <div className={headerCollapsed ? "app-shell header-is-collapsed" : "app-shell"}>
       <aside className="sidebar">
         <a className="brand" href="#home" onClick={() => setActiveTab("home")}>
           <span className="brand-mark"><span>e</span></span>
@@ -44,33 +74,25 @@ function App() {
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <div className="system-card">
-            <div className="system-icon"><Layers3 size={17} /></div>
-            <strong>Essential Core</strong>
-            <span>Demo environment</span>
-            <div className="system-progress"><i /></div>
-            <small>FOUNDATION · v0.1</small>
-          </div>
+          <div className="system-card"><div className="system-icon"><Layers3 size={17} /></div><strong>Essential Core</strong><span>Demo environment</span><div className="system-progress"><i /></div><small>FOUNDATION · v0.1</small></div>
           <button className="side-link muted" onClick={() => setActiveTab("profile")}><Settings2 size={18} />Settings</button>
-          <div className="side-user">
-            <div className="avatar small-avatar">A</div>
-            <div><strong>AX</strong><span>Personal workspace</span></div>
-            <MoreHorizontal size={18} />
-          </div>
+          <div className="side-user"><div className="avatar small-avatar">A</div><div><strong>AX</strong><span>Personal workspace</span></div><MoreHorizontal size={18} /></div>
         </div>
       </aside>
 
-      <main className="main-area">
-        <header className={activeTab === "home" ? "topbar home-topbar" : "topbar"}>
-          {activeTab === "home" ? <HomeHeader /> : <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
+      <main className="main-area" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        <header className={`topbar home-topbar ${headerCollapsed ? "header-collapsed" : ""}`}>
+          {activeTab === "home" && <HomeHeader />}
+          {activeTab !== "home" && <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
           <div className="breadcrumbs"><span>Workspace</span><ChevronRight size={14} /><strong>{navItems.find(x => x.id === activeTab)?.label}</strong></div>
-          <div className="top-actions">
-            <button className="icon-button search-button" aria-label="Search"><Search size={18} /></button>
-            <button className="icon-button" aria-label="Toggle theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-            <button className={notifications ? "icon-button notification-on" : "icon-button"} aria-label="Toggle notifications" onClick={() => setNotifications(!notifications)}><Bell size={18} /></button>
-            <button className="avatar top-avatar" onClick={() => setActiveTab("profile")} aria-label="Open profile">A</button>
+          <div className={profileActionsOpen ? "top-actions profile-action-anchor actions-open" : "top-actions profile-action-anchor"}>
+            <button className="avatar top-avatar" onClick={handleProfileTap} aria-label="Profile and quick settings" aria-expanded={profileActionsOpen}>A</button>
+            <div className="profile-quick-actions" aria-hidden={!profileActionsOpen}>
+              <button className="icon-button" aria-label="Toggle theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+              <button className={notifications ? "icon-button notification-on" : "icon-button"} aria-label="Toggle notifications" onClick={() => setNotifications(!notifications)}><Bell size={18} /></button>
+            </div>
           </div>
         </header>
 
@@ -83,7 +105,7 @@ function App() {
 
       <nav className="mobile-nav" aria-label="Bottom navigation">
         {navItems.map(({ id, label, icon: Icon }) => (
-          <button key={id} className={activeTab === id ? "mobile-nav-item active" : "mobile-nav-item"} onClick={() => setActiveTab(id)}>
+          <button key={id} className={activeTab === id ? "mobile-nav-item active" : "mobile-nav-item"} onClick={() => { setActiveTab(id); setHeaderCollapsed(false); setProfileActionsOpen(false); }}>
             <span className="mobile-icon"><Icon size={19} strokeWidth={1.9} /></span><span>{label}</span>
           </button>
         ))}
