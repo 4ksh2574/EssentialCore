@@ -105,8 +105,8 @@ function HomeHeader() {
   }).format(now).toUpperCase();
   return (
     <div className="home-header-copy">
-      <div className="eyebrow home-date"><span className="eyebrow-line" />{dateLabel}</div>
       <h1>{greeting}<span className="accent-dot">.</span></h1>
+      <div className="eyebrow home-date"><span className="eyebrow-line" />{dateLabel}</div>
     </div>
   );
 }
