@@ -24,7 +24,8 @@ function App() {
   const [profileActionsOpen, setProfileActionsOpen] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const touchStartY = useRef(0);
-  const touchStartX = useRef(0);\n  const pillDragging = useRef(false);
+  const touchStartX = useRef(0);
+  const pillDragging = useRef(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
