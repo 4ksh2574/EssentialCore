@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type TouchEvent, type PointerEvent as Reac
 import {
   ArrowLeft, ArrowUpRight, Bell, BookOpen, BriefcaseBusiness, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
-  LockKeyhole, Palette, Search, Settings2, ShieldCheck, Sparkles, Sun, UserRound,
+  Palette, Search, Settings2, ShieldCheck, Sparkles, Sun, UserRound,
   Accessibility, Languages, Info
 } from "lucide-react";
 
