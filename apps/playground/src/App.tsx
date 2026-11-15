@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type TouchEvent } from "react";
 import {
   ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
-  Palette, Search, Settings2, ShieldCheck, Sparkles, Sun, UserRound
+  Palette, Settings2, ShieldCheck, Sparkles, Sun, UserRound
 } from "lucide-react";
 
 type Tab = "home" | "essential" | "profile";
@@ -88,10 +88,10 @@ function App() {
           <div className={profileActionsOpen ? "top-actions profile-action-anchor actions-open" : "top-actions profile-action-anchor"}>
             <button className="avatar top-avatar" onClick={handleProfileTap} aria-label="Profile and quick settings" aria-expanded={profileActionsOpen}>A</button>
             <div className="profile-quick-actions" aria-hidden={!profileActionsOpen}>
+              <button className={notifications ? "icon-button notification-on" : "icon-button"} aria-label="Toggle notifications" onClick={() => setNotifications(!notifications)}><Bell size={18} /></button>
               <button className="icon-button" aria-label="Toggle theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
                 {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
               </button>
-              <button className={notifications ? "icon-button notification-on" : "icon-button"} aria-label="Toggle notifications" onClick={() => setNotifications(!notifications)}><Bell size={18} /></button>
             </div>
           </div>
         </header>
