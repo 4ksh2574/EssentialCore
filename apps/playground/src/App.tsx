@@ -128,8 +128,8 @@ function App() {
       <main className="main-area" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
         <header className={`topbar home-topbar ${headerCollapsed ? "header-collapsed" : ""}`}>
           {activeTab === "home" && <HomeHeader />}
-          {activeTab !== "home" && <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
-          <div className="breadcrumbs"><span>Workspace</span><ChevronRight size={14} /><strong>{navItems.find(x => x.id === activeTab)?.label}</strong></div>
+          {activeTab !== "home" && activeTab !== "settings" && <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
+          {activeTab !== "settings" && <div className="breadcrumbs"><span>Workspace</span><ChevronRight size={14} /><strong>{navItems.find(x => x.id === activeTab)?.label}</strong></div>}
           <div className={profileActionsOpen ? "top-actions profile-action-anchor actions-open" : "top-actions profile-action-anchor"}>
             <button className="avatar top-avatar" onClick={handleProfileTap} aria-label="Profile and quick settings" aria-expanded={profileActionsOpen}>A</button>
             <div className="profile-quick-actions" aria-hidden={!profileActionsOpen}>
@@ -286,7 +286,7 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
     <div className="page settings-page core-settings-page nothing-settings-page">
       <header className="nothing-settings-top">
         {selected ? <button className="nothing-settings-back" onClick={() => setSelectedCategory(null)} aria-label="Back to settings"><ArrowLeft size={22} /></button> : <span />}
-        <button className="nothing-settings-avatar" onClick={onOpenProfile} aria-label="Open account profile"><span>AX</span></button>
+        <button className="nothing-settings-avatar" onClick={onOpenProfile} aria-label="Open account profile"><span>A</span></button>
       </header>
       {selected ? <>
         <h1 className="nothing-settings-title">{selected.title}</h1>
