@@ -5,7 +5,7 @@ import {
   Palette, Settings2, ShieldCheck, Sparkles, Sun, UserRound
 } from "lucide-react";
 
-type Tab = "home" | "essential" | "settings";
+type Tab = "home" | "essential" | "settings" | "profile";
 type Theme = "dark" | "light";
 
 const navItems: { id: Tab; label: string; icon: typeof Home }[] = [
@@ -80,7 +80,7 @@ function App() {
   };
 
   const handleProfileTap = () => {
-    setActiveTab("profile" as Tab);
+    setActiveTab("profile");
     setHeaderCollapsed(false);
   };
 
@@ -121,6 +121,7 @@ function App() {
           {activeTab === "home" && <HomeScreen onOpenEssential={() => setActiveTab("essential")} />}
           {activeTab === "essential" && <EssentialScreen />}
           {activeTab === "settings" && <SettingsScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} />}
+          {activeTab === "profile" && <ProfileScreen />}
         </div>
       </main>
 
@@ -132,7 +133,7 @@ function App() {
             return (
               <div
                 className="liquid-nav-drop"
-                style={{ transform: `translate3d(${navItems.findIndex(item => item.id === activeTab) * 100}%, -50%, 0)` }}
+                style={{ transform: `translate3d(${Math.max(0, navItems.findIndex(item => item.id === activeTab)) * 100}%, -50%, 0)` }}
                 onPointerDown={handlePillPointerDown}
                 onPointerMove={updatePillPreview}
                 onPointerUp={handlePillPointerUp}
