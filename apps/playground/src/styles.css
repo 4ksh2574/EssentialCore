@@ -869,3 +869,39 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 .type-editorial { font-family: var(--ec-font-editorial); font-weight: 500; letter-spacing: -.025em; }
 .type-editorial-italic { font-family: var(--ec-font-editorial); font-style: italic; font-weight: 700; }
 .type-mono { font-family: var(--ec-font-mono); font-variant-numeric: tabular-nums lining-nums; letter-spacing: .015em; }
+
+/* Dark navigation refinement: quieter matte glass; light theme remains untouched. */
+@media (max-width:760px){
+  :root:not([data-theme="light"]) .liquid-nav-track{
+    background:rgba(15,18,17,.96);
+    border-color:rgba(255,255,255,.075);
+    box-shadow:0 7px 22px rgba(0,0,0,.22);
+  }
+  :root:not([data-theme="light"]) .mobile-nav-item{
+    color:rgba(226,237,230,.38);
+  }
+  :root:not([data-theme="light"]) .liquid-nav-drop{
+    color:#e8f2ec;
+    background:linear-gradient(180deg,rgba(37,44,40,.98),rgba(27,33,30,.98));
+    border:1px solid rgba(255,255,255,.105);
+    box-shadow:0 3px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.075);
+    backdrop-filter:blur(14px) saturate(115%);
+    -webkit-backdrop-filter:blur(14px) saturate(115%);
+  }
+  :root:not([data-theme="light"]) .liquid-nav-drop::before{
+    background:linear-gradient(145deg,rgba(255,255,255,.045),transparent 58%);
+    opacity:1;
+  }
+  :root:not([data-theme="light"]) .liquid-nav-drop::after{
+    display:none;
+  }
+  :root:not([data-theme="light"]) .liquid-nav-active-icon{
+    color:#a5e4cc;
+    filter:none;
+  }
+  :root:not([data-theme="light"]) .liquid-nav-drop span{
+    color:rgba(238,247,241,.94);
+    font-weight:600;
+  }
+}
+
