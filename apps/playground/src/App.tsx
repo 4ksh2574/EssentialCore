@@ -93,41 +93,40 @@ function App() {
 }
 
 function HomeScreen({ onOpenEssential }: { onOpenEssential: () => void }) {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const hour = now.getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const dateLabel = new Intl.DateTimeFormat("en-IN", {
+    weekday: "long",
+    month: "long",
+    day: "numeric"
+  }).format(now).toUpperCase();
+  const timeLabel = new Intl.DateTimeFormat("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  }).format(now);
+
   return (
-    <div className="page">
-      <div className="welcome-row">
-        <div><div className="eyebrow"><span className="eyebrow-line" /> SATURDAY, NOVEMBER 14</div><h1>Good evening<span className="accent-dot">.</span></h1><p className="page-subtitle">A calmer space for everything that matters.</p></div>
-        <div className="welcome-mark"><Sparkles size={23} /></div>
+    <div className="page home-minimal">
+      <div className="home-rails" aria-hidden="true">
+        <span className="home-rail home-rail-primary" />
+        <span className="home-rail home-rail-secondary" />
       </div>
-
-      <section className="hero-card">
-        <div className="hero-glow" />
-        <div className="hero-content">
-          <div className="hero-kicker"><span className="live-dot" /> THE FOUNDATION</div>
-          <h2>One core.<br /><em>Infinite possibilities.</em></h2>
-          <p>A shared design language for the next generation of Essential apps.</p>
-          <button className="hero-button" onClick={onOpenEssential}>Explore Essential <ArrowUpRight size={16} /></button>
-        </div>
-        <div className="hero-art" aria-hidden="true">
-          <div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="orbit orbit-three" />
-          <div className="core-orb"><span>e</span></div><div className="orb-node node-one" /><div className="orb-node node-two" /><div className="orb-node node-three" />
-        </div>
-        <span className="hero-index">EC / 001</span>
-      </section>
-
-      <div className="section-heading"><div><div className="eyebrow">YOUR SPACE</div><h2>Overview</h2></div><button className="text-button" onClick={onOpenEssential}>View ecosystem <ArrowUpRight size={15} /></button></div>
-      <div className="overview-grid">
-        <div className="overview-card"><div className="overview-top"><span className="metric-icon teal"><Layers3 size={18} /></span><span className="metric-label">SYSTEM</span></div><strong>01</strong><p>Core foundation</p><div className="mini-bars"><i /><i /><i /><i /><i /></div></div>
-        <div className="overview-card"><div className="overview-top"><span className="metric-icon gold"><Palette size={18} /></span><span className="metric-label">DESIGN TOKENS</span></div><strong>Ready</strong><p>Colors, type & spacing</p><div className="swatches"><i /><i /><i /><i /><i /></div></div>
-        <div className="overview-card"><div className="overview-top"><span className="metric-icon violet"><Cpu size={18} /></span><span className="metric-label">COMPONENTS</span></div><strong>02</strong><p>Reusable primitives</p><div className="component-pills"><i /><i /><i /></div></div>
+      <div className="home-greeting">
+        <div className="eyebrow home-date"><span className="eyebrow-line" />{dateLabel}</div>
+        <h1>{greeting}<span className="accent-dot">.</span></h1>
       </div>
-
-      <div className="section-heading lower-heading"><div><div className="eyebrow">QUICK ACCESS</div><h2>Jump back in</h2></div></div>
-      <div className="quick-grid">
-        <button className="quick-card" onClick={onOpenEssential}><span className="quick-icon"><Command size={19} /></span><span><strong>Essential ecosystem</strong><small>Explore the product family</small></span><ArrowUpRight size={17} /></button>
-        <button className="quick-card" onClick={onOpenEssential}><span className="quick-icon gold"><Palette size={19} /></span><span><strong>Design system</strong><small>Tokens and visual language</small></span><ArrowUpRight size={17} /></button>
-      </div>
-      <footer className="page-footer"><span>ESSENTIAL CORE</span><span>BUILT BY AX <i>·</i> 2026</span></footer>
+      <span className="home-time" aria-label="Current local time">{timeLabel}</span>
+      <button className="home-ecosystem-link" onClick={onOpenEssential}>
+        <span>ESSENTIAL ECOSYSTEM</span><ArrowUpRight size={15} />
+      </button>
     </div>
   );
 }
