@@ -61,8 +61,8 @@ function App() {
       </aside>
 
       <main className="main-area">
-        <header className="topbar">
-          <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>
+        <header className={activeTab === "home" ? "topbar home-topbar" : "topbar"}>
+          {activeTab === "home" ? <HomeHeader /> : <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
           <div className="breadcrumbs"><span>Workspace</span><ChevronRight size={14} /><strong>{navItems.find(x => x.id === activeTab)?.label}</strong></div>
           <div className="top-actions">
             <button className="icon-button search-button" aria-label="Search"><Search size={18} /></button>
@@ -92,38 +92,28 @@ function App() {
   );
 }
 
-function HomeScreen({ onOpenEssential }: { onOpenEssential: () => void }) {
+function HomeHeader() {
   const [now, setNow] = useState(() => new Date());
-
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 30_000);
     return () => window.clearInterval(timer);
   }, []);
-
   const hour = now.getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
   const dateLabel = new Intl.DateTimeFormat("en-IN", {
-    weekday: "long",
-    month: "long",
-    day: "numeric"
+    weekday: "long", month: "long", day: "numeric"
   }).format(now).toUpperCase();
-  const timeLabel = new Intl.DateTimeFormat("en-IN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true
-  }).format(now);
+  return (
+    <div className="home-header-copy">
+      <div className="eyebrow home-date"><span className="eyebrow-line" />{dateLabel}</div>
+      <h1>{greeting}<span className="accent-dot">.</span></h1>
+    </div>
+  );
+}
 
+function HomeScreen({ onOpenEssential }: { onOpenEssential: () => void }) {
   return (
     <div className="page home-minimal">
-      <div className="home-rails" aria-hidden="true">
-        <span className="home-rail home-rail-primary" />
-        <span className="home-rail home-rail-secondary" />
-      </div>
-      <div className="home-greeting">
-        <div className="eyebrow home-date"><span className="eyebrow-line" />{dateLabel}</div>
-        <h1>{greeting}<span className="accent-dot">.</span></h1>
-      </div>
-      <span className="home-time" aria-label="Current local time">{timeLabel}</span>
       <button className="home-ecosystem-link" onClick={onOpenEssential}>
         <span>ESSENTIAL ECOSYSTEM</span><ArrowUpRight size={15} />
       </button>
