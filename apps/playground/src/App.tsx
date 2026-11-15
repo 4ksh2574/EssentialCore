@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type TouchEvent } from "react";
+import { useEffect, useRef, useState, type TouchEvent, type PointerEvent } from "react";
 import {
   ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
@@ -24,7 +24,7 @@ function App() {
   const [profileActionsOpen, setProfileActionsOpen] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const touchStartY = useRef(0);
-  const touchStartX = useRef(0);
+  const touchStartX = useRef(0);\n  const pillDragging = useRef(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -61,6 +61,32 @@ function App() {
 
     if (deltaY > 48) { setHeaderCollapsed(true); setProfileActionsOpen(false); }
     if (deltaY < -48) setHeaderCollapsed(false);
+  };
+
+  const handlePillPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    pillDragging.current = true;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setProfileActionsOpen(false);
+  };
+  const updatePillPreview = (event: PointerEvent<HTMLDivElement>) => {
+    if (!pillDragging.current) return;
+    const track = event.currentTarget.parentElement;
+    if (!track) return;
+    const rect = track.getBoundingClientRect();
+    const relativeX = Math.max(0, Math.min(rect.width - 1, event.clientX - rect.left));
+    const index = Math.min(navItems.length - 1, Math.floor(relativeX / (rect.width / navItems.length)));
+    const nextTab = navItems[index].id;
+    setActiveTab(nextTab);
+    setHeaderCollapsed(false);
+  };
+  const handlePillPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (!pillDragging.current) return;
+    updatePillPreview(event);
+    pillDragging.current = false;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   };
 
   const handleProfileTap = () => {
@@ -125,7 +151,19 @@ function App() {
             const selected = navItems.find(item => item.id === activeTab) ?? navItems[0];
             const SelectedIcon = selected.icon;
             return (
-              <div className="liquid-nav-drop" style={{ transform: `translate3d(${navItems.findIndex(item => item.id === activeTab) * 100}%, -50%, 0)` }} aria-hidden="true">
+              <div
+                className="liquid-nav-drop"
+                style={{ transform: `translate3d(${navItems.findIndex(item => item.id === activeTab) * 100}%, -50%, 0)` }}
+                onPointerDown={handlePillPointerDown}
+                onPointerMove={updatePillPreview}
+                onPointerUp={handlePillPointerUp}
+                onPointerCancel={() => { pillDragging.current = false; }}
+                role="slider"
+                aria-label="Slide to preview pages"
+                aria-valuemin={0}
+                aria-valuemax={navItems.length - 1}
+                aria-valuenow={navItems.findIndex(item => item.id === activeTab)}
+              >
                 <SelectedIcon className="liquid-nav-active-icon" size={18} strokeWidth={2.1} />
                 <span>{selected.label}</span>
               </div>
