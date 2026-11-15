@@ -484,3 +484,177 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 .header-is-collapsed .home-minimal{min-height:calc(100svh - 90px)}
 }
 @media(prefers-reduced-motion:reduce){.home-topbar,.home-header-copy,.top-avatar,.profile-quick-actions{transition-duration:.01ms!important}}
+
+
+/* Final header refinement: compact editorial layout, horizontal quick panel,
+   constant avatar geometry and a soft atmospheric separator. */
+.home-topbar{
+  box-sizing:border-box;
+  height:92px;
+  min-height:92px;
+  max-height:120px;
+  padding:12px 5.3% 13px;
+  align-items:flex-start;
+  border:0;
+  background:transparent;
+  overflow:visible;
+  transition:height .62s cubic-bezier(.2,.8,.2,1),min-height .62s cubic-bezier(.2,.8,.2,1),max-height .62s cubic-bezier(.2,.8,.2,1),padding .62s cubic-bezier(.2,.8,.2,1);
+  isolation:isolate;
+}
+.home-topbar::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  left:4%;
+  right:4%;
+  bottom:0;
+  height:20px;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent 0%,color-mix(in srgb,var(--ec-accent) 14%,transparent) 18%,color-mix(in srgb,var(--ec-text) 13%,transparent) 50%,color-mix(in srgb,var(--ec-accent) 12%,transparent) 82%,transparent 100%);
+  filter:blur(12px);
+  opacity:.62;
+  mask-image:linear-gradient(to bottom,transparent 0%,#000 50%,transparent 100%);
+  transition:opacity .45s ease,transform .62s cubic-bezier(.2,.8,.2,1);
+}
+.home-header-copy{
+  max-width:calc(100% - 82px);
+  gap:3px;
+  padding-top:0;
+  transform:translate(-3px,-2px);
+  transition:opacity .32s ease,transform .62s cubic-bezier(.2,.8,.2,1);
+}
+.home-header-copy h1{
+  font-size:clamp(25px,3.3vw,32px);
+  line-height:1.08;
+  letter-spacing:-.065em;
+  font-weight:620;
+}
+.home-header-meta{gap:8px;min-height:12px}
+.home-header-meta .home-time{font-size:9px;letter-spacing:.9px}
+.home-header-meta .home-date{font-size:7px;letter-spacing:1.1px}
+.home-meta-divider{height:9px;opacity:.65}
+.home-topbar .top-actions.profile-action-anchor{
+  top:10px;
+  right:5.3%;
+  gap:0;
+  overflow:visible;
+}
+.home-topbar .top-actions.profile-action-anchor .top-avatar,
+.header-is-collapsed .home-topbar .top-actions.profile-action-anchor .top-avatar{
+  width:46px;
+  height:46px;
+  min-width:46px;
+  min-height:46px;
+  max-width:46px;
+  max-height:46px;
+  padding:0;
+  flex:0 0 46px;
+  border-radius:50%;
+  font-size:16px;
+  line-height:1;
+  transform:none;
+  transition:box-shadow .32s ease,background .32s ease;
+}
+.profile-action-anchor.actions-open .top-avatar{transform:none}
+.profile-action-anchor.actions-open .top-avatar{
+  box-shadow:0 7px 25px rgba(215,181,106,.18),0 0 0 3px var(--ec-accent-soft);
+}
+.profile-quick-actions{
+  position:absolute;
+  top:calc(100% + 9px);
+  right:0;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  width:0;
+  max-width:0;
+  max-height:none;
+  height:48px;
+  padding:0;
+  opacity:0;
+  overflow:hidden;
+  transform:translateY(-7px) scale(.94);
+  transform-origin:top right;
+  pointer-events:none;
+  white-space:nowrap;
+  border:1px solid transparent;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--ec-surface) 78%,transparent);
+  backdrop-filter:blur(24px) saturate(170%);
+  -webkit-backdrop-filter:blur(24px) saturate(170%);
+  box-shadow:0 12px 32px rgba(0,0,0,.2);
+  transition:width .5s cubic-bezier(.2,.8,.2,1),max-width .5s cubic-bezier(.2,.8,.2,1),opacity .24s ease,transform .5s cubic-bezier(.2,.8,.2,1),padding .35s ease,border-color .3s ease;
+}
+.profile-action-anchor.actions-open .profile-quick-actions{
+  width:94px;
+  max-width:94px;
+  opacity:1;
+  overflow:visible;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+  padding:4px 5px;
+  border-color:var(--ec-border);
+}
+.profile-quick-actions .icon-button{
+  width:36px;
+  height:36px;
+  min-width:36px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  flex:0 0 36px;
+}
+.header-is-collapsed .home-topbar{
+  height:0;
+  min-height:0;
+  max-height:0;
+  padding-top:0;
+  padding-bottom:0;
+  border:0;
+}
+.header-is-collapsed .home-topbar::after{
+  opacity:0;
+  transform:translateY(-8px);
+}
+.header-is-collapsed .home-header-copy,
+.header-is-collapsed .mobile-brand,
+.header-is-collapsed .breadcrumbs{
+  opacity:0;
+  transform:translate(-3px,-16px);
+  pointer-events:none;
+}
+.header-is-collapsed .home-topbar .top-actions.profile-action-anchor{
+  position:fixed;
+  top:max(12px,env(safe-area-inset-top));
+  right:14px;
+  z-index:60;
+}
+.header-is-collapsed .home-topbar .top-actions.profile-action-anchor .top-avatar{
+  width:46px;height:46px;min-width:46px;min-height:46px;
+  max-width:46px;max-height:46px;flex-basis:46px;
+}
+.header-is-collapsed .home-minimal{min-height:calc(100svh - 90px)}
+@media(max-width:760px){
+  .home-topbar{height:82px;min-height:82px;max-height:110px;padding:10px 16px 11px}
+  .home-header-copy{max-width:calc(100% - 70px);gap:3px;transform:translate(-2px,-2px)}
+  .home-header-copy h1{font-size:clamp(24px,6.8vw,29px);letter-spacing:-.07em}
+  .home-header-meta{gap:6px}
+  .home-header-meta .home-time{font-size:8px}
+  .home-header-meta .home-date{font-size:6.5px;letter-spacing:.8px}
+  .home-topbar .top-actions.profile-action-anchor{top:8px;right:14px}
+  .home-topbar .top-actions.profile-action-anchor .top-avatar,
+  .header-is-collapsed .home-topbar .top-actions.profile-action-anchor .top-avatar{
+    width:46px;height:46px;min-width:46px;min-height:46px;max-width:46px;max-height:46px;flex-basis:46px;
+  }
+  .profile-quick-actions{top:calc(100% + 8px);height:44px}
+  .profile-action-anchor.actions-open .profile-quick-actions{width:88px;max-width:88px}
+  .profile-quick-actions .icon-button{width:33px;height:33px;min-width:33px;flex-basis:33px}
+  .header-is-collapsed .home-topbar .top-actions.profile-action-anchor{top:max(10px,env(safe-area-inset-top));right:14px}
+  .home-minimal{min-height:calc(100svh - 160px)}
+  .header-is-collapsed .home-minimal{min-height:calc(100svh - 90px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-topbar,.home-topbar::after,.home-header-copy,.top-avatar,.profile-quick-actions{transition-duration:.01ms!important}
+}
