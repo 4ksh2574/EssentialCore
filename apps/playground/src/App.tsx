@@ -309,7 +309,7 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
         </section>
         <button className="native-settings-feature" onClick={() => setSelectedCategory("General")}><span className="native-settings-icon"><Settings2 size={25} /></span><span className="native-settings-copy"><strong>Customize Essential</strong><small>Appearance, preferences and more</small></span><ChevronRight size={19} /></button>
         <section className="native-settings-panel native-settings-categories" aria-label="Settings categories">
-          {filtered.map(({ title, description, icon: Icon }) => <button className="native-settings-row" key={title} onClick={() => setSelectedCategory(title)}><span className="native-settings-icon"><Icon size={24} strokeWidth={1.9} /></span><span className="native-settings-copy"><strong>{title}</strong></span><ChevronRight size={19} /></button>)}
+          {filtered.map(({ title, icon: Icon }) => <button className="native-settings-row" key={title} onClick={() => setSelectedCategory(title)}><span className="native-settings-icon"><Icon size={24} strokeWidth={1.9} /></span><span className="native-settings-copy"><strong>{title}</strong></span><ChevronRight size={19} /></button>)}
           {filtered.length === 0 && <p className="native-settings-empty">No settings found for “{search}”.</p>}
         </section>
         <div className="native-settings-bottom-space" />
