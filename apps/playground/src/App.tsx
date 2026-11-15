@@ -5,13 +5,13 @@ import {
   Palette, Settings2, ShieldCheck, Sparkles, Sun, UserRound
 } from "lucide-react";
 
-type Tab = "home" | "essential" | "profile";
+type Tab = "home" | "essential" | "settings";
 type Theme = "dark" | "light";
 
 const navItems: { id: Tab; label: string; icon: typeof Home }[] = [
   { id: "home", label: "Home", icon: Home },
   { id: "essential", label: "Essential", icon: Command },
-  { id: "profile", label: "Profile", icon: UserRound }
+  { id: "settings", label: "Settings", icon: Settings2 }
 ];
 
 function App() {
@@ -21,7 +21,6 @@ function App() {
     return saved === "light" ? "light" : "dark";
   });
   const [notifications, setNotifications] = useState(true);
-  const [profileActionsOpen, setProfileActionsOpen] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const touchStartY = useRef(0);
   const touchStartX = useRef(0);
@@ -31,14 +30,6 @@ function App() {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem("ec-demo-theme", theme);
   }, [theme]);
-
-  useEffect(() => {
-    const closeOnOutside = (event: PointerEvent) => {
-      if (!(event.target as HTMLElement).closest(".profile-action-anchor")) setProfileActionsOpen(false);
-    };
-    document.addEventListener("pointerdown", closeOnOutside);
-    return () => document.removeEventListener("pointerdown", closeOnOutside);
-  }, []);
 
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
     touchStartY.current = event.touches[0].clientY;
@@ -55,12 +46,11 @@ function App() {
       if (nextIndex !== currentIndex) {
         setActiveTab(navItems[nextIndex].id);
         setHeaderCollapsed(false);
-        setProfileActionsOpen(false);
       }
       return;
     }
 
-    if (deltaY > 48) { setHeaderCollapsed(true); setProfileActionsOpen(false); }
+    if (deltaY > 48) setHeaderCollapsed(true);
     if (deltaY < -48) setHeaderCollapsed(false);
   };
 
@@ -68,7 +58,6 @@ function App() {
     if (event.pointerType === "mouse" && event.button !== 0) return;
     pillDragging.current = true;
     event.currentTarget.setPointerCapture(event.pointerId);
-    setProfileActionsOpen(false);
   };
   const updatePillPreview = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!pillDragging.current) return;
@@ -91,13 +80,8 @@ function App() {
   };
 
   const handleProfileTap = () => {
-    if (profileActionsOpen) {
-      setProfileActionsOpen(false);
-      setActiveTab("profile");
-      setHeaderCollapsed(false);
-    } else {
-      setProfileActionsOpen(true);
-    }
+    setActiveTab("profile" as Tab);
+    setHeaderCollapsed(false);
   };
 
   return (
@@ -118,7 +102,7 @@ function App() {
         </nav>
         <div className="sidebar-bottom">
           <div className="system-card"><div className="system-icon"><Layers3 size={17} /></div><strong>Essential Core</strong><span>Demo environment</span><div className="system-progress"><i /></div><small>FOUNDATION · v0.1</small></div>
-          <button className="side-link muted" onClick={() => setActiveTab("profile")}><Settings2 size={18} />Settings</button>
+          <button className={activeTab === "settings" ? "side-link muted active" : "side-link muted"} onClick={() => setActiveTab("settings")}><Settings2 size={18} />Settings</button>
           <div className="side-user"><div className="avatar small-avatar">A</div><div><strong>AX</strong><span>Personal workspace</span></div><MoreHorizontal size={18} /></div>
         </div>
       </aside>
@@ -128,21 +112,15 @@ function App() {
           {activeTab === "home" && <HomeHeader />}
           {activeTab !== "home" && <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
           <div className="breadcrumbs"><span>Workspace</span><ChevronRight size={14} /><strong>{navItems.find(x => x.id === activeTab)?.label}</strong></div>
-          <div className={profileActionsOpen ? "top-actions profile-action-anchor actions-open" : "top-actions profile-action-anchor"}>
-            <button className="avatar top-avatar" onClick={handleProfileTap} aria-label="Profile and quick settings" aria-expanded={profileActionsOpen}>A</button>
-            <div className="profile-quick-actions" aria-hidden={!profileActionsOpen}>
-              <button className={notifications ? "icon-button notification-on" : "icon-button"} aria-label="Toggle notifications" onClick={() => setNotifications(!notifications)}><Bell size={18} /></button>
-              <button className="icon-button" aria-label="Toggle theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-            </div>
+          <div className="top-actions profile-action-anchor">
+            <button className="avatar top-avatar" onClick={handleProfileTap} aria-label="Open profile">A</button>
           </div>
         </header>
 
         <div className="content-wrap">
           {activeTab === "home" && <HomeScreen onOpenEssential={() => setActiveTab("essential")} />}
           {activeTab === "essential" && <EssentialScreen />}
-          {activeTab === "profile" && <ProfileScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} />}
+          {activeTab === "settings" && <SettingsScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} />}
         </div>
       </main>
 
@@ -176,7 +154,7 @@ function App() {
               className={activeTab === id ? "mobile-nav-item active" : "mobile-nav-item"}
               aria-label={label}
               aria-current={activeTab === id ? "page" : undefined}
-              onClick={() => { setActiveTab(id); setHeaderCollapsed(false); setProfileActionsOpen(false); }}
+              onClick={() => { setActiveTab(id); setHeaderCollapsed(false); }}
             >
               <Icon size={17} strokeWidth={1.9} />
             </button>
@@ -244,24 +222,31 @@ function EssentialScreen() {
   );
 }
 
-function ProfileScreen({ theme, onThemeChange, notifications, onNotificationsChange }: {
-  theme: Theme;
-  onThemeChange: (theme: Theme) => void;
-  notifications: boolean;
-  onNotificationsChange: (enabled: boolean) => void;
-}) {
+function ProfileScreen() {
   const [displayName, setDisplayName] = useState("AX");
   const [editing, setEditing] = useState(false);
   return (
     <div className="page profile-page">
-      <div className="page-heading-row"><div><div className="eyebrow"><span className="eyebrow-line" /> YOUR ACCOUNT</div><h1>Profile<span className="accent-dot">.</span></h1><p className="page-subtitle">Your identity and preferences.</p></div><div className="heading-symbol"><UserRound size={24} /></div></div>
+      <div className="page-heading-row"><div><div className="eyebrow"><span className="eyebrow-line" /> YOUR ACCOUNT</div><h1>Profile<span className="accent-dot">.</span></h1><p className="page-subtitle">Your identity and personal workspace.</p></div><div className="heading-symbol"><UserRound size={24} /></div></div>
       <section className="profile-card">
         <div className="profile-cover"><div className="cover-orbit cover-orbit-one" /><div className="cover-orbit cover-orbit-two" /><span>PERSONAL WORKSPACE / 001</span></div>
         <div className="profile-main"><div className="avatar profile-avatar">A</div><div className="profile-name-block">{editing ? <input value={displayName} onChange={e => setDisplayName(e.target.value)} aria-label="Display name" autoFocus /> : <h2>{displayName}</h2>}<p>Essential Core member</p></div><button className="outline-button edit-button" onClick={() => setEditing(!editing)}>{editing ? <><Check size={15} /> Save</> : "Edit profile"}</button></div>
         <div className="profile-meta"><div><span>USERNAME</span><strong>@4ksh2574</strong></div><div><span>ROLE</span><strong>Creator</strong></div><div><span>WORKSPACE</span><strong>Personal</strong></div></div>
       </section>
+      <footer className="page-footer"><span>YOUR SPACE, YOUR IDENTITY</span><span>BUILT BY AX <i>·</i> 2026</span></footer>
+    </div>
+  );
+}
 
-      <div className="section-heading settings-heading"><div><div className="eyebrow">PREFERENCES</div><h2>App settings</h2></div></div>
+function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsChange }: {
+  theme: Theme;
+  onThemeChange: (theme: Theme) => void;
+  notifications: boolean;
+  onNotificationsChange: (enabled: boolean) => void;
+}) {
+  return (
+    <div className="page settings-page">
+      <div className="page-heading-row"><div><div className="eyebrow"><span className="eyebrow-line" /> PREFERENCES</div><h1>Settings<span className="accent-dot">.</span></h1><p className="page-subtitle">Tune your Essential Core experience.</p></div><div className="heading-symbol"><Settings2 size={24} /></div></div>
       <section className="settings-card">
         <div className="setting-row"><span className="setting-icon"><Palette size={18} /></span><div className="setting-copy"><strong>Appearance</strong><small>Choose how Essential looks</small></div><div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={15} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={15} /></button></div></div>
         <div className="setting-row"><span className="setting-icon"><Bell size={18} /></span><div className="setting-copy"><strong>Notifications</strong><small>Product updates and activity</small></div><button className={notifications ? "toggle on" : "toggle"} onClick={() => onNotificationsChange(!notifications)} aria-label="Toggle notifications"><i /></button></div>
@@ -269,7 +254,7 @@ function ProfileScreen({ theme, onThemeChange, notifications, onNotificationsCha
         <button className="setting-row setting-button"><span className="setting-icon"><CircleHelp size={18} /></span><span className="setting-copy"><strong>Help & feedback</strong><small>Get help with Essential Core</small></span><ChevronRight size={17} className="setting-chevron" /></button>
       </section>
       <div className="profile-version"><span>ESSENTIAL CORE</span><strong>Version 0.1.0 · Demo</strong></div>
-      <footer className="page-footer"><span>YOUR SPACE, YOUR RULES</span><span>BUILT BY AX <i>·</i> 2026</span></footer>
+      <footer className="page-footer"><span>YOUR EXPERIENCE, YOUR RULES</span><span>BUILT BY AX <i>·</i> 2026</span></footer>
     </div>
   );
 }
