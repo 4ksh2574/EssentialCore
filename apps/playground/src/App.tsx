@@ -103,14 +103,31 @@ function App() {
         </div>
       </main>
 
-      <nav className="mobile-nav" aria-label="Bottom navigation">
-        {navItems.map(({ id, label, icon: Icon }) => (
-          <button key={id} className={activeTab === id ? "mobile-nav-item active" : "mobile-nav-item"} onClick={() => { setActiveTab(id); setHeaderCollapsed(false); setProfileActionsOpen(false); }}>
-            <span className="mobile-icon"><Icon size={19} strokeWidth={1.9} /></span><span>{label}</span>
-          </button>
-        ))}
-      </nav>
-    </div>
+      <nav className="mobile-nav liquid-nav" aria-label="Main navigation">
+        <div className="liquid-nav-track">
+          {(() => {
+            const selected = navItems.find(item => item.id === activeTab) ?? navItems[0];
+            const SelectedIcon = selected.icon;
+            return (
+              <div className="liquid-nav-drop" style={{ transform: `translate3d(${navItems.findIndex(item => item.id === activeTab) * 100}%, -50%, 0)` }} aria-hidden="true">
+                <SelectedIcon className="liquid-nav-active-icon" size={18} strokeWidth={2.1} />
+                <span>{selected.label}</span>
+              </div>
+            );
+          })()}
+          {navItems.map(({ id, label, icon: Icon }) => (
+            <button
+              key={id}
+              className={activeTab === id ? "mobile-nav-item active" : "mobile-nav-item"}
+              aria-label={label}
+              aria-current={activeTab === id ? "page" : undefined}
+              onClick={() => { setActiveTab(id); setHeaderCollapsed(false); setProfileActionsOpen(false); }}
+            >
+              <Icon size={17} strokeWidth={1.9} />
+            </button>
+          ))}
+        </div>
+      </nav>   </div>
   );
 }
 
