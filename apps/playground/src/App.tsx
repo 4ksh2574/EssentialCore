@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type TouchEvent, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type TouchEvent, type PointerEvent as ReactPointerEvent } from "react";
 import {
   ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
@@ -64,7 +64,7 @@ function App() {
     if (deltaY < -48) setHeaderCollapsed(false);
   };
 
-  const handlePillPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+  const handlePillPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
     pillDragging.current = true;
     event.currentTarget.setPointerCapture(event.pointerId);
