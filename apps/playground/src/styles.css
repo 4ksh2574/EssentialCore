@@ -159,3 +159,90 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 @media (max-width: 760px) { .sidebar { display: none; }.main-area { margin-left: 0; padding-bottom: 82px; }.topbar { height: 61px; padding: 0 19px; }.mobile-brand { display: flex; align-items: center; gap: 8px; font: 800 14px 'Manrope'; letter-spacing: -.5px; }.mobile-brand .brand-mark { width: 29px; height: 29px; border-radius: 10px; }.mobile-brand .brand-mark span { font-size: 21px; }.breadcrumbs { display: none; }.top-actions { gap: 4px; }.search-button { display: none; }.content-wrap { padding: 34px 19px 25px; }.welcome-mark { width: 39px; height: 39px; }.hero-card { min-height: 260px; padding: 27px 23px; margin-top: 26px; }.hero-content { max-width: 75%; }.hero-card h2 { font-size: 27px; }.hero-card p { max-width: 250px; font-size: 10px; }.hero-art { right: -105px; opacity: .48; transform: translateY(-50%) scale(.75); }.hero-index { right: 13px; bottom: 12px; }.section-heading { margin-top: 30px; }.overview-grid { gap: 8px; }.overview-card { padding: 11px; min-height: 130px; }.metric-label { font-size: 6px; letter-spacing: .6px; }.overview-card > strong { font-size: 20px; }.overview-card > p { font-size: 8px; }.metric-icon { width: 29px; height: 29px; }.mini-bars, .swatches, .component-pills { right: 11px; bottom: 13px; }.quick-grid { grid-template-columns: 1fr; }.quick-card { padding: 11px; }.page-footer { margin-top: 31px; font-size: 7px; }.page-heading-row { margin-bottom: 23px; }.heading-symbol { width: 40px; height: 40px; }.essential-feature { min-height: 250px; padding: 25px 22px; }.essential-feature h2 { font-size: 26px; }.essential-feature p { max-width: 240px; font-size: 10px; }.feature-graphic { right: -110px; opacity: .38; transform: translateY(-50%) scale(.78); }.feature-tags { flex-wrap: wrap; }.product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }.product-card-top { padding: 10px 10px 0; }.status-pill { font-size: 6px; padding: 4px 5px; }.product-art { height: 100px; margin: 0 8px; }.product-info { padding: 0 10px 12px; }.product-info h3 { font-size: 13px; }.product-info p { font-size: 8px; min-height: 48px; }.product-category { font-size: 6px; letter-spacing: .6px; }.principle-banner { padding: 11px; gap: 9px; }.principle-banner strong { font-size: 9px; }.principle-banner p { font-size: 8px; }.profile-cover { height: 95px; }.profile-main { padding: 0 13px; }.profile-meta { margin-left: 13px; margin-right: 13px; }.profile-name-block h2 { font-size: 16px; }.profile-meta strong { font-size: 9px; }.settings-card { padding: 0 11px; }.mobile-nav { position: fixed; display: flex; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(340px, calc(100% - 34px)); height: 62px; padding: 5px; border: 1px solid var(--ec-border); border-radius: 19px; background: color-mix(in srgb, var(--ec-surface) 88%, transparent); backdrop-filter: blur(22px) saturate(150%); -webkit-backdrop-filter: blur(22px) saturate(150%); box-shadow: 0 10px 40px rgba(0,0,0,.18); z-index: 20; justify-content: space-around; }.mobile-nav-item { flex: 1; border: 0; background: transparent; color: var(--ec-text-muted); border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3px; font-size: 8px; cursor: pointer; transition: .2s ease; }.mobile-nav-item.active { color: var(--ec-accent); background: var(--ec-accent-soft); }.mobile-icon { height: 21px; display: grid; place-items: center; } }
 @media (max-width: 390px) { .content-wrap { padding-left: 14px; padding-right: 14px; }.hero-content { max-width: 82%; }.hero-art { opacity: .3; }.overview-card { padding: 9px; }.metric-label { letter-spacing: .2px; }.product-grid { gap: 7px; }.product-info h3 { font-size: 12px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+
+/* Essential Core home: quiet, editorial AMOLED landing */
+.home-minimal {
+  min-height: calc(100svh - 130px);
+  position: relative;
+  padding-top: clamp(14px, 3vh, 34px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.home-rails {
+  width: min(560px, 72%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 54px;
+}
+.home-rail {
+  display: block;
+  height: 2px;
+  border: 1px solid color-mix(in srgb, var(--ec-text) 72%, transparent);
+  opacity: .88;
+}
+.home-rail-primary { width: 100%; height: 58px; }
+.home-rail-secondary { width: 100%; height: 14px; }
+.home-greeting { padding-left: 12px; }
+.home-date {
+  width: fit-content;
+  min-height: 78px;
+  border: 1px solid color-mix(in srgb, var(--ec-text) 78%, transparent);
+  padding: 0 18px;
+  color: var(--ec-text-muted);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+}
+.home-date .eyebrow-line { width: 28px; height: 2px; }
+.home-greeting h1 {
+  display: inline-block;
+  border: 1px solid color-mix(in srgb, var(--ec-text) 78%, transparent);
+  padding: 0 9px 5px;
+  margin: 9px 0 0;
+  font-size: clamp(38px, 6vw, 66px);
+  line-height: 1.12;
+  letter-spacing: -3.8px;
+  font-weight: 600;
+}
+.home-time {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  color: var(--ec-text-muted);
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  font-variant-numeric: tabular-nums;
+}
+.home-ecosystem-link {
+  margin: auto 0 0 12px;
+  padding: 10px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ec-text-muted);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ec-border);
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease;
+}
+.home-ecosystem-link:hover { color: var(--ec-accent); border-color: var(--ec-accent); }
+@media (max-width: 700px) {
+  .home-minimal { min-height: calc(100svh - 154px); padding-top: 4px; }
+  .home-rails { width: min(100%, 395px); gap: 7px; margin-bottom: 49px; }
+  .home-rail-primary { height: 58px; }
+  .home-rail-secondary { height: 13px; }
+  .home-greeting { padding-left: 0; }
+  .home-date { min-height: 76px; padding: 0 13px; font-size: 9px; letter-spacing: 1.7px; }
+  .home-date .eyebrow-line { width: 22px; }
+  .home-greeting h1 { font-size: clamp(35px, 9vw, 54px); letter-spacing: -2.8px; padding: 1px 7px 5px; }
+  .home-time { top: 2px; right: 0; font-size: 9px; }
+  .home-ecosystem-link { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-ecosystem-link { transition: none; }
+}
