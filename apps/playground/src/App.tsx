@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type TouchEvent } from "react";
 import {
   ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
@@ -23,7 +23,7 @@ function App() {
   const [notifications, setNotifications] = useState(true);
   const [profileActionsOpen, setProfileActionsOpen] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
-  const touchStartY = useState({ current: 0 })[0];
+  const touchStartY = useRef(0);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -38,7 +38,7 @@ function App() {
     return () => document.removeEventListener("pointerdown", closeOnOutside);
   }, []);
 
-  const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
+  const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
     touchStartY.current = event.touches[0].clientY;
   };
   const handleTouchEnd = (event: React.TouchEvent<HTMLElement>) => {
