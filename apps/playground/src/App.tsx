@@ -24,6 +24,7 @@ function App() {
   const [profileActionsOpen, setProfileActionsOpen] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const touchStartY = useRef(0);
+  const touchStartX = useRef(0);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -40,11 +41,26 @@ function App() {
 
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
     touchStartY.current = event.touches[0].clientY;
+    touchStartX.current = event.touches[0].clientX;
   };
   const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
-    const delta = touchStartY.current - event.changedTouches[0].clientY;
-    if (delta > 48) { setHeaderCollapsed(true); setProfileActionsOpen(false); }
-    if (delta < -48) setHeaderCollapsed(false);
+    const deltaY = touchStartY.current - event.changedTouches[0].clientY;
+    const deltaX = touchStartX.current - event.changedTouches[0].clientX;
+
+    // Keep vertical gestures for the collapsing header; horizontal gestures navigate pages.
+    if (Math.abs(deltaX) > 64 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+      const currentIndex = navItems.findIndex(item => item.id === activeTab);
+      const nextIndex = Math.max(0, Math.min(navItems.length - 1, currentIndex + (deltaX > 0 ? 1 : -1)));
+      if (nextIndex !== currentIndex) {
+        setActiveTab(navItems[nextIndex].id);
+        setHeaderCollapsed(false);
+        setProfileActionsOpen(false);
+      }
+      return;
+    }
+
+    if (deltaY > 48) { setHeaderCollapsed(true); setProfileActionsOpen(false); }
+    if (deltaY < -48) setHeaderCollapsed(false);
   };
 
   const handleProfileTap = () => {
