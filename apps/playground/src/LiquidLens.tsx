@@ -46,7 +46,7 @@ export default function LiquidLens() {
         float mask = 1.0 - smoothstep(-aa, aa, d);
 
         vec2 uv = gl_FragCoord.xy / size;
-        float edge = smoothstep(0.48, 0.02, abs(uv.y - 0.5));
+        float edge = 1.0 - smoothstep(0.02, 0.48, abs(uv.y - 0.5));
         float topGlint = exp(-pow((uv.y - 0.91) * 17.0, 2.0));
         float bottomGlint = exp(-pow((uv.y - 0.08) * 19.0, 2.0));
         float leftCaustic = exp(-pow((uv.x - 0.08) * 20.0, 2.0));
