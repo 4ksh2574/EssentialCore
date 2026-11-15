@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
   Command, Cpu, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
-  Palette, Search, Settings2, ShieldCheck, Sparkles, Sun, UserRound
+  Palette, Settings2, ShieldCheck, Sparkles, Sun, UserRound
 } from "lucide-react";
 
 type Tab = "home" | "essential" | "profile";
