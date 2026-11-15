@@ -870,38 +870,50 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 .type-editorial-italic { font-family: var(--ec-font-editorial); font-style: italic; font-weight: 700; }
 .type-mono { font-family: var(--ec-font-mono); font-variant-numeric: tabular-nums lining-nums; letter-spacing: .015em; }
 
-/* Dark navigation refinement: quieter matte glass; light theme remains untouched. */
+/* Obsidian dark navigation: restrained graphite capsule and softer elastic travel.
+   Light mode intentionally remains governed by its original rules above. */
 @media (max-width:760px){
   :root:not([data-theme="light"]) .liquid-nav-track{
-    background:rgba(15,18,17,.96);
-    border-color:rgba(255,255,255,.075);
-    box-shadow:0 7px 22px rgba(0,0,0,.22);
+    background:#080a09;
+    border-color:rgba(255,255,255,.055);
+    box-shadow:0 8px 24px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.025);
   }
   :root:not([data-theme="light"]) .mobile-nav-item{
-    color:rgba(226,237,230,.38);
+    color:rgba(235,241,237,.34);
   }
   :root:not([data-theme="light"]) .liquid-nav-drop{
-    color:#e8f2ec;
-    background:linear-gradient(180deg,rgba(37,44,40,.98),rgba(27,33,30,.98));
-    border:1px solid rgba(255,255,255,.105);
-    box-shadow:0 3px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.075);
-    backdrop-filter:blur(14px) saturate(115%);
-    -webkit-backdrop-filter:blur(14px) saturate(115%);
+    color:#f0f3f1;
+    background:linear-gradient(180deg,#252a27 0%,#1c211e 100%);
+    border:1px solid rgba(255,255,255,.085);
+    box-shadow:0 3px 8px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.065);
+    backdrop-filter:blur(12px) saturate(105%);
+    -webkit-backdrop-filter:blur(12px) saturate(105%);
+    transition:
+      transform .86s cubic-bezier(.18,.92,.24,1.12),
+      border-radius .68s cubic-bezier(.2,.8,.25,1),
+      box-shadow .5s ease,
+      filter .5s ease;
   }
   :root:not([data-theme="light"]) .liquid-nav-drop::before{
-    background:linear-gradient(145deg,rgba(255,255,255,.045),transparent 58%);
+    background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 62%);
     opacity:1;
+    transition:opacity .45s ease,transform .68s cubic-bezier(.2,.8,.25,1);
   }
   :root:not([data-theme="light"]) .liquid-nav-drop::after{
     display:none;
   }
   :root:not([data-theme="light"]) .liquid-nav-active-icon{
-    color:#a5e4cc;
+    color:#e8eee9;
     filter:none;
   }
   :root:not([data-theme="light"]) .liquid-nav-drop span{
-    color:rgba(238,247,241,.94);
+    color:rgba(245,248,246,.94);
     font-weight:600;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  :root:not([data-theme="light"]) .liquid-nav-drop{
+    transition-duration:.01ms!important;
   }
 }
 
