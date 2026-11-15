@@ -41,7 +41,7 @@ function App() {
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
     touchStartY.current = event.touches[0].clientY;
   };
-  const handleTouchEnd = (event: React.TouchEvent<HTMLElement>) => {
+  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
     const delta = touchStartY.current - event.changedTouches[0].clientY;
     if (delta > 48) { setHeaderCollapsed(true); setProfileActionsOpen(false); }
     if (delta < -48) setHeaderCollapsed(false);
