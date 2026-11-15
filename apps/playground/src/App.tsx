@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type TouchEvent } from "react";
-import LiquidLens from "./LiquidLens";
 import {
   ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
@@ -111,7 +110,6 @@ function App() {
             const SelectedIcon = selected.icon;
             return (
               <div className="liquid-nav-drop" style={{ transform: `translate3d(${navItems.findIndex(item => item.id === activeTab) * 100}%, -50%, 0)` }} aria-hidden="true">
-                <LiquidLens />
                 <SelectedIcon className="liquid-nav-active-icon" size={18} strokeWidth={2.1} />
                 <span>{selected.label}</span>
               </div>
