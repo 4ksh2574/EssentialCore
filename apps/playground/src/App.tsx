@@ -270,50 +270,39 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const categories = [
-    { title: "General", description: "Core preferences and behaviour", icon: Settings2 },
-    { title: "Appearance", description: "Theme and visual preferences", icon: Palette },
-    { title: "Notifications", description: "Choose what can notify you", icon: Bell },
-    { title: "Privacy & security", description: "Privacy and account protection", icon: ShieldCheck },
-    { title: "Accessibility", description: "Comfort and accessibility options", icon: Accessibility },
-    { title: "Language & region", description: "Language and regional preferences", icon: Languages },
-    { title: "Help & feedback", description: "Guides, support and suggestions", icon: CircleHelp },
-    { title: "About", description: "Essential Core and version information", icon: Info }
+    { title: "General", subtitle: "Core preferences", icon: Settings2 },
+    { title: "Workspace", subtitle: "Personal", icon: BriefcaseBusiness },
+    { title: "Appearance", subtitle: "Theme and visual style", icon: Palette },
+    { title: "Notifications", subtitle: "Alerts and updates", icon: Bell },
+    { title: "Privacy & security", subtitle: "Your data and account", icon: ShieldCheck },
+    { title: "Accessibility", subtitle: "Comfort and readability", icon: Accessibility },
+    { title: "Language & region", subtitle: "Language preferences", icon: Languages },
+    { title: "Help & feedback", subtitle: "Support and suggestions", icon: CircleHelp },
+    { title: "About", subtitle: "Essential Core", icon: Info }
   ];
-  const selected = selectedCategory === "Workspace" ? { title: "Workspace", description: "Your personal Essential workspace", icon: BriefcaseBusiness } : categories.find(item => item.title === selectedCategory);
-  const filtered = categories.filter(item => (item.title + " " + item.description).toLowerCase().includes(search.toLowerCase()));
+  const filtered = categories.filter(item => (item.title + " " + item.subtitle).toLowerCase().includes(search.toLowerCase()));
+  const groups = [filtered.filter(x => ["General", "Workspace"].includes(x.title)), filtered.filter(x => !["General", "Workspace"].includes(x.title))].filter(x => x.length);
+  const selected = categories.find(x => x.title === selectedCategory);
   return (
-    <div className="page settings-page core-settings-page">
-      <header className="native-settings-header">
-        <button className="native-settings-round" onClick={selected ? () => setSelectedCategory(null) : onBack} aria-label={selected ? "Back to settings" : "Back"}><ArrowLeft size={25} strokeWidth={2.1} /></button>
-        <h1>{selected?.title ?? "Settings"}</h1>
-        <button className="native-settings-round" onClick={() => setSelectedCategory("About")} aria-label="About Essential Core"><Info size={23} strokeWidth={2} /></button>
-      </header>
-      {selected ? (
-        <section className="native-settings-detail">
-          {selected.title === "Appearance" ? <div className="native-settings-panel"><div className="native-settings-row">
-            <span className="native-settings-icon"><Palette size={23} /></span><span className="native-settings-copy"><strong>Theme</strong><small>Choose your preferred appearance</small></span>
-            <div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={16} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={16} /></button></div>
-          </div></div> : selected.title === "Notifications" ? <div className="native-settings-panel"><button className="native-settings-row" onClick={() => onNotificationsChange(!notifications)}>
-            <span className="native-settings-icon"><Bell size={23} /></span><span className="native-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
-          </button></div> : <div className="native-settings-panel native-settings-info">
-            <span className="native-settings-icon"><selected.icon size={23} /></span><strong>{selected.title}</strong>
-            <p>{selected.title === "Workspace" ? "Your personal workspace is where shared Essential tools and preferences come together." : selected.title === "General" ? "General preferences for Essential Core will live here. Product-wide defaults are kept simple and consistent." : selected.title === "Privacy & security" ? "Privacy and account protection controls will appear here when Essential Core account services are connected." : selected.title === "Accessibility" ? "Accessibility preferences will be shared across Essential apps as the common settings framework grows." : selected.title === "Language & region" ? "Language and regional options will be managed here when localization support is added." : selected.title === "Help & feedback" ? "Help resources and feedback options will appear here as Essential ecosystem services are connected." : "Essential Core is the shared foundation for the Essential ecosystem."}</p>
-            {selected.title === "About" && <small>One Core. Infinite Possibilities. · Version 0.1.0</small>}
-          </div>}
-        </section>
-      ) : <>
-        <section className="native-settings-panel native-settings-account">
-          <button className="native-settings-row" onClick={onOpenProfile}><span className="native-account-mark">e<span>AX</span></span><span className="native-settings-copy"><strong>Account</strong></span><span className="native-settings-value">AX <ChevronRight size={19} /></span></button>
-          <button className="native-settings-row" onClick={() => setSelectedCategory("Workspace")}><span className="native-settings-icon"><BriefcaseBusiness size={24} /></span><span className="native-settings-copy"><strong>Workspace</strong></span><span className="native-settings-value">Personal</span></button>
-          <button className="native-settings-row native-settings-accent" onClick={() => setSelectedCategory("About")}><span className="native-settings-icon"><Sparkles size={24} /></span><span className="native-settings-copy"><strong>Explore Essential Core</strong></span><ChevronRight size={19} /></button>
-        </section>
-        <button className="native-settings-feature" onClick={() => setSelectedCategory("General")}><span className="native-settings-icon"><Settings2 size={25} /></span><span className="native-settings-copy"><strong>Customize Essential</strong><small>Appearance, preferences and more</small></span><ChevronRight size={19} /></button>
-        <section className="native-settings-panel native-settings-categories" aria-label="Settings categories">
-          {filtered.map(({ title, icon: Icon }) => <button className="native-settings-row" key={title} onClick={() => setSelectedCategory(title)}><span className="native-settings-icon"><Icon size={24} strokeWidth={1.9} /></span><span className="native-settings-copy"><strong>{title}</strong></span><ChevronRight size={19} /></button>)}
-          {filtered.length === 0 && <p className="native-settings-empty">No settings found for “{search}”.</p>}
-        </section>
-        <div className="native-settings-bottom-space" />
-        <div className="native-settings-search"><Search size={22} /><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search settings" aria-label="Search settings" />{search && <button onClick={() => setSearch("")} aria-label="Clear search">×</button>}</div>
+    <div className="page settings-page core-settings-page nothing-settings">
+      {selected ? <>
+        <header className="nothing-settings-detail-head">
+          <button className="nothing-back" onClick={() => setSelectedCategory(null)} aria-label="Back to settings"><ArrowLeft size={22}/></button>
+          <h1>{selected.title}</h1>
+          <button className="nothing-avatar" onClick={onOpenProfile} aria-label="Open profile"><UserRound size={20}/></button>
+        </header>
+        {selected.title === "Appearance" ? <div className="nothing-detail-card"><div className="nothing-detail-row"><span>Theme</span><div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={16}/></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={16}/></button></div></div></div> : selected.title === "Notifications" ? <div className="nothing-detail-card"><button className="nothing-detail-row" onClick={() => onNotificationsChange(!notifications)}><span>Allow notifications</span><span className={notifications ? "toggle on" : "toggle"}><i/></span></button></div> : <div className="nothing-detail-card nothing-detail-copy"><strong>{selected.title}</strong><p>{selected.title === "Workspace" ? "Your personal Essential workspace." : selected.title === "General" ? "General preferences shared across the Essential ecosystem." : selected.title === "Privacy & security" ? "Privacy and account protection controls will appear here as Essential account services are connected." : selected.title === "Accessibility" ? "Accessibility preferences for a more comfortable experience." : selected.title === "Language & region" ? "Language and regional preferences will be managed here as localization support is added." : selected.title === "Help & feedback" ? "Guides and feedback options for Essential Core." : "The shared foundation for the Essential ecosystem. One Core. Infinite Possibilities."}</p>{selected.title === "About" && <small>Version 0.1.0</small>}</div>}
+      </> : <>
+        <header className="nothing-settings-head">
+          <div className="nothing-status-spacer"/>
+          <div className="nothing-heading-row"><h1>Settings</h1><button className="nothing-avatar" onClick={onOpenProfile} aria-label="Open profile"><UserRound size={21}/></button></div>
+        </header>
+        <label className="nothing-search"><Search size={21}/><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search settings" aria-label="Search settings"/>{search && <button onClick={() => setSearch("")} aria-label="Clear search">×</button>}</label>
+        <div className="nothing-settings-groups">
+          {groups.map((group,index) => <section className="nothing-settings-group" key={index}>{group.map(({title,subtitle,icon:Icon}) => <button className="nothing-settings-item" key={title} onClick={() => setSelectedCategory(title)}><span className="nothing-item-icon"><Icon size={23} strokeWidth={1.9}/></span><span className="nothing-item-copy"><strong>{title}</strong>{subtitle && <small>{subtitle}</small>}</span><ChevronRight className="nothing-item-chevron" size={18}/></button>)}</section>)}
+          {filtered.length === 0 && <p className="nothing-no-results">No settings found for “{search}”.</p>}
+        </div>
+        <div className="nothing-settings-bottom-space"/>
       </>}
     </div>
   );
