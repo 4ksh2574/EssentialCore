@@ -3,8 +3,7 @@ import {
   ArrowUpRight, Bell, BookOpen, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
   Palette, Settings2, ShieldCheck, Sparkles, Sun, UserRound,
-  SlidersHorizontal, Smartphone, PanelsTopLeft, Search, Folder,
-  Hand, LayoutGrid, Database, Info, BellRing
+  Accessibility, Languages, Info
 } from "lucide-react";
 
 type Tab = "home" | "essential" | "settings" | "profile";
@@ -272,72 +271,69 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
 }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const categories = [
-    { title: "General", description: "Colors, icon packs, notification dots", icon: SlidersHorizontal },
-    { title: "Home screen", description: "Feed, grid, icons", icon: Smartphone },
-    { title: "At a Glance", description: "What to show", icon: PanelsTopLeft },
-    { title: "Dock", description: "Search bar, icon count", icon: LayoutGrid },
-    { title: "App drawer", description: "Hidden apps, column count, icons", icon: Grid2X2 },
-    { title: "Search bar", description: "Web suggestions, global search", icon: Search },
-    { title: "Folders", description: "Row and column count", icon: Folder },
-    { title: "Gestures", description: "Taps and swipes", icon: Hand },
-    { title: "Recents screen", description: "Clear all button, corner radius", icon: MoreHorizontal },
-    { title: "Backup and restore", description: "Save current setup, restore backups", icon: Database },
-    { title: "About", description: "Essential Core · Pixel-inspired foundation", icon: Info }
+    { title: "Appearance", description: "Theme and visual preferences", icon: Palette },
+    { title: "Notifications", description: "Choose what can notify you", icon: Bell },
+    { title: "Privacy & security", description: "Your privacy and account protection", icon: ShieldCheck },
+    { title: "Accessibility", description: "Make Essential more comfortable to use", icon: Accessibility },
+    { title: "Language & region", description: "Language and regional preferences", icon: Languages },
+    { title: "Help & feedback", description: "Guides, support and suggestions", icon: CircleHelp },
+    { title: "About", description: "Essential Core and version information", icon: Info }
   ];
   const selected = categories.find(item => item.title === selectedCategory);
 
   return (
-    <div className="page settings-page launcher-settings-page">
-      <div className="launcher-settings-top">
-        {selected && <button className="launcher-settings-back" onClick={() => setSelectedCategory(null)} aria-label="Back to settings"><ChevronRight size={18} /></button>}
-        <div className="launcher-settings-title">
+    <div className="page settings-page core-settings-page">
+      <div className="core-settings-top">
+        {selected && <button className="core-settings-back" onClick={() => setSelectedCategory(null)} aria-label="Back to settings"><ChevronRight size={18} /></button>}
+        <div className="core-settings-title">
           <h1>{selected?.title ?? "Settings"}</h1>
-          <p>{selected?.description ?? "Customize your Essential experience"}</p>
+          <p>{selected?.description ?? "Your Essential Core preferences"}</p>
         </div>
       </div>
 
       {selected ? (
-        <section className="launcher-preference-group launcher-settings-detail">
-          {selected.title === "General" ? (
-            <>
-              <div className="launcher-preference-row">
-                <span className="launcher-preference-icon"><Palette size={21} /></span>
-                <span className="launcher-preference-copy"><strong>Appearance</strong><small>Choose how Essential looks</small></span>
-                <div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={15} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={15} /></button></div>
-              </div>
-              <button className="launcher-preference-row" onClick={() => onNotificationsChange(!notifications)}>
-                <span className="launcher-preference-icon"><BellRing size={21} /></span>
-                <span className="launcher-preference-copy"><strong>Notifications</strong><small>Product updates and activity</small></span>
-                <span className={notifications ? "toggle on" : "toggle"}><i /></span>
-              </button>
-            </>
-          ) : selected.title === "About" ? (
-            <div className="launcher-about-panel">
-              <div className="launcher-about-mark">E</div>
-              <strong>Essential Core</strong>
-              <span>One Core. Infinite Possibilities.</span>
-              <small>Shared foundation for the Essential ecosystem · Version 0.1.0</small>
+        <section className="core-settings-detail">
+          {selected.title === "Appearance" ? (
+            <div className="core-setting-row">
+              <span className="core-setting-icon"><Palette size={21} /></span>
+              <span className="core-setting-copy"><strong>Theme</strong><small>Choose your preferred appearance</small></span>
+              <div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={15} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={15} /></button></div>
             </div>
+          ) : selected.title === "Notifications" ? (
+            <button className="core-setting-row" onClick={() => onNotificationsChange(!notifications)}>
+              <span className="core-setting-icon"><Bell size={21} /></span>
+              <span className="core-setting-copy"><strong>Notifications</strong><small>Product updates and activity</small></span>
+              <span className={notifications ? "toggle on" : "toggle"}><i /></span>
+            </button>
           ) : (
-            <div className="launcher-settings-note">
-              <span className="launcher-preference-icon"><selected.icon size={21} /></span>
+            <div className="core-settings-info">
+              <span className="core-setting-icon"><selected.icon size={21} /></span>
               <strong>{selected.title}</strong>
-              <p>These controls belong to AX Home. Essential Core provides the shared foundation while each Essential app keeps its own app-specific settings.</p>
+              <p>{selected.title === "Privacy & security"
+                ? "Privacy and account controls will be available here when Essential Core account services are connected."
+                : selected.title === "Accessibility"
+                ? "Accessibility preferences will be shared across Essential apps as the common settings framework grows."
+                : selected.title === "Language & region"
+                ? "Language and regional options will be managed here when localization support is added."
+                : selected.title === "Help & feedback"
+                ? "Help resources and feedback options will appear here as the Essential ecosystem services are connected."
+                : "Essential Core provides the shared foundation for the Essential ecosystem."}</p>
+              {selected.title === "About" && <small>One Core. Infinite Possibilities. · Version 0.1.0</small>}
             </div>
           )}
         </section>
       ) : (
-        <section className="launcher-preference-group" aria-label="Settings categories">
+        <section className="core-settings-list" aria-label="Common settings">
           {categories.map(({ title, description, icon: Icon }) => (
-            <button className="launcher-preference-row" key={title} onClick={() => setSelectedCategory(title)}>
-              <span className="launcher-preference-icon"><Icon size={21} strokeWidth={1.8} /></span>
-              <span className="launcher-preference-copy"><strong>{title}</strong><small>{description}</small></span>
-              <ChevronRight size={18} className="launcher-preference-chevron" />
+            <button className="core-setting-row" key={title} onClick={() => setSelectedCategory(title)}>
+              <span className="core-setting-icon"><Icon size={21} strokeWidth={1.8} /></span>
+              <span className="core-setting-copy"><strong>{title}</strong><small>{description}</small></span>
+              <ChevronRight size={18} className="core-setting-chevron" />
             </button>
           ))}
         </section>
       )}
-      <div className="launcher-settings-footnote">ESSENTIAL CORE <span>BUILT BY AX</span></div>
+      <div className="core-settings-footnote"><span>ESSENTIAL CORE</span><span>BUILT BY AX</span></div>
     </div>
   );
 }
