@@ -125,7 +125,7 @@ function App() {
         </div>
       </aside>
 
-      <main className="main-area" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <main className={`main-area ${activeTab === "settings" ? "settings-active" : ""}`} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
         <header className={`topbar home-topbar ${headerCollapsed ? "header-collapsed" : ""}`}>
           {activeTab === "home" && <HomeHeader />}
           {activeTab !== "home" && activeTab !== "settings" && <div className="mobile-brand"><span className="brand-mark"><span>e</span></span><strong>essential</strong></div>}
