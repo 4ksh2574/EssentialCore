@@ -966,3 +966,39 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
     opacity:.8;
   }
 }
+
+
+/* Essential Launcher-inspired preference dashboard */
+.launcher-settings-page{max-width:760px;margin:0 auto}
+.launcher-settings-top{display:flex;align-items:center;gap:13px;margin:2px 0 25px;min-height:54px}
+.launcher-settings-title h1{font-family:var(--ec-font-interface)!important;font-size:25px!important;font-weight:650!important;letter-spacing:-.045em!important;margin:0;color:var(--ec-text)}
+.launcher-settings-title p{margin:4px 0 0;color:var(--ec-text-muted);font-size:11px;line-height:1.45}
+.launcher-settings-back{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--ec-border);border-radius:50%;background:var(--ec-surface);color:var(--ec-text);cursor:pointer;transform:rotate(180deg)}
+.launcher-preference-group{display:flex;flex-direction:column;gap:8px;padding:0 13px;overflow:hidden;border-radius:22px}
+.launcher-preference-row{width:100%;min-height:67px;display:flex;align-items:center;gap:14px;padding:10px 13px;border:1px solid var(--ec-border);border-radius:17px;background:var(--ec-surface);color:var(--ec-text);text-align:left;cursor:pointer;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.launcher-preference-row:active{transform:scale(.988)}
+.launcher-preference-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;color:var(--ec-text-muted);border-radius:11px;background:var(--ec-bg)}
+.launcher-preference-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+.launcher-preference-copy strong{font-size:12px;font-weight:600;letter-spacing:-.01em}
+.launcher-preference-copy small{font-size:10px;line-height:1.35;color:var(--ec-text-muted)}
+.launcher-preference-chevron{flex:0 0 auto;color:var(--ec-text-muted)}
+.launcher-settings-detail{padding:0 13px}
+.launcher-settings-detail .launcher-preference-row{cursor:default}
+.launcher-settings-note{display:flex;flex-direction:column;align-items:flex-start;gap:11px;padding:22px 18px;border:1px solid var(--ec-border);border-radius:18px;background:var(--ec-surface)}
+.launcher-settings-note strong{font-size:13px}
+.launcher-settings-note p{margin:0;color:var(--ec-text-muted);font-size:11px;line-height:1.65}
+.launcher-about-panel{display:flex;flex-direction:column;align-items:center;gap:8px;padding:27px 18px;border:1px solid var(--ec-border);border-radius:18px;background:var(--ec-surface);text-align:center}
+.launcher-about-mark{width:58px;height:58px;display:grid;place-items:center;border-radius:19px;background:var(--ec-accent-soft);color:var(--ec-accent);font-family:var(--ec-font-display);font-size:25px}
+.launcher-about-panel strong{font-size:15px}
+.launcher-about-panel span,.launcher-about-panel small{color:var(--ec-text-muted);font-size:10px}
+.launcher-settings-footnote{display:flex;justify-content:space-between;margin:23px 16px 0;color:var(--ec-text-muted);font-size:8px;letter-spacing:1.1px}
+.launcher-settings-footnote span{letter-spacing:.5px}
+@media(max-width:760px){
+  .launcher-settings-page{max-width:none}
+  .launcher-settings-top{margin:0 0 21px;min-height:48px}
+  .launcher-settings-title h1{font-size:23px!important}
+  .launcher-preference-group,.launcher-settings-detail{padding:0}
+  .launcher-preference-row{min-height:66px;padding:10px 12px;gap:12px;border-radius:16px}
+  .launcher-preference-copy strong{font-size:11px}
+  .launcher-preference-copy small{font-size:9px}
+}
