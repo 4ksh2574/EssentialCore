@@ -971,54 +971,41 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 
 
 
-/* Native grouped settings surface — reference-matched Essential Core styling */
-.core-settings-page{width:100%;max-width:680px;margin:0 auto;min-height:calc(100svh - 100px);padding:0 0 20px;position:relative;color:#f6f6f6}
-.native-settings-header{height:76px;display:grid;grid-template-columns:52px 1fr 52px;align-items:center;margin:0 0 18px;padding:0 2px}
-.native-settings-header h1{margin:0;text-align:center;font-family:var(--ec-font-interface)!important;font-size:23px!important;font-weight:700!important;letter-spacing:-.045em!important;color:var(--ec-text)}
-.native-settings-round{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:#292929;color:#f7f7f7;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 2px 7px rgba(0,0,0,.22);cursor:pointer}
-.native-settings-panel{overflow:hidden;border:1px solid rgba(255,255,255,.13);border-radius:29px;background:#2d2d2d;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
-.native-settings-row{width:100%;min-height:91px;display:flex;align-items:center;gap:18px;padding:15px 25px;border:0;border-bottom:1px solid rgba(255,255,255,.14);background:transparent;color:#f7f7f7;text-align:left;cursor:pointer}
-.native-settings-row:last-child{border-bottom:0}
-.native-settings-row:active,.native-settings-feature:active{background:rgba(255,255,255,.055)}
-.native-settings-icon{width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;color:#f4f4f4}
-.native-settings-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
-.native-settings-copy strong{font-size:18px;font-weight:600;letter-spacing:-.035em;line-height:1.2}
-.native-settings-copy small{font-size:13px;line-height:1.25;color:#aaa;font-weight:500}
-.native-settings-value{display:flex;align-items:center;gap:13px;color:#aaa;font-size:17px;font-weight:600;white-space:nowrap}
-.native-account-mark{width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;position:relative;border-radius:50%;background:#050505;color:#fff;font-family:var(--ec-font-display);font-size:20px;font-style:italic}
-.native-account-mark span{position:absolute;right:1px;bottom:4px;font-family:var(--ec-font-interface);font-size:7px;font-weight:700}
-.native-settings-accent{color:#7db1ff}
-.native-settings-accent .native-settings-icon{color:#7db1ff}
-.native-settings-feature{width:100%;min-height:92px;display:flex;align-items:center;gap:18px;margin:28px 0;border:1px solid rgba(255,255,255,.13);border-radius:27px;padding:15px 25px;background:#2d2d2d;color:#f7f7f7;text-align:left;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
-.native-settings-feature>svg:last-child,.native-settings-row>svg:last-child{color:#aaa;flex:0 0 auto}
-.native-settings-categories .native-settings-row{min-height:78px;padding-left:25px;padding-right:25px}
-.native-settings-categories .native-settings-copy strong{font-size:17px}
-.native-settings-empty{padding:25px;color:#aaa;font-size:14px}
-.native-settings-bottom-space{height:88px}
-.native-settings-search{position:fixed;z-index:90;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(650px,calc(100% - 40px));height:62px;display:flex;align-items:center;gap:14px;padding:0 22px;border:1px solid rgba(255,255,255,.17);border-radius:999px;background:rgba(48,48,48,.96);color:#aaa;box-shadow:0 8px 28px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.native-settings-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#f5f5f5;font:600 16px var(--ec-font-interface)}
-.native-settings-search input::placeholder{color:#b8b8b8;opacity:1}
-.native-settings-search button{border:0;background:transparent;color:#ddd;font-size:25px;cursor:pointer}
-.native-settings-detail{padding:0}
-.native-settings-detail .native-settings-row{min-height:82px}
-.native-settings-info{min-height:180px;padding:25px;display:flex;flex-direction:column;align-items:flex-start;gap:13px}
-.native-settings-info strong{font-size:19px}
-.native-settings-info p{margin:0;color:#b6b6b6;font-size:14px;line-height:1.65}
-.native-settings-info>small{color:#aaa;font-size:12px}
+
+/* Nothing OS 3-inspired settings — grouped cards and editorial heading */
+.nothing-settings{max-width:720px;margin:0 auto;min-height:calc(100svh - 80px);padding:0 0 28px;color:var(--ec-text)}
+.nothing-settings-head{padding:0 0 26px}.nothing-status-spacer{height:10px}
+.nothing-heading-row{display:flex;align-items:center;justify-content:space-between;padding:0 3px}
+.nothing-heading-row h1,.nothing-settings-detail-head h1{margin:0;font-family:var(--ec-font-editorial)!important;font-size:clamp(36px,8vw,48px)!important;font-weight:500!important;letter-spacing:-.065em!important;line-height:1.1;color:var(--ec-text)}
+.nothing-avatar{width:43px;height:43px;border:0;border-radius:50%;display:grid;place-items:center;background:var(--ec-surface);color:var(--ec-text-muted);cursor:pointer}
+.nothing-search{height:62px;display:flex;align-items:center;gap:15px;padding:0 20px;margin:0 0 28px;border:1px solid color-mix(in srgb,var(--ec-text) 3%,transparent);border-radius:999px;background:var(--ec-surface);color:var(--ec-text-muted);box-shadow:0 2px 8px rgba(0,0,0,.025)}
+.nothing-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ec-text);font:500 16px var(--ec-font-interface)}
+.nothing-search input::placeholder{color:var(--ec-text-muted);opacity:1}.nothing-search button{border:0;background:transparent;color:var(--ec-text-muted);font-size:25px}
+.nothing-settings-groups{display:flex;flex-direction:column;gap:24px}
+.nothing-settings-group,.nothing-detail-card{overflow:hidden;border-radius:23px;background:var(--ec-surface);border:1px solid color-mix(in srgb,var(--ec-text) 3%,transparent);box-shadow:0 2px 9px rgba(0,0,0,.025)}
+.nothing-settings-item{width:100%;min-height:76px;display:flex;align-items:center;gap:17px;padding:13px 19px;border:0;border-bottom:1px solid color-mix(in srgb,var(--ec-text) 6%,transparent);background:transparent;color:var(--ec-text);text-align:left;cursor:pointer}
+.nothing-settings-item:last-child{border-bottom:0}.nothing-settings-item:active{background:color-mix(in srgb,var(--ec-text) 4%,transparent)}
+.nothing-item-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;color:var(--ec-text)}
+.nothing-item-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+.nothing-item-copy strong{font-size:16px;font-weight:550;letter-spacing:-.025em;line-height:1.2}.nothing-item-copy small{font-size:12px;color:var(--ec-text-muted);line-height:1.2}
+.nothing-item-chevron{color:var(--ec-text-muted);opacity:.65}.nothing-no-results{padding:22px;color:var(--ec-text-muted);font-size:14px}
+.nothing-settings-bottom-space{height:22px}
+.nothing-settings-detail-head{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:12px;padding:12px 0 30px}
+.nothing-settings-detail-head h1{font-size:32px!important}.nothing-back{width:42px;height:42px;border:0;border-radius:50%;display:grid;place-items:center;background:var(--ec-surface);color:var(--ec-text)}
+.nothing-detail-row{width:100%;min-height:70px;display:flex;align-items:center;justify-content:space-between;padding:14px 19px;border:0;border-bottom:1px solid color-mix(in srgb,var(--ec-text) 6%,transparent);background:transparent;color:var(--ec-text);font:500 15px var(--ec-font-interface);text-align:left}
+.nothing-detail-row:last-child{border-bottom:0}.nothing-detail-copy{padding:23px;display:flex;flex-direction:column;gap:10px}
+.nothing-detail-copy strong{font-size:19px}.nothing-detail-copy p{margin:0;color:var(--ec-text-muted);font-size:14px;line-height:1.65}.nothing-detail-copy small{color:var(--ec-text-muted);font-size:12px}
+:root[data-theme="light"] .nothing-settings-group,:root[data-theme="light"] .nothing-detail-card,:root[data-theme="light"] .nothing-search{background:#fff;border-color:rgba(20,25,22,.035);box-shadow:0 2px 9px rgba(0,0,0,.025)}
+:root[data-theme="light"] .nothing-avatar,:root[data-theme="light"] .nothing-back{background:#fff;color:#525852}
+:root:not([data-theme="light"]) .nothing-settings-group,:root:not([data-theme="light"]) .nothing-detail-card,:root:not([data-theme="light"]) .nothing-search{background:#202522;border-color:rgba(255,255,255,.045);box-shadow:0 2px 12px rgba(0,0,0,.13)}
+:root:not([data-theme="light"]) .nothing-avatar,:root:not([data-theme="light"]) .nothing-back{background:#252b27;color:#c3ccc5}
 @media(max-width:760px){
- .core-settings-page{max-width:none;min-height:calc(100svh - 72px);padding:0 0 16px}
- .native-settings-header{height:76px;margin:0 0 17px;padding:0 1px;grid-template-columns:48px 1fr 48px}
- .native-settings-header h1{font-size:21px!important}
- .native-settings-round{width:46px;height:46px}
- .native-settings-panel{border-radius:27px}
- .native-settings-row{min-height:92px;padding:14px 20px;gap:15px}
- .native-settings-copy strong{font-size:17px}
- .native-settings-copy small{font-size:12px}
- .native-settings-value{font-size:15px;gap:8px}
- .native-settings-feature{min-height:92px;margin:27px 0;border-radius:26px;padding:14px 20px;gap:15px}
- .native-settings-categories .native-settings-row{min-height:78px;padding:12px 20px}
- .native-settings-categories .native-settings-copy strong{font-size:17px}
- .native-settings-search{bottom:max(18px,env(safe-area-inset-bottom));width:calc(100% - 40px);height:61px;padding:0 20px}
- .native-settings-search input{font-size:15px}
+ .nothing-settings{max-width:none;min-height:calc(100svh - 70px);padding:0 0 calc(96px + env(safe-area-inset-bottom))}
+ .nothing-settings-head{padding-bottom:24px}.nothing-status-spacer{height:6px}
+ .nothing-heading-row{padding:0 2px}.nothing-heading-row h1{font-size:39px!important}
+ .nothing-avatar{width:40px;height:40px}.nothing-search{height:59px;margin-bottom:25px;padding:0 18px}
+ .nothing-search input{font-size:15px}.nothing-settings-groups{gap:22px}
+ .nothing-settings-group{border-radius:21px}.nothing-settings-item{min-height:76px;padding:12px 17px;gap:15px}
+ .nothing-item-copy strong{font-size:15px}.nothing-item-copy small{font-size:11px}
+ .nothing-settings-detail-head{padding-top:7px}
 }
-@media(prefers-reduced-motion:reduce){.native-settings-row,.native-settings-feature{transition:none}}
