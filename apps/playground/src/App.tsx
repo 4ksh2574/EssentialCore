@@ -280,7 +280,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
     demoAnimationTimer.current = setTimeout(() => {
       setDemoAnimating(false);
       demoAnimationTimer.current = null;
-    }, 820);
+    }, 920);
   };
   useEffect(() => () => {
     if (demoAnimationTimer.current) clearTimeout(demoAnimationTimer.current);
