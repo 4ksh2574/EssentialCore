@@ -6,31 +6,30 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 
 /**
- * Compact Android-native recreation of the supplied 3D liquid-glass theme switch.
- * The switch is deliberately platform-rendered with Compose; it does not depend on
- * Apple's private Liquid Glass renderer.
+ * Video-matched Liquid Glass toggle for Essential Core.
+ *
+ * The resting switch uses the reference's vivid lime track, soft neutral track,
+ * and wide white capsule thumb. While pressed, the thumb blooms into a translucent
+ * glass lens with a fine rim and curved specular highlights before it settles.
  */
 @Composable
 internal fun LiquidGlassThemeToggle(
@@ -43,24 +42,18 @@ internal fun LiquidGlassThemeToggle(
     val pressed by interaction.collectIsPressedAsState()
     val progress by animateFloatAsState(
         targetValue = if (checked) 1f else 0f,
-        animationSpec = spring(dampingRatio = 0.56f, stiffness = 430f),
+        animationSpec = spring(dampingRatio = 0.62f, stiffness = 390f),
         label = "liquid-glass-toggle-position"
     )
-    val pressScale by animateFloatAsState(
-        targetValue = if (pressed) 0.91f else 1f,
-        animationSpec = spring(dampingRatio = 0.42f, stiffness = 650f),
-        label = "liquid-glass-toggle-press"
-    )
-    val bulge by animateFloatAsState(
+    val lens by animateFloatAsState(
         targetValue = if (pressed) 1f else 0f,
-        animationSpec = spring(dampingRatio = 0.34f, stiffness = 520f),
-        label = "liquid-glass-toggle-bulge"
+        animationSpec = spring(dampingRatio = 0.36f, stiffness = 560f),
+        label = "liquid-glass-toggle-lens"
     )
 
     Canvas(
         modifier = modifier
-            .size(width = 78.dp, height = 46.dp)
-            .clip(RoundedCornerShape(50))
+            .size(width = 84.dp, height = 42.dp)
             .clickable(
                 enabled = enabled,
                 interactionSource = interaction,
@@ -73,97 +66,159 @@ internal fun LiquidGlassThemeToggle(
                 stateDescription = if (checked) "On" else "Off"
             }
     ) {
-        val density = this
-        val trackWidth = size.width * .91f
-        val trackHeight = size.height * .76f
+        val trackWidth = 70.dp.toPx()
+        val trackHeight = 32.dp.toPx()
         val trackLeft = (size.width - trackWidth) / 2f
         val trackTop = (size.height - trackHeight) / 2f
+        val trackSize = Size(trackWidth, trackHeight)
         val trackRadius = CornerRadius(trackHeight / 2f)
+
         val trackBrush = if (checked) {
-            Brush.linearGradient(
-                listOf(Color(0xFF66F044), Color(0xFF28D91C), Color(0xFF50EC31)),
-                start = Offset(trackLeft, trackTop),
-                end = Offset(trackLeft + trackWidth, trackTop + trackHeight)
+            Brush.verticalGradient(
+                colors = listOf(
+                    Color(0xFF52F624),
+                    Color(0xFF49F31F),
+                    Color(0xFF43ED1B)
+                ),
+                startY = trackTop,
+                endY = trackTop + trackHeight
             )
         } else {
-            Brush.linearGradient(
-                listOf(Color(0xFFD9DADB), Color(0xFFBFC2C3), Color(0xFFD2D4D5)),
-                start = Offset(trackLeft, trackTop),
-                end = Offset(trackLeft + trackWidth, trackTop + trackHeight)
+            Brush.verticalGradient(
+                colors = listOf(
+                    Color(0xFFD0D1D2),
+                    Color(0xFFC5C7C8),
+                    Color(0xFFCACBCC)
+                ),
+                startY = trackTop,
+                endY = trackTop + trackHeight
             )
         }
+
+        // Soft ambient shadow beneath the single rounded track.
         drawRoundRect(
-            brush = trackBrush,
-            topLeft = Offset(trackLeft, trackTop),
-            size = Size(trackWidth, trackHeight),
+            color = Color.Black.copy(alpha = 0.085f),
+            topLeft = Offset(trackLeft, trackTop + 2.dp.toPx()),
+            size = trackSize,
             cornerRadius = trackRadius
         )
         drawRoundRect(
-            color = Color.White.copy(alpha = if (checked) .19f else .42f),
+            brush = trackBrush,
             topLeft = Offset(trackLeft, trackTop),
-            size = Size(trackWidth, trackHeight),
-            cornerRadius = trackRadius,
-            style = Stroke(width = 1.dp.toPx())
+            size = trackSize,
+            cornerRadius = trackRadius
         )
         drawRoundRect(
-            brush = Brush.verticalGradient(
-                listOf(Color.White.copy(alpha = .27f), Color.Transparent, Color.Black.copy(alpha = .035f)),
-                startY = trackTop,
-                endY = trackTop + trackHeight
-            ),
+            color = Color.White.copy(alpha = if (checked) 0.25f else 0.48f),
             topLeft = Offset(trackLeft, trackTop),
-            size = Size(trackWidth, trackHeight),
+            size = trackSize,
             cornerRadius = trackRadius,
-            style = Stroke(width = 1.dp.toPx())
+            style = Stroke(width = 0.8.dp.toPx())
         )
 
-        val thumbDiameter = size.height * .94f
-        val travel = trackWidth - thumbDiameter
-        val centerX = trackLeft + thumbDiameter / 2f + travel * progress
+        val baseThumbWidth = 39.dp.toPx()
+        val baseThumbHeight = 28.dp.toPx()
+        val inset = 2.dp.toPx()
+        val travel = trackWidth - baseThumbWidth - inset * 2f
+        val startLeft = trackLeft + inset
+        val centerX = startLeft + baseThumbWidth / 2f + travel * progress
         val centerY = size.height / 2f
-        val thumbWidth = thumbDiameter * (1f + .13f * bulge)
-        val thumbHeight = thumbDiameter * (1f - .055f * bulge)
-        val thumbLeft = centerX - thumbWidth * pressScale / 2f
-        val thumbTop = centerY - thumbHeight * pressScale / 2f
 
-        // Soft cast shadow and luminous glass body.
+        // The reference's lens briefly widens, becomes translucent, then settles.
+        val thumbWidth = baseThumbWidth * (1f + 0.46f * lens)
+        val thumbHeight = baseThumbHeight * (1f + 0.045f * lens)
+        val thumbLeft = centerX - thumbWidth / 2f
+        val thumbTop = centerY - thumbHeight / 2f
+        val thumbSize = Size(thumbWidth, thumbHeight)
+        val thumbRadius = CornerRadius(thumbHeight / 2f)
+
         drawRoundRect(
-            color = Color.Black.copy(alpha = if (checked) .16f else .13f),
-            topLeft = Offset(thumbLeft + 1.dp.toPx(), thumbTop + 2.dp.toPx()),
-            size = Size(thumbWidth * pressScale, thumbHeight * pressScale),
-            cornerRadius = CornerRadius(thumbHeight / 2f)
+            color = Color.Black.copy(alpha = 0.105f),
+            topLeft = Offset(thumbLeft + 0.6.dp.toPx(), thumbTop + 1.4.dp.toPx()),
+            size = thumbSize,
+            cornerRadius = thumbRadius
         )
+
+        val tint = if (checked) Color(0xFFB9FFA9) else Color(0xFFE4E5E5)
         drawRoundRect(
             brush = Brush.radialGradient(
                 colors = listOf(
-                    Color.White.copy(alpha = .99f),
-                    Color(0xFFF4F7F5).copy(alpha = .94f),
-                    Color(0xFFDDE2DF).copy(alpha = .58f)
+                    Color.White.copy(alpha = 0.99f - 0.28f * lens),
+                    tint.copy(alpha = 0.06f + 0.36f * lens),
+                    Color.White.copy(alpha = 0.94f - 0.18f * lens)
                 ),
-                center = Offset(thumbLeft + thumbWidth * .32f, thumbTop + thumbHeight * .22f),
-                radius = thumbDiameter * 1.25f
+                center = Offset(thumbLeft + thumbWidth * 0.32f, thumbTop + thumbHeight * 0.2f),
+                radius = thumbWidth * 1.12f
             ),
             topLeft = Offset(thumbLeft, thumbTop),
-            size = Size(thumbWidth * pressScale, thumbHeight * pressScale),
-            cornerRadius = CornerRadius(thumbHeight * .48f)
+            size = thumbSize,
+            cornerRadius = thumbRadius
         )
+
+        val thumbEdge = if (lens > 0.04f) {
+            Color.White.copy(alpha = 0.96f)
+        } else if (checked) {
+            Color(0xFF4AF222)
+        } else {
+            Color(0xFFD0D2D2)
+        }
         drawRoundRect(
-            color = Color.White.copy(alpha = .88f),
-            topLeft = Offset(thumbLeft + 1.dp.toPx(), thumbTop + 1.dp.toPx()),
-            size = Size(thumbWidth * pressScale - 2.dp.toPx(), thumbHeight * pressScale - 2.dp.toPx()),
-            cornerRadius = CornerRadius(thumbHeight * .48f),
-            style = Stroke(width = 1.dp.toPx())
+            color = thumbEdge,
+            topLeft = Offset(thumbLeft, thumbTop),
+            size = thumbSize,
+            cornerRadius = thumbRadius,
+            style = Stroke(width = if (lens > 0.04f) 1.15.dp.toPx() else 1.3.dp.toPx())
         )
-        drawRoundRect(
-            brush = Brush.linearGradient(
-                listOf(Color.White.copy(alpha = .62f), Color.Transparent, Color.White.copy(alpha = .18f)),
-                start = Offset(thumbLeft, thumbTop),
-                end = Offset(thumbLeft + thumbWidth, thumbTop + thumbHeight)
-            ),
-            topLeft = Offset(thumbLeft + 3.dp.toPx(), thumbTop + 3.dp.toPx()),
-            size = Size(thumbWidth * pressScale - 6.dp.toPx(), thumbHeight * pressScale - 6.dp.toPx()),
-            cornerRadius = CornerRadius(thumbHeight * .45f),
-            style = Stroke(width = 1.dp.toPx())
-        )
+
+        if (lens > 0.04f) {
+            // Outer glass rim.
+            drawRoundRect(
+                color = Color.White.copy(alpha = 0.48f * lens),
+                topLeft = Offset(thumbLeft - 0.7.dp.toPx(), thumbTop - 0.7.dp.toPx()),
+                size = Size(thumbWidth + 1.4.dp.toPx(), thumbHeight + 1.4.dp.toPx()),
+                cornerRadius = CornerRadius((thumbHeight + 1.4.dp.toPx()) / 2f),
+                style = Stroke(width = 1.1.dp.toPx())
+            )
+            // Curved reflections at the upper-left and lower-right edges.
+            val reflectionSize = Size(thumbWidth * 0.84f, thumbHeight * 0.78f)
+            drawArc(
+                color = Color.White.copy(alpha = 0.96f * lens),
+                startAngle = 195f,
+                sweepAngle = 112f,
+                useCenter = false,
+                topLeft = Offset(
+                    thumbLeft + thumbWidth * 0.08f,
+                    thumbTop + thumbHeight * 0.1f
+                ),
+                size = reflectionSize,
+                style = Stroke(width = 1.25.dp.toPx(), cap = StrokeCap.Round)
+            )
+            drawArc(
+                color = Color.White.copy(alpha = 0.92f * lens),
+                startAngle = 18f,
+                sweepAngle = 112f,
+                useCenter = false,
+                topLeft = Offset(
+                    thumbLeft + thumbWidth * 0.08f,
+                    thumbTop + thumbHeight * 0.1f
+                ),
+                size = reflectionSize,
+                style = Stroke(width = 1.25.dp.toPx(), cap = StrokeCap.Round)
+            )
+            drawLine(
+                color = Color.White.copy(alpha = 0.9f * lens),
+                start = Offset(centerX - thumbWidth * 0.22f, thumbTop + 4.dp.toPx()),
+                end = Offset(centerX + thumbWidth * 0.13f, thumbTop + 4.dp.toPx()),
+                strokeWidth = 1.5.dp.toPx(),
+                cap = StrokeCap.Round
+            )
+            drawLine(
+                color = Color.White.copy(alpha = 0.78f * lens),
+                start = Offset(centerX - thumbWidth * 0.14f, thumbTop + thumbHeight - 4.dp.toPx()),
+                end = Offset(centerX + thumbWidth * 0.2f, thumbTop + thumbHeight - 4.dp.toPx()),
+                strokeWidth = 1.35.dp.toPx(),
+                cap = StrokeCap.Round
+            )
+        }
     }
 }
