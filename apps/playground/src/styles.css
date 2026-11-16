@@ -1279,26 +1279,3 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
   .toggle-demo-list .liquid-theme-toggle{width:78px;min-width:78px;flex-basis:78px}
   .toggle-demo-list .liquid-theme-track{width:70px;flex-basis:70px}
 }
-
-
-/* Keep the glass thumb geometry perfectly constant on every interaction. */
-.liquid-theme-thumb,
-.liquid-theme-toggle.is-on .liquid-theme-thumb,
-.liquid-theme-toggle:active .liquid-theme-thumb,
-.liquid-theme-toggle.is-on:active .liquid-theme-thumb {
-  border-radius: 999px !important;
-  width: 56px;
-  height: 58px;
-  transform: translate3d(0,-50%,0);
-  transition: transform .72s cubic-bezier(.18,1.22,.28,1), background .42s ease, box-shadow .42s ease;
-}
-.liquid-theme-toggle.is-on .liquid-theme-thumb,
-.liquid-theme-toggle.is-on:active .liquid-theme-thumb {
-  transform: translate3d(38px,-50%,0);
-}
-.liquid-theme-toggle:active .liquid-theme-thumb {
-  scale: 1 !important;
-}
-.liquid-theme-toggle.is-animating .liquid-theme-thumb {
-  animation: none !important;
-}
