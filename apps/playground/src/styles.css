@@ -1464,3 +1464,40 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 .core-demo-field span{font:600 12px var(--ec-font-interface);color:var(--ec-text-muted)}
 .core-demo-field input{width:100%;min-height:44px;padding:0 13px;border:1px solid var(--ec-border);border-radius:12px;background:var(--ec-bg);color:var(--ec-text);font:400 14px var(--ec-font-interface);outline:none}
 .core-demo-field input:focus{border-color:var(--ec-text-muted)}
+
+
+/* The reference toggle is the single switch design used throughout Essential Core. */
+.nothing-settings-detail .liquid-theme-toggle{
+  width:78px;height:42px;min-width:78px;flex:0 0 78px;
+  padding:0;border:0;background:transparent;overflow:visible;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  outline:none!important;box-shadow:none;
+}
+.nothing-settings-detail .liquid-theme-track{
+  position:relative;display:block;width:70px;height:32px;flex:0 0 70px;
+  border-radius:999px;overflow:hidden;
+  background:linear-gradient(110deg,#d0d1d2 0%,#c6c8c9 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.10),inset 0 1px 1px rgba(255,255,255,.58);
+  transition:background .3s ease,box-shadow .3s ease;
+}
+.nothing-settings-detail .liquid-theme-thumb{
+  position:absolute;z-index:2;left:2px;top:50%;
+  width:55.7%;height:87.5%;box-sizing:border-box;
+  transform:translate3d(0,-50%,0);
+  border:0;border-radius:999px!important;background:#fff!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.035),inset 0 1px 1px rgba(255,255,255,.98)!important;
+  transition:transform 260ms ease!important;animation:none!important;scale:1!important;
+}
+.nothing-settings-detail .liquid-theme-thumb::before,
+.nothing-settings-detail .liquid-theme-thumb::after,
+.nothing-settings-detail .liquid-theme-glint{display:none!important;opacity:0!important}
+.nothing-settings-detail .liquid-theme-toggle.is-on .liquid-theme-track{
+  background:linear-gradient(110deg,#35ed16 0%,#39f51b 58%,#43ef24 100%);
+  box-shadow:0 0 26px rgba(57,242,24,.17),0 7px 18px rgba(0,0,0,.075),inset 0 1px 1px rgba(255,255,255,.24);
+}
+.nothing-settings-detail .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(24.5px,-50%,0)!important}
+.nothing-settings-detail .liquid-theme-toggle.is-off .liquid-theme-thumb{transform:translate3d(0,-50%,0)!important}
+.nothing-settings-detail .liquid-theme-toggle:focus,
+.nothing-settings-detail .liquid-theme-toggle:focus-visible,
+.nothing-settings-detail .liquid-theme-toggle:active{outline:none!important;box-shadow:none;-webkit-tap-highlight-color:transparent}
