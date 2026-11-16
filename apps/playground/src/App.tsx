@@ -307,6 +307,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
       </header>
       {selected ? <>
         <h1 className="nothing-settings-title">{selected.title}</h1>
+        {selected.title === "Toggle" && <p className="nothing-settings-subtitle">The white capsule smoothly slides between the left and right sides of the green track.</p>}
         <section className="nothing-settings-group nothing-settings-detail">
           {selected.title === "Toggle" ? <div className="toggle-demo-list">
             <div className="toggle-demo-intro"><strong>Liquid Glass Toggle</strong><p>A glossy liquid-glass switch with a soft, elastic lens.</p></div>
