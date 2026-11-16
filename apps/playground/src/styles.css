@@ -1356,3 +1356,37 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 }
 .toggle-demo-list .liquid-theme-toggle::-moz-focus-inner{border:0}
 .toggle-demo-list .liquid-theme-toggle:focus-visible{outline:0!important}
+
+
+/* Android Chrome/WebView can paint its focus treatment on the focused control
+   or its containing settings row. Suppress both for this demo only. */
+.toggle-demo-list .liquid-toggle-setting-row:focus,
+.toggle-demo-list .liquid-toggle-setting-row:focus-within,
+.toggle-demo-list .liquid-theme-toggle,
+.toggle-demo-list .liquid-theme-toggle:hover,
+.toggle-demo-list .liquid-theme-toggle:focus,
+.toggle-demo-list .liquid-theme-toggle:focus-visible,
+.toggle-demo-list .liquid-theme-toggle:active,
+.toggle-demo-list .liquid-theme-toggle *{
+  outline:0!important;
+  -webkit-tap-highlight-color:rgba(0,0,0,0)!important;
+  -webkit-appearance:none!important;
+  appearance:none!important;
+}
+.toggle-demo-list .liquid-toggle-setting-row:focus-within{
+  outline:0!important;
+  box-shadow:none!important;
+}
+.toggle-demo-list .liquid-theme-toggle:focus,
+.toggle-demo-list .liquid-theme-toggle:focus-visible,
+.toggle-demo-list .liquid-theme-toggle:active{
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+}
+.toggle-demo-list .liquid-theme-toggle,
+.toggle-demo-list .liquid-theme-toggle *{
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none!important;
+}
