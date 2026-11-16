@@ -1312,11 +1312,11 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
   box-shadow:0 0 26px rgba(57,242,24,.17),0 7px 18px rgba(0,0,0,.075),inset 0 1px 1px rgba(255,255,255,.24);
 }
 .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{
-  transform:translate3d(27px,-50%,0)!important;
+  transform:translate3d(24.5px,-50%,0);
   border-radius:999px!important;
 }
 .toggle-demo-list .liquid-theme-toggle.is-off .liquid-theme-thumb{
-  transform:translate3d(0,-50%,0)!important;
+  transform:translate3d(0,-50%,0);
 }
 .toggle-demo-list .liquid-theme-toggle:active .liquid-theme-thumb,
 .toggle-demo-list .liquid-theme-toggle.is-animating .liquid-theme-thumb{
@@ -1395,14 +1395,14 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 /* Inflate 1 to the full height/width of 2, glide across, then deflate. */
 @keyframes capsule-inflate-slide-on{
   0%{transform:translate3d(0,-50%,0) scale(1,1)}
-  18%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
-  76%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
+  18%{transform:translate3d(0,-50%,0) scale(1.69,1.14)}
+  76%{transform:translate3d(24.5px,-50%,0) scale(1.69,1.14)}
   100%{transform:translate3d(24.5px,-50%,0) scale(1,1)}
 }
 @keyframes capsule-inflate-slide-off{
   0%{transform:translate3d(24.5px,-50%,0) scale(1,1)}
-  18%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
-  76%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
+  18%{transform:translate3d(24.5px,-50%,0) scale(1.69,1.14)}
+  76%{transform:translate3d(0,-50%,0) scale(1.69,1.14)}
   100%{transform:translate3d(0,-50%,0) scale(1,1)}
 }
 .toggle-demo-list .liquid-theme-toggle.is-animating .liquid-theme-thumb{
