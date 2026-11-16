@@ -1177,3 +1177,27 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 :root:not([data-theme="light"]) .demo-glass-button-toggle span{color:#dce3de}
 :root:not([data-theme="light"]) .demo-glass-button-toggle.is-on span{color:#123b20}
 @media(max-width:420px){.toggle-demo-intro{padding-left:17px;padding-right:17px}.toggle-demo-list .liquid-toggle-setting-row{gap:8px;padding-left:14px;padding-right:10px}.toggle-demo-list .nothing-settings-copy strong{font-size:14px}.toggle-demo-list .nothing-settings-copy small{font-size:9px}.toggle-demo-list .liquid-theme-toggle{width:94px;min-width:94px;flex-basis:94px}.toggle-demo-list .liquid-theme-track{width:86px;flex-basis:86px}.toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(30px,-50%,0)}.toggle-demo-list .liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:30px}}
+
+
+/* Compact single-toggle layout: the glass switch is the only demo. */
+.toggle-demo-intro{padding:17px 18px 11px}
+.toggle-demo-intro strong{font-size:16px}
+.toggle-demo-intro p{font-size:11px;margin-top:4px}
+.liquid-toggle-setting-row{min-height:78px!important;gap:12px}
+.liquid-theme-toggle{width:78px!important;height:44px!important;min-width:78px!important;flex:0 0 78px!important}
+.liquid-theme-track{width:70px!important;height:36px!important;flex:0 0 70px!important}
+.liquid-theme-thumb{width:42px!important;height:44px!important}
+.liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(27px,-50%,0)!important}
+.liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:27px}
+.liquid-theme-toggle:active .liquid-theme-thumb{transform:translate3d(var(--toggle-thumb-x,0px),-50%,0) scaleX(1.12) scaleY(.94)!important}
+.toggle-demo-note{padding:10px 18px 14px;font-size:10px}
+@media(max-width:420px){
+ .toggle-demo-intro{padding:15px 15px 9px}
+ .toggle-demo-list .liquid-toggle-setting-row{gap:8px;padding-left:13px;padding-right:10px}
+ .toggle-demo-list .nothing-settings-copy strong{font-size:14px}
+ .toggle-demo-list .nothing-settings-copy small{font-size:10px}
+ .toggle-demo-list .liquid-theme-toggle{width:76px!important;min-width:76px!important;flex-basis:76px!important}
+ .toggle-demo-list .liquid-theme-track{width:68px!important;flex-basis:68px!important}
+ .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(25px,-50%,0)!important}
+ .toggle-demo-list .liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:25px}
+}
