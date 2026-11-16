@@ -1179,25 +1179,103 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 @media(max-width:420px){.toggle-demo-intro{padding-left:17px;padding-right:17px}.toggle-demo-list .liquid-toggle-setting-row{gap:8px;padding-left:14px;padding-right:10px}.toggle-demo-list .nothing-settings-copy strong{font-size:14px}.toggle-demo-list .nothing-settings-copy small{font-size:9px}.toggle-demo-list .liquid-theme-toggle{width:94px;min-width:94px;flex-basis:94px}.toggle-demo-list .liquid-theme-track{width:86px;flex-basis:86px}.toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(30px,-50%,0)}.toggle-demo-list .liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:30px}}
 
 
-/* Compact single-toggle layout: the glass switch is the only demo. */
+
+/* Video-matched liquid-glass switch: bright green / soft grey, with an expanding glass lens. */
 .toggle-demo-intro{padding:17px 18px 11px}
 .toggle-demo-intro strong{font-size:16px}
 .toggle-demo-intro p{font-size:11px;margin-top:4px}
 .liquid-toggle-setting-row{min-height:78px!important;gap:12px}
-.liquid-theme-toggle{width:78px!important;height:44px!important;min-width:78px!important;flex:0 0 78px!important}
-.liquid-theme-track{width:70px!important;height:36px!important;flex:0 0 70px!important}
-.liquid-theme-thumb{width:42px!important;height:44px!important}
-.liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(27px,-50%,0)!important}
-.liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:27px}
-.liquid-theme-toggle:active .liquid-theme-thumb{transform:translate3d(var(--toggle-thumb-x,0px),-50%,0) scaleX(1.12) scaleY(.94)!important}
+.liquid-theme-toggle{
+  width:78px;height:42px;min-width:78px;flex:0 0 78px;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:0;background:transparent;overflow:visible;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.liquid-theme-track{
+  position:relative;display:block;width:70px;height:32px;flex:0 0 70px;
+  border-radius:999px;overflow:visible;
+  background:linear-gradient(180deg,#d0d1d2 0%,#c5c7c8 55%,#c9cbcc 100%);
+  box-shadow:0 7px 16px rgba(0,0,0,.09),inset 0 1px 1px rgba(255,255,255,.72),inset 0 -1px 1px rgba(0,0,0,.045);
+  transition:background .32s ease,box-shadow .32s ease;
+}
+.liquid-theme-thumb{
+  position:absolute;z-index:2;left:2px;top:50%;width:39px;height:28px;
+  transform:translate3d(0,-50%,0);transform-origin:center center;
+  border-radius:999px;border:1.5px solid #c9cbcc;box-sizing:border-box;
+  background:linear-gradient(180deg,#fff 0%,#fff 72%,#fbfbfb 100%);
+  box-shadow:0 1px 4px rgba(0,0,0,.12),inset 0 1px 1px rgba(255,255,255,.98);
+  overflow:visible;
+  transition:transform .7s cubic-bezier(.2,.95,.28,1),background .25s ease,border-color .25s ease,box-shadow .25s ease;
+  will-change:transform;
+}
+.liquid-theme-thumb::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
+  border:1px solid rgba(255,255,255,.94);
+  box-shadow:0 0 3px rgba(255,255,255,.62),inset 0 1px 1px rgba(255,255,255,.8);
+  opacity:0;transition:opacity .16s ease;
+}
+.liquid-theme-thumb::after{
+  content:"";position:absolute;inset:6px 9px;border-radius:999px;pointer-events:none;
+  border-top:2px solid rgba(255,255,255,.97);
+  border-bottom:2px solid rgba(255,255,255,.82);
+  filter:drop-shadow(0 0 2px rgba(255,255,255,.88));
+  opacity:0;transition:opacity .12s ease;
+}
+.liquid-theme-glint{
+  position:absolute;inset:2px 3px;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(110deg,rgba(255,255,255,.72),transparent 42%,rgba(255,255,255,.28));
+  opacity:0;transition:opacity .16s ease;
+}
+.liquid-theme-toggle.is-on .liquid-theme-track{
+  background:linear-gradient(180deg,#51f724 0%,#48f31f 54%,#42ed1b 100%);
+  box-shadow:0 7px 17px rgba(66,239,27,.17),inset 0 1px 1px rgba(255,255,255,.34),inset 0 -1px 1px rgba(24,176,0,.12);
+}
+.liquid-theme-toggle.is-on .liquid-theme-thumb{
+  transform:translate3d(27px,-50%,0);
+  border-color:#4af222;
+  background:#fff;
+  box-shadow:0 1px 3px rgba(24,150,0,.12),inset 0 1px 1px #fff;
+}
+.liquid-theme-toggle.is-off .liquid-theme-thumb{transform:translate3d(0,-50%,0)}
+.liquid-theme-toggle.is-animating .liquid-theme-thumb::before,
+.liquid-theme-toggle.is-animating .liquid-theme-thumb::after,
+.liquid-theme-toggle.is-animating .liquid-theme-glint{opacity:1}
+.liquid-theme-toggle.is-animating .liquid-theme-thumb{
+  border-color:rgba(255,255,255,.96);
+  box-shadow:0 3px 9px rgba(0,0,0,.10),0 0 0 1px rgba(255,255,255,.55),inset 0 1px 2px rgba(255,255,255,.98);
+}
+.liquid-theme-toggle.is-animating.is-on .liquid-theme-thumb{
+  animation:liquid-glass-toggle-on 820ms cubic-bezier(.16,.92,.25,1) both;
+}
+.liquid-theme-toggle.is-animating.is-off .liquid-theme-thumb{
+  animation:liquid-glass-toggle-off 820ms cubic-bezier(.16,.92,.25,1) both;
+}
+@keyframes liquid-glass-toggle-on{
+  0%{transform:translate3d(0,-50%,0) scale(1,1);background:#fff;border-radius:999px}
+  14%{transform:translate3d(-3px,-50%,0) scale(1.46,1.06);background:rgba(228,255,222,.38);border-radius:48%}
+  52%{transform:translate3d(30px,-50%,0) scale(1.46,1.06);background:rgba(228,255,222,.38);border-radius:48%}
+  82%{transform:translate3d(29px,-50%,0) scale(1.08,1.02);background:rgba(244,255,241,.78);border-radius:49%}
+  100%{transform:translate3d(27px,-50%,0) scale(1,1);background:#fff;border-radius:999px}
+}
+@keyframes liquid-glass-toggle-off{
+  0%{transform:translate3d(27px,-50%,0) scale(1,1);background:#fff;border-radius:999px}
+  14%{transform:translate3d(30px,-50%,0) scale(1.46,1.06);background:rgba(243,244,244,.48);border-radius:48%}
+  52%{transform:translate3d(-3px,-50%,0) scale(1.46,1.06);background:rgba(243,244,244,.48);border-radius:48%}
+  82%{transform:translate3d(-1px,-50%,0) scale(1.08,1.02);background:rgba(250,250,250,.84);border-radius:49%}
+  100%{transform:translate3d(0,-50%,0) scale(1,1);background:#fff;border-radius:999px}
+}
+.liquid-theme-toggle:focus-visible{outline:2px solid rgba(69,241,29,.7);outline-offset:5px;border-radius:999px}
+.liquid-theme-toggle:focus:not(:focus-visible){outline:none}
+@media(prefers-reduced-motion:reduce){
+  .liquid-theme-track,.liquid-theme-thumb,.liquid-theme-thumb::before,.liquid-theme-thumb::after,.liquid-theme-glint{transition-duration:.01ms!important}
+  .liquid-theme-toggle.is-animating .liquid-theme-thumb{animation:none!important}
+}
 .toggle-demo-note{padding:10px 18px 14px;font-size:10px}
 @media(max-width:420px){
- .toggle-demo-intro{padding:15px 15px 9px}
- .toggle-demo-list .liquid-toggle-setting-row{gap:8px;padding-left:13px;padding-right:10px}
- .toggle-demo-list .nothing-settings-copy strong{font-size:14px}
- .toggle-demo-list .nothing-settings-copy small{font-size:10px}
- .toggle-demo-list .liquid-theme-toggle{width:76px!important;min-width:76px!important;flex-basis:76px!important}
- .toggle-demo-list .liquid-theme-track{width:68px!important;flex-basis:68px!important}
- .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(25px,-50%,0)!important}
- .toggle-demo-list .liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:25px}
+  .toggle-demo-intro{padding:15px 15px 9px}
+  .toggle-demo-list .liquid-toggle-setting-row{gap:8px;padding-left:13px;padding-right:10px}
+  .toggle-demo-list .nothing-settings-copy strong{font-size:14px}
+  .toggle-demo-list .nothing-settings-copy small{font-size:10px}
+  .toggle-demo-list .liquid-theme-toggle{width:78px;min-width:78px;flex-basis:78px}
+  .toggle-demo-list .liquid-theme-track{width:70px;flex-basis:70px}
 }
