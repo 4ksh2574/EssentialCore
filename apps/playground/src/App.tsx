@@ -293,7 +293,7 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
         <section className="nothing-settings-group nothing-settings-detail">
           {selected.title === "Appearance" ? <div className="nothing-settings-row">
             <span className="nothing-settings-icon"><Palette size={22} /></span><span className="nothing-settings-copy"><strong>Theme</strong><small>Choose your preferred appearance</small></span>
-            <div className="theme-switch"><button className={theme === "light" ? "chosen" : ""} onClick={() => onThemeChange("light")} aria-label="Light theme"><Sun size={16} /></button><button className={theme === "dark" ? "chosen" : ""} onClick={() => onThemeChange("dark")} aria-label="Dark theme"><Moon size={16} /></button></div>
+            <button className={`liquid-theme-toggle ${theme === "dark" ? "is-on" : "is-off"}`} type="button" role="switch" aria-checked={theme === "dark"} aria-label={`Dark mode ${theme === "dark" ? "on" : "off"}`} onClick={() => onThemeChange(theme === "dark" ? "light" : "dark")}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
           </div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
             <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
           </button> : <div className="nothing-settings-info">
