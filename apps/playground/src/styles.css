@@ -1579,3 +1579,32 @@ h1:not(.nothing-settings-title),
   background:linear-gradient(155deg,rgba(250,251,253,.98),rgba(215,220,226,.94));
   box-shadow:0 9px 20px rgba(0,0,0,.42),0 2px 5px rgba(0,0,0,.22),inset 0 2px 3px rgba(255,255,255,.98),inset 0 -2px 4px rgba(80,90,100,.18);
 }
+
+/* Refine slider: 10% smaller glass capsule and a separate blue trail. */
+.core-demo-slider-track{
+  background:#d8dadd!important;
+  overflow:visible;
+}
+.core-demo-slider-track::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:max(0px,calc(var(--slider-position) - 34.2px));
+  border-radius:999px;
+  background:#3988f5;
+  box-shadow:0 0 4px rgba(57,136,245,.14);
+}
+.core-demo-slider-thumb{
+  width:68.4px!important;
+  height:43.2px!important;
+}
+.core-demo-slider-thumb::before{display:none!important}
+.core-demo-slider-thumb span{
+  inset:2.7px!important;
+}
+.core-demo-slider::-webkit-slider-thumb{width:68.4px;height:43.2px}
+.core-demo-slider::-moz-range-thumb{width:68.4px;height:43.2px}
+:root:not([data-theme="light"]) .core-demo-slider-track{background:#555b60!important}
+:root:not([data-theme="light"]) .core-demo-slider-track::before{background:#3988f5}
