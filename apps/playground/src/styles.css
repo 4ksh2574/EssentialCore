@@ -1341,3 +1341,18 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
  .toggle-demo-list .liquid-theme-track{width:64px;height:29px;flex-basis:64px}
  .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(24.5px,-50%,0)!important}
 }
+
+
+/* Remove the browser/WebView blue focus-selection box from the toggle control. */
+.toggle-demo-list .liquid-theme-toggle,
+.toggle-demo-list .liquid-theme-toggle:focus,
+.toggle-demo-list .liquid-theme-toggle:focus-visible,
+.toggle-demo-list .liquid-theme-toggle:active{
+  outline:none!important;
+  box-shadow:none;
+  -webkit-tap-highlight-color:transparent!important;
+  -webkit-user-select:none;
+  user-select:none;
+}
+.toggle-demo-list .liquid-theme-toggle::-moz-focus-inner{border:0}
+.toggle-demo-list .liquid-theme-toggle:focus-visible{outline:0!important}
