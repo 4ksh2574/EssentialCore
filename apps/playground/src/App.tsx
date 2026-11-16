@@ -3,7 +3,7 @@ import {
   ArrowLeft, ArrowUpRight, Bell, BookOpen, BriefcaseBusiness, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
   Palette, Search, Settings2, ShieldCheck, Sparkles, Sun, UserRound,
-  Accessibility, Languages, Info
+  Accessibility, Languages, Info, SlidersHorizontal, MousePointer2, ListChecks, TextCursorInput
 } from "lucide-react";
 
 type Tab = "home" | "essential" | "settings" | "profile";
@@ -271,6 +271,10 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   const [search, setSearch] = useState("");
   const [customDemoOn, setCustomDemoOn] = useState(false);
   const [demoAnimating, setDemoAnimating] = useState(false);
+  const [sliderValue, setSliderValue] = useState(65);
+  const [buttonDemoOn, setButtonDemoOn] = useState(false);
+  const [selectionDemo, setSelectionDemo] = useState("Default");
+  const [textDemo, setTextDemo] = useState("");
   const demoAnimationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const toggleCustomDemo = () => {
     const nextValue = !customDemoOn;
@@ -290,6 +294,10 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
     { title: "Workspace", description: "Personal workspace", icon: BriefcaseBusiness },
     { title: "Appearance", description: "Visual preferences and display", icon: Palette },
     { title: "Toggle", description: "Interactive theme switch", icon: Moon },
+    { title: "Slider", description: "Adjustable range controls", icon: SlidersHorizontal },
+    { title: "Buttons", description: "Actions and button states", icon: MousePointer2 },
+    { title: "Selection", description: "Radio and segmented choices", icon: ListChecks },
+    { title: "Text fields", description: "Text input fundamentals", icon: TextCursorInput },
     { title: "Notifications", description: "Notification preferences", icon: Bell },
     { title: "Privacy & security", description: "Privacy and account protection", icon: ShieldCheck },
     { title: "Accessibility", description: "Comfort and accessibility options", icon: Accessibility },
@@ -317,6 +325,31 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
               <button className={`liquid-theme-toggle ${customDemoOn ? "is-on" : "is-off"} ${demoAnimating ? "is-animating" : ""}`} type="button" role="switch" aria-checked={customDemoOn} aria-label="Liquid Glass theme toggle demo" onClick={toggleCustomDemo}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
             </div>
             <p className="toggle-demo-note">The glass lens expands, glides and settles with each tap.</p>
+          </div> : selected.title === "Slider" ? <div className="control-demo-list">
+            <div className="control-demo-intro"><strong>Slider</strong><p>A simple range control for adjusting a value.</p></div>
+            <div className="control-demo-panel">
+              <div className="control-demo-label"><strong>Intensity</strong><span>{sliderValue}%</span></div>
+              <input className="core-demo-slider" type="range" min="0" max="100" value={sliderValue} onChange={event => setSliderValue(Number(event.target.value))} aria-label="Slider intensity demo" />
+              <div className="control-demo-caption"><span>0%</span><span>100%</span></div>
+            </div>
+          </div> : selected.title === "Buttons" ? <div className="control-demo-list">
+            <div className="control-demo-intro"><strong>Buttons</strong><p>Primary and secondary actions with clear states.</p></div>
+            <div className="control-demo-panel control-demo-buttons">
+              <button className="core-demo-primary" onClick={() => setButtonDemoOn(!buttonDemoOn)}>{buttonDemoOn ? "Activated" : "Primary action"}</button>
+              <button className="core-demo-secondary" onClick={() => setButtonDemoOn(false)}>Reset</button>
+            </div>
+          </div> : selected.title === "Selection" ? <div className="control-demo-list">
+            <div className="control-demo-intro"><strong>Selection controls</strong><p>Choose one option from a small set.</p></div>
+            <div className="control-demo-panel">
+              <div className="core-demo-segmented">{["Default", "Comfort", "Compact"].map(option => <button key={option} className={selectionDemo === option ? "active" : ""} onClick={() => setSelectionDemo(option)}>{option}</button>)}</div>
+              <small className="control-demo-hint">Selected: {selectionDemo}</small>
+            </div>
+          </div> : selected.title === "Text fields" ? <div className="control-demo-list">
+            <div className="control-demo-intro"><strong>Text fields</strong><p>Simple inputs for short pieces of information.</p></div>
+            <div className="control-demo-panel">
+              <label className="core-demo-field"><span>Display name</span><input value={textDemo} onChange={event => setTextDemo(event.target.value)} placeholder="Enter a name" /></label>
+              <small className="control-demo-hint">{textDemo.length ? textDemo.length + " characters" : "Your text appears here as you type."}</small>
+            </div>
           </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
             <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
           </button> : <div className="nothing-settings-info">
