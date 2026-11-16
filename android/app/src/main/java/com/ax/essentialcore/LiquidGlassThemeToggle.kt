@@ -1,13 +1,13 @@
 package com.ax.essentialcore
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -16,6 +16,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -23,8 +24,8 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 
 /**
- * Two-part reference toggle: 1 is the fixed white capsule, 2 is the outer
- * green capsule. The white capsule only slides; its shape never morphs.
+ * Two-part toggle: 1 inflates to meet the boundaries of 2, glides across,
+ * then returns to its normal capsule size. The shape stays fully rounded.
  */
 @Composable
 internal fun LiquidGlassThemeToggle(
@@ -34,11 +35,18 @@ internal fun LiquidGlassThemeToggle(
     enabled: Boolean = true
 ) {
     val interaction = remember { MutableInteractionSource() }
-    val progress by animateFloatAsState(
-        targetValue = if (checked) 1f else 0f,
-        animationSpec = spring(dampingRatio = 0.82f, stiffness = 420f),
-        label = "reference-toggle-position"
-    )
+    val position = remember { Animatable(if (checked) 1f else 0f) }
+    val scaleX = remember { Animatable(1f) }
+    val scaleY = remember { Animatable(1f) }
+
+    LaunchedEffect(checked) {
+        val destination = if (checked) 1f else 0f
+        scaleX.animateTo(1.78f, spring(dampingRatio = 0.82f, stiffness = 520f))
+        scaleY.animateTo(1.14f, spring(dampingRatio = 0.82f, stiffness = 520f))
+        position.animateTo(destination, spring(dampingRatio = 0.86f, stiffness = 340f))
+        scaleX.animateTo(1f, spring(dampingRatio = 0.82f, stiffness = 520f))
+        scaleY.animateTo(1f, spring(dampingRatio = 0.82f, stiffness = 520f))
+    }
 
     Canvas(
         modifier = modifier
@@ -75,21 +83,12 @@ internal fun LiquidGlassThemeToggle(
             )
         }
 
-        // Soft diffuse shadow and the single continuous outer capsule (2).
         drawRoundRect(
             color = Color.Black.copy(alpha = 0.075f),
             topLeft = Offset(trackLeft, trackTop + 2.dp.toPx()),
             size = trackSize,
             cornerRadius = trackRadius
         )
-        if (checked) {
-            drawRoundRect(
-                color = Color(0xFF39F21A).copy(alpha = 0.15f),
-                topLeft = Offset(trackLeft - 2.dp.toPx(), trackTop - 2.dp.toPx()),
-                size = Size(trackWidth + 4.dp.toPx(), trackHeight + 4.dp.toPx()),
-                cornerRadius = CornerRadius((trackHeight + 4.dp.toPx()) / 2f)
-            )
-        }
         drawRoundRect(
             brush = trackBrush,
             topLeft = Offset(trackLeft, trackTop),
@@ -97,28 +96,30 @@ internal fun LiquidGlassThemeToggle(
             cornerRadius = trackRadius
         )
 
-        // Fixed white capsule (1): constant width, height and corner radius.
         val thumbWidth = trackWidth * 0.557f
         val thumbHeight = trackHeight * 0.875f
         val inset = 1.8.dp.toPx()
         val travel = trackWidth - thumbWidth - inset * 2f
-        val thumbLeft = trackLeft + inset + travel * progress
-        val thumbTop = trackTop + (trackHeight - thumbHeight) / 2f
-        val thumbSize = Size(thumbWidth, thumbHeight)
-        val thumbRadius = CornerRadius(thumbHeight / 2f)
+        val thumbLeft = trackLeft + inset + travel * position.value
+        val scaledWidth = thumbWidth * scaleX.value
+        val scaledHeight = thumbHeight * scaleY.value
+        val thumbTop = trackTop + (trackHeight - scaledHeight) / 2f
+        val thumbRadius = CornerRadius(scaledHeight / 2f)
 
-        drawRoundRect(
-            color = Color.White.copy(alpha = 0.98f),
-            topLeft = Offset(thumbLeft, thumbTop),
-            size = thumbSize,
-            cornerRadius = thumbRadius
-        )
-        drawRoundRect(
-            color = Color.White.copy(alpha = 0.9f),
-            topLeft = Offset(thumbLeft, thumbTop),
-            size = thumbSize,
-            cornerRadius = thumbRadius,
-            style = Stroke(width = 0.45.dp.toPx())
-        )
+        clipRect(trackLeft, trackTop, trackLeft + trackWidth, trackTop + trackHeight) {
+            drawRoundRect(
+                color = Color.White.copy(alpha = 0.98f),
+                topLeft = Offset(thumbLeft, thumbTop),
+                size = Size(scaledWidth, scaledHeight),
+                cornerRadius = thumbRadius
+            )
+            drawRoundRect(
+                color = Color.White.copy(alpha = 0.9f),
+                topLeft = Offset(thumbLeft, thumbTop),
+                size = Size(scaledWidth, scaledHeight),
+                cornerRadius = thumbRadius,
+                style = Stroke(width = 0.45.dp.toPx())
+            )
+        }
     }
 }
