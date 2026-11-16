@@ -310,7 +310,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
             <div className="nothing-settings-row liquid-toggle-setting-row">
               <span className="nothing-settings-icon"><Check size={22} /></span>
               <span className="nothing-settings-copy"><strong>Glass Button Toggle</strong><small>Button-style toggle · selected glass state</small></span>
-              <button className={`demo-glass-button-toggle ${buttonDemoOn ? "is-on" : ""}`} type="button" aria-pressed={buttonDemoOn} aria-label="Glass button toggle demo"><span onClick={() => setButtonDemoOn(value => !value)}>{buttonDemoOn ? "ON" : "OFF"}</span></button>
+              <button className={`demo-glass-button-toggle ${buttonDemoOn ? "is-on" : ""}`} type="button" aria-pressed={buttonDemoOn} aria-label="Glass button toggle demo" onClick={() => setButtonDemoOn(value => !value)}><span>{buttonDemoOn ? "ON" : "OFF"}</span></button>
             </div>
             <p className="toggle-demo-note">Visual reference only · native Apple Liquid Glass rendering requires SwiftUI on iOS 26.</p>
           </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
