@@ -1,11 +1,9 @@
 package com.ax.essentialcore
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,18 +37,11 @@ internal fun LiquidGlassThemeToggle(
     enabled: Boolean = true
 ) {
     val interaction = remember { MutableInteractionSource() }
-    val pressed by interaction.collectIsPressedAsState()
     val progress by animateFloatAsState(
         targetValue = if (checked) 1f else 0f,
         animationSpec = spring(dampingRatio = 0.62f, stiffness = 390f),
         label = "liquid-glass-toggle-position"
     )
-    val lens by animateFloatAsState(
-        targetValue = if (pressed) 1f else 0f,
-        animationSpec = spring(dampingRatio = 0.36f, stiffness = 560f),
-        label = "liquid-glass-toggle-lens"
-    )
-
     Canvas(
         modifier = modifier
             .size(width = 84.dp, height = 42.dp)
@@ -125,8 +116,8 @@ internal fun LiquidGlassThemeToggle(
         val centerY = size.height / 2f
 
         // The reference's lens briefly widens, becomes translucent, then settles.
-        val thumbWidth = baseThumbWidth * (1f + 0.46f * lens)
-        val thumbHeight = baseThumbHeight * (1f + 0.045f * lens)
+        val thumbWidth = baseThumbWidth
+        val thumbHeight = baseThumbHeight
         val thumbLeft = centerX - thumbWidth / 2f
         val thumbTop = centerY - thumbHeight / 2f
         val thumbSize = Size(thumbWidth, thumbHeight)
@@ -143,9 +134,9 @@ internal fun LiquidGlassThemeToggle(
         drawRoundRect(
             brush = Brush.radialGradient(
                 colors = listOf(
-                    Color.White.copy(alpha = 0.99f - 0.28f * lens),
-                    tint.copy(alpha = 0.06f + 0.36f * lens),
-                    Color.White.copy(alpha = 0.94f - 0.18f * lens)
+                    Color.White.copy(alpha = 0.99f),
+                    tint.copy(alpha = 0.06f),
+                    Color.White.copy(alpha = 0.94f)
                 ),
                 center = Offset(thumbLeft + thumbWidth * 0.32f, thumbTop + thumbHeight * 0.2f),
                 radius = thumbWidth * 1.12f
@@ -155,9 +146,7 @@ internal fun LiquidGlassThemeToggle(
             cornerRadius = thumbRadius
         )
 
-        val thumbEdge = if (lens > 0.04f) {
-            Color.White.copy(alpha = 0.96f)
-        } else if (checked) {
+        val thumbEdge = if (checked) {
             Color(0xFF4AF222)
         } else {
             Color(0xFFD0D2D2)
@@ -167,58 +156,8 @@ internal fun LiquidGlassThemeToggle(
             topLeft = Offset(thumbLeft, thumbTop),
             size = thumbSize,
             cornerRadius = thumbRadius,
-            style = Stroke(width = if (lens > 0.04f) 1.15.dp.toPx() else 1.3.dp.toPx())
+            style = Stroke(width = 1.3.dp.toPx())
         )
 
-        if (lens > 0.04f) {
-            // Outer glass rim.
-            drawRoundRect(
-                color = Color.White.copy(alpha = 0.48f * lens),
-                topLeft = Offset(thumbLeft - 0.7.dp.toPx(), thumbTop - 0.7.dp.toPx()),
-                size = Size(thumbWidth + 1.4.dp.toPx(), thumbHeight + 1.4.dp.toPx()),
-                cornerRadius = CornerRadius((thumbHeight + 1.4.dp.toPx()) / 2f),
-                style = Stroke(width = 1.1.dp.toPx())
-            )
-            // Curved reflections at the upper-left and lower-right edges.
-            val reflectionSize = Size(thumbWidth * 0.84f, thumbHeight * 0.78f)
-            drawArc(
-                color = Color.White.copy(alpha = 0.96f * lens),
-                startAngle = 195f,
-                sweepAngle = 112f,
-                useCenter = false,
-                topLeft = Offset(
-                    thumbLeft + thumbWidth * 0.08f,
-                    thumbTop + thumbHeight * 0.1f
-                ),
-                size = reflectionSize,
-                style = Stroke(width = 1.25.dp.toPx(), cap = StrokeCap.Round)
-            )
-            drawArc(
-                color = Color.White.copy(alpha = 0.92f * lens),
-                startAngle = 18f,
-                sweepAngle = 112f,
-                useCenter = false,
-                topLeft = Offset(
-                    thumbLeft + thumbWidth * 0.08f,
-                    thumbTop + thumbHeight * 0.1f
-                ),
-                size = reflectionSize,
-                style = Stroke(width = 1.25.dp.toPx(), cap = StrokeCap.Round)
-            )
-            drawLine(
-                color = Color.White.copy(alpha = 0.9f * lens),
-                start = Offset(centerX - thumbWidth * 0.22f, thumbTop + 4.dp.toPx()),
-                end = Offset(centerX + thumbWidth * 0.13f, thumbTop + 4.dp.toPx()),
-                strokeWidth = 1.5.dp.toPx(),
-                cap = StrokeCap.Round
-            )
-            drawLine(
-                color = Color.White.copy(alpha = 0.78f * lens),
-                start = Offset(centerX - thumbWidth * 0.14f, thumbTop + thumbHeight - 4.dp.toPx()),
-                end = Offset(centerX + thumbWidth * 0.2f, thumbTop + thumbHeight - 4.dp.toPx()),
-                strokeWidth = 1.35.dp.toPx(),
-                cap = StrokeCap.Round
-            )
-        }
     }
 }
