@@ -324,7 +324,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
               <span className="nothing-settings-copy"><strong>Theme toggle</strong><small>Interactive liquid-glass switch</small></span>
               <button className={`liquid-theme-toggle ${customDemoOn ? "is-on" : "is-off"} ${demoAnimating ? "is-animating" : ""}`} type="button" role="switch" aria-checked={customDemoOn} aria-label="Liquid Glass theme toggle demo" onClick={toggleCustomDemo}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
             </div>
-            <p className="toggle-demo-note">The glass lens expands, glides and settles with each tap.</p>
+            <p className="toggle-demo-note">The white capsule slides smoothly between the two sides of the green track.</p>
           </div> : selected.title === "Slider" ? <div className="control-demo-list">
             <div className="control-demo-intro"><strong>Slider</strong><p>A simple range control for adjusting a value.</p></div>
             <div className="control-demo-panel">
@@ -350,9 +350,10 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
               <label className="core-demo-field"><span>Display name</span><input value={textDemo} onChange={event => setTextDemo(event.target.value)} placeholder="Enter a name" /></label>
               <small className="control-demo-hint">{textDemo.length ? textDemo.length + " characters" : "Your text appears here as you type."}</small>
             </div>
-          </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
-            <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
-          </button> : <div className="nothing-settings-info">
+          </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <div className="nothing-settings-row">
+            <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span>
+            <button className={"liquid-theme-toggle " + (notifications ? "is-on" : "is-off")} type="button" role="switch" aria-checked={notifications} aria-label="Notifications" onClick={() => onNotificationsChange(!notifications)}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
+          </div> : <div className="nothing-settings-info">
             <span className="nothing-settings-icon"><selected.icon size={23} /></span>
             <strong>{selected.title}</strong>
             <p>{selected.title === "Workspace" ? "Your personal workspace is where shared Essential tools and preferences come together." : selected.title === "General" ? "General preferences for Essential Core will live here. Product-wide defaults are kept simple and consistent." : selected.title === "Privacy & security" ? "Privacy and account protection controls will appear here when Essential Core account services are connected." : selected.title === "Accessibility" ? "Accessibility preferences will be shared across Essential apps as the common settings framework grows." : selected.title === "Language & region" ? "Language and regional options will be managed here when localization support is added." : selected.title === "Help & feedback" ? "Help resources and feedback options will appear here as Essential ecosystem services are connected." : "Essential Core is the shared foundation for the Essential ecosystem."}</p>
