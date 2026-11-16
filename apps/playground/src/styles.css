@@ -1632,3 +1632,15 @@ h1:not(.nothing-settings-title),
   width:54.72px!important;
   height:34.56px!important;
 }
+
+
+/* Keep the blue progress trail on the track centreline, layered behind the glass capsule. */
+.core-demo-slider-track::before{
+  top:0!important;
+  left:0!important;
+  height:100%!important;
+  width:max(0px,calc(var(--slider-position) - 27.36px))!important;
+  transform:none!important;
+  border-radius:999px!important;
+}
+.core-demo-slider-thumb{z-index:1!important}
