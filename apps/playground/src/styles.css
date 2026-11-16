@@ -1390,3 +1390,29 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
   user-select:none!important;
   -webkit-touch-callout:none!important;
 }
+
+
+/* Inflate 1 to the full height/width of 2, glide across, then deflate. */
+@keyframes capsule-inflate-slide-on{
+  0%{transform:translate3d(0,-50%,0) scale(1,1)}
+  16%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
+  78%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
+  100%{transform:translate3d(24.5px,-50%,0) scale(1,1)}
+}
+@keyframes capsule-inflate-slide-off{
+  0%{transform:translate3d(24.5px,-50%,0) scale(1,1)}
+  16%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
+  78%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
+  100%{transform:translate3d(0,-50%,0) scale(1,1)}
+}
+.toggle-demo-list .liquid-theme-toggle.is-animating .liquid-theme-thumb{
+  animation: capsule-inflate-slide-on .82s cubic-bezier(.2,.78,.22,1) both!important;
+  transform-origin:left center!important;
+  transition:none!important;
+  scale:1!important;
+}
+.toggle-demo-list .liquid-theme-toggle.is-animating.is-off .liquid-theme-thumb{
+  animation-name:capsule-inflate-slide-off!important;
+  transform-origin:right center!important;
+}
+.toggle-demo-list .liquid-theme-track{overflow:hidden}
