@@ -1440,3 +1440,27 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
   color:var(--ec-text-muted);
   font:400 13px/1.55 var(--ec-font-interface);
 }
+
+
+/* Essential Core fundamental control demos */
+.control-demo-list{display:flex;flex-direction:column;gap:18px;padding:8px 18px 20px}
+.control-demo-intro strong{display:block;font:600 15px/1.4 var(--ec-font-interface);color:var(--ec-text)}
+.control-demo-intro p{margin:5px 0 0;color:var(--ec-text-muted);font:400 13px/1.55 var(--ec-font-interface)}
+.control-demo-panel{padding:18px;border:1px solid var(--ec-border);border-radius:20px;background:var(--ec-card)}
+.control-demo-label,.control-demo-caption{display:flex;align-items:center;justify-content:space-between}
+.control-demo-label strong{font:600 14px var(--ec-font-interface)}
+.control-demo-label span{font:600 13px var(--ec-font-interface);color:var(--ec-text-muted);font-variant-numeric:tabular-nums}
+.core-demo-slider{display:block;width:100%;margin:22px 0 10px;accent-color:var(--ec-accent);cursor:pointer}
+.control-demo-caption,.control-demo-hint{color:var(--ec-text-muted);font:400 11px var(--ec-font-interface)}
+.control-demo-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.core-demo-primary,.core-demo-secondary{min-height:42px;padding:0 18px;border-radius:14px;font:600 13px var(--ec-font-interface);cursor:pointer}
+.core-demo-primary{background:var(--ec-text);color:var(--ec-bg);border:1px solid var(--ec-text)}
+.core-demo-secondary{background:transparent;color:var(--ec-text);border:1px solid var(--ec-border)}
+.core-demo-segmented{display:flex;gap:5px;padding:4px;border-radius:14px;background:var(--ec-bg)}
+.core-demo-segmented button{flex:1;min-height:36px;padding:0 8px;border:0;border-radius:10px;background:transparent;color:var(--ec-text-muted);font:500 12px var(--ec-font-interface);cursor:pointer}
+.core-demo-segmented button.active{background:var(--ec-card);color:var(--ec-text);box-shadow:0 1px 5px #00000012}
+.control-demo-hint{display:block;margin-top:13px}
+.core-demo-field{display:flex;flex-direction:column;gap:8px}
+.core-demo-field span{font:600 12px var(--ec-font-interface);color:var(--ec-text-muted)}
+.core-demo-field input{width:100%;min-height:44px;padding:0 13px;border:1px solid var(--ec-border);border-radius:12px;background:var(--ec-bg);color:var(--ec-text);font:400 14px var(--ec-font-interface);outline:none}
+.core-demo-field input:focus{border-color:var(--ec-text-muted)}
