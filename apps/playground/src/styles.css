@@ -1135,3 +1135,22 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 .liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:34px}
 .liquid-theme-toggle:focus-visible{outline:2px solid color-mix(in srgb,#39ed16 55%,transparent);outline-offset:5px;border-radius:999px}
 @media(prefers-reduced-motion:reduce){.liquid-theme-track,.liquid-theme-thumb{transition-duration:.01ms!important}}
+
+
+/* Dedicated toggle settings section: preserve the full glass switch silhouette */
+.liquid-toggle-setting-row{min-height:104px!important;gap:14px}
+.liquid-theme-toggle{width:104px;height:66px;min-width:104px;flex:0 0 104px;padding:0;overflow:visible}
+.liquid-theme-track{width:94px;height:48px;flex:0 0 94px;overflow:visible}
+.liquid-theme-thumb{width:56px;height:58px;left:0}
+.liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(38px,-50%,0)}
+.liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:38px}
+.liquid-theme-toggle:active .liquid-theme-thumb{transform:translate3d(var(--toggle-thumb-x,0px),-50%,0) scaleX(1.12) scaleY(.94)}
+@media(max-width:420px){
+ .liquid-toggle-setting-row{gap:8px;padding-left:14px;padding-right:10px}
+ .liquid-toggle-setting-row .nothing-settings-copy strong{font-size:15px}
+ .liquid-toggle-setting-row .nothing-settings-copy small{font-size:10px}
+ .liquid-theme-toggle{width:98px;min-width:98px;flex-basis:98px}
+ .liquid-theme-track{width:90px;flex-basis:90px}
+ .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(34px,-50%,0)}
+ .liquid-theme-toggle.is-on:active .liquid-theme-thumb{--toggle-thumb-x:34px}
+}
