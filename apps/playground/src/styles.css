@@ -1416,3 +1416,19 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
   transform-origin:right center!important;
 }
 .toggle-demo-list .liquid-theme-track{overflow:hidden}
+
+
+/* Simple toggle motion: slide the white capsule only, with no liquid deformation. */
+.toggle-demo-list .liquid-theme-toggle.is-animating .liquid-theme-thumb,
+.toggle-demo-list .liquid-theme-toggle.is-animating.is-on .liquid-theme-thumb,
+.toggle-demo-list .liquid-theme-toggle.is-animating.is-off .liquid-theme-thumb{
+  animation:none!important;
+  scale:1!important;
+  transition:transform 260ms ease!important;
+}
+.toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{
+  transform:translate3d(24.5px,-50%,0)!important;
+}
+.toggle-demo-list .liquid-theme-toggle.is-off .liquid-theme-thumb{
+  transform:translate3d(0,-50%,0)!important;
+}
