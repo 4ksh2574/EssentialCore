@@ -144,7 +144,7 @@ function App() {
         <div className="content-wrap">
           {activeTab === "home" && <HomeScreen onOpenEssential={() => setActiveTab("essential")} />}
           {activeTab === "essential" && <EssentialScreen />}
-          {activeTab === "settings" && <SettingsScreen theme={theme} onThemeChange={setTheme} notifications={notifications} onNotificationsChange={setNotifications} onOpenProfile={() => setActiveTab("profile")} />}
+          {activeTab === "settings" && <SettingsScreen theme={theme} notifications={notifications} onNotificationsChange={setNotifications} onOpenProfile={() => setActiveTab("profile")} />}
           {activeTab === "profile" && <ProfileScreen />}
         </div>
       </main>
@@ -263,12 +263,15 @@ function ProfileScreen() {
   );
 }
 
-function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsChange, onOpenProfile }: {
-  theme: Theme; onThemeChange: (theme: Theme) => void; notifications: boolean;
+function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenProfile }: {
+  theme: Theme; notifications: boolean;
   onNotificationsChange: (enabled: boolean) => void; onOpenProfile: () => void;
 }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [nativeDemoOn, setNativeDemoOn] = useState(true);
+  const [customDemoOn, setCustomDemoOn] = useState(false);
+  const [buttonDemoOn, setButtonDemoOn] = useState(false);
   const categories = [
     { title: "General", description: "Core preferences and behaviour", icon: Settings2 },
     { title: "Workspace", description: "Personal workspace", icon: BriefcaseBusiness },
@@ -292,9 +295,24 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
       {selected ? <>
         <h1 className="nothing-settings-title">{selected.title}</h1>
         <section className="nothing-settings-group nothing-settings-detail">
-          {selected.title === "Toggle" ? <div className="nothing-settings-row liquid-toggle-setting-row">
-            <span className="nothing-settings-icon"><Moon size={22} /></span><span className="nothing-settings-copy"><strong>Dark mode</strong><small>{theme === "dark" ? "Enabled · switch off for light mode" : "Disabled · switch on for dark mode"}</small></span>
-            <button className={`liquid-theme-toggle ${theme === "dark" ? "is-on" : "is-off"}`} type="button" role="switch" aria-checked={theme === "dark"} aria-label={`Dark mode ${theme === "dark" ? "on" : "off"}`} onClick={() => onThemeChange(theme === "dark" ? "light" : "dark")}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
+          {selected.title === "Toggle" ? <div className="toggle-demo-list">
+            <div className="toggle-demo-intro"><strong>SwiftUI toggle studies</strong><p>Three interaction styles, recreated as web previews. These demos do not change your app theme.</p></div>
+            <div className="nothing-settings-row liquid-toggle-setting-row">
+              <span className="nothing-settings-icon"><Settings2 size={22} /></span>
+              <span className="nothing-settings-copy"><strong>Native Toggle</strong><small>Standard SwiftUI control · automatic glass styling</small></span>
+              <button className={`demo-native-switch ${nativeDemoOn ? "is-on" : ""}`} type="button" role="switch" aria-checked={nativeDemoOn} aria-label="Native toggle demo" onClick={() => setNativeDemoOn(value => !value)}><span /></button>
+            </div>
+            <div className="nothing-settings-row liquid-toggle-setting-row">
+              <span className="nothing-settings-icon"><Sparkles size={22} /></span>
+              <span className="nothing-settings-copy"><strong>Custom Liquid Glass</strong><small>GlassEffectContainer · interactive glass thumb</small></span>
+              <button className={`liquid-theme-toggle ${customDemoOn ? "is-on" : "is-off"}`} type="button" role="switch" aria-checked={customDemoOn} aria-label="Custom Liquid Glass toggle demo" onClick={() => setCustomDemoOn(value => !value)}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
+            </div>
+            <div className="nothing-settings-row liquid-toggle-setting-row">
+              <span className="nothing-settings-icon"><Check size={22} /></span>
+              <span className="nothing-settings-copy"><strong>Glass Button Toggle</strong><small>Button-style toggle · selected glass state</small></span>
+              <button className={`demo-glass-button-toggle ${buttonDemoOn ? "is-on" : ""}`} type="button" aria-pressed={buttonDemoOn} aria-label="Glass button toggle demo"><span onClick={() => setButtonDemoOn(value => !value)}>{buttonDemoOn ? "ON" : "OFF"}</span></button>
+            </div>
+            <p className="toggle-demo-note">Visual reference only · native Apple Liquid Glass rendering requires SwiftUI on iOS 26.</p>
           </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
             <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
           </button> : <div className="nothing-settings-info">
