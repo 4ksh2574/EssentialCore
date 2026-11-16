@@ -272,7 +272,8 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
   const categories = [
     { title: "General", description: "Core preferences and behaviour", icon: Settings2 },
     { title: "Workspace", description: "Personal workspace", icon: BriefcaseBusiness },
-    { title: "Appearance", description: "Theme and visual preferences", icon: Palette },
+    { title: "Appearance", description: "Visual preferences and display", icon: Palette },
+    { title: "Toggle", description: "Interactive theme switch", icon: Moon },
     { title: "Notifications", description: "Notification preferences", icon: Bell },
     { title: "Privacy & security", description: "Privacy and account protection", icon: ShieldCheck },
     { title: "Accessibility", description: "Comfort and accessibility options", icon: Accessibility },
@@ -291,10 +292,10 @@ function SettingsScreen({ theme, onThemeChange, notifications, onNotificationsCh
       {selected ? <>
         <h1 className="nothing-settings-title">{selected.title}</h1>
         <section className="nothing-settings-group nothing-settings-detail">
-          {selected.title === "Appearance" ? <div className="nothing-settings-row">
-            <span className="nothing-settings-icon"><Palette size={22} /></span><span className="nothing-settings-copy"><strong>Theme</strong><small>Choose your preferred appearance</small></span>
+          {selected.title === "Toggle" ? <div className="nothing-settings-row liquid-toggle-setting-row">
+            <span className="nothing-settings-icon"><Moon size={22} /></span><span className="nothing-settings-copy"><strong>Dark mode</strong><small>{theme === "dark" ? "Enabled · switch off for light mode" : "Disabled · switch on for dark mode"}</small></span>
             <button className={`liquid-theme-toggle ${theme === "dark" ? "is-on" : "is-off"}`} type="button" role="switch" aria-checked={theme === "dark"} aria-label={`Dark mode ${theme === "dark" ? "on" : "off"}`} onClick={() => onThemeChange(theme === "dark" ? "light" : "dark")}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
-          </div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
+          </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
             <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
           </button> : <div className="nothing-settings-info">
             <span className="nothing-settings-icon"><selected.icon size={23} /></span>
