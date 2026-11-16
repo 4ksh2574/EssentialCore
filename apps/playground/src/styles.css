@@ -1334,12 +1334,12 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 .toggle-demo-list .liquid-theme-toggle{width:72px;height:38px;min-width:72px;flex-basis:72px}
 .toggle-demo-list .liquid-theme-track{width:64px;height:29px;flex-basis:64px}
 .toggle-demo-list .liquid-theme-thumb{width:55.7%;height:87.5%;left:1.8px}
-.toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(24.5px,-50%,0)!important}
-.toggle-demo-list .liquid-theme-toggle.is-off .liquid-theme-thumb{transform:translate3d(0,-50%,0)!important}
+.toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(24.5px,-50%,0)}
+.toggle-demo-list .liquid-theme-toggle.is-off .liquid-theme-thumb{transform:translate3d(0,-50%,0)}
 @media(max-width:420px){
  .toggle-demo-list .liquid-theme-toggle{width:72px;height:38px;min-width:72px;flex-basis:72px}
  .toggle-demo-list .liquid-theme-track{width:64px;height:29px;flex-basis:64px}
- .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(24.5px,-50%,0)!important}
+ .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(24.5px,-50%,0)}
 }
 
 
@@ -1395,14 +1395,14 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 /* Inflate 1 to the full height/width of 2, glide across, then deflate. */
 @keyframes capsule-inflate-slide-on{
   0%{transform:translate3d(0,-50%,0) scale(1,1)}
-  16%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
-  78%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
+  18%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
+  76%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
   100%{transform:translate3d(24.5px,-50%,0) scale(1,1)}
 }
 @keyframes capsule-inflate-slide-off{
   0%{transform:translate3d(24.5px,-50%,0) scale(1,1)}
-  16%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
-  78%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
+  18%{transform:translate3d(24.5px,-50%,0) scale(1.78,1.14)}
+  76%{transform:translate3d(0,-50%,0) scale(1.78,1.14)}
   100%{transform:translate3d(0,-50%,0) scale(1,1)}
 }
 .toggle-demo-list .liquid-theme-toggle.is-animating .liquid-theme-thumb{
