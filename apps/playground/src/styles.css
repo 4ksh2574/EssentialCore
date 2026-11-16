@@ -1644,3 +1644,11 @@ h1:not(.nothing-settings-title),
   border-radius:999px!important;
 }
 .core-demo-slider-thumb{z-index:1!important}
+
+
+/* Keep the glass capsule and blue progress edge locked to the same live slider value. */
+.core-demo-slider-thumb{
+  transition:none!important;
+  animation:none!important;
+  will-change:auto;
+}
