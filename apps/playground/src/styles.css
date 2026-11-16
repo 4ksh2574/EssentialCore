@@ -1326,7 +1326,7 @@ h1 { font: 700 clamp(32px, 4vw, 43px)/1.15 'Manrope', sans-serif; letter-spacing
 @media(max-width:420px){
   .toggle-demo-list .liquid-theme-toggle{width:78px;min-width:78px;flex-basis:78px}
   .toggle-demo-list .liquid-theme-track{width:70px;flex-basis:70px}
-  .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(27px,-50%,0)!important}
+  .toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb{transform:translate3d(27px,-50%,0)}
 }
 
 
