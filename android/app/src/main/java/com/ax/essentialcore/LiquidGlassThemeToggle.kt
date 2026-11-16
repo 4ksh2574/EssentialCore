@@ -42,7 +42,7 @@ internal fun LiquidGlassThemeToggle(
 
     Canvas(
         modifier = modifier
-            .size(width = 84.dp, height = 42.dp)
+            .size(width = 78.dp, height = 38.dp)
             .clickable(
                 enabled = enabled,
                 interactionSource = interaction,
@@ -55,8 +55,8 @@ internal fun LiquidGlassThemeToggle(
                 stateDescription = if (checked) "On" else "Off"
             }
     ) {
-        val trackWidth = 70.dp.toPx()
-        val trackHeight = 32.dp.toPx()
+        val trackWidth = 64.dp.toPx()
+        val trackHeight = 29.dp.toPx()
         val trackLeft = (size.width - trackWidth) / 2f
         val trackTop = (size.height - trackHeight) / 2f
         val trackSize = Size(trackWidth, trackHeight)
@@ -100,7 +100,7 @@ internal fun LiquidGlassThemeToggle(
         // Fixed white capsule (1): constant width, height and corner radius.
         val thumbWidth = trackWidth * 0.557f
         val thumbHeight = trackHeight * 0.875f
-        val inset = 2.dp.toPx()
+        val inset = 1.8.dp.toPx()
         val travel = trackWidth - thumbWidth - inset * 2f
         val thumbLeft = trackLeft + inset + travel * progress
         val thumbTop = trackTop + (trackHeight - thumbHeight) / 2f
