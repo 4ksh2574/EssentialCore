@@ -270,6 +270,21 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [customDemoOn, setCustomDemoOn] = useState(false);
+  const [demoAnimating, setDemoAnimating] = useState(false);
+  const demoAnimationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toggleCustomDemo = () => {
+    const nextValue = !customDemoOn;
+    setCustomDemoOn(nextValue);
+    setDemoAnimating(true);
+    if (demoAnimationTimer.current) clearTimeout(demoAnimationTimer.current);
+    demoAnimationTimer.current = setTimeout(() => {
+      setDemoAnimating(false);
+      demoAnimationTimer.current = null;
+    }, 820);
+  };
+  useEffect(() => () => {
+    if (demoAnimationTimer.current) clearTimeout(demoAnimationTimer.current);
+  }, []);
   const categories = [
     { title: "General", description: "Core preferences and behaviour", icon: Settings2 },
     { title: "Workspace", description: "Personal workspace", icon: BriefcaseBusiness },
@@ -294,13 +309,13 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
         <h1 className="nothing-settings-title">{selected.title}</h1>
         <section className="nothing-settings-group nothing-settings-detail">
           {selected.title === "Toggle" ? <div className="toggle-demo-list">
-            <div className="toggle-demo-intro"><strong>Liquid Glass Toggle</strong><p>Compact Android-native style preview. Tap to feel the elastic glass thumb.</p></div>
+            <div className="toggle-demo-intro"><strong>Liquid Glass Toggle</strong><p>A glossy liquid-glass switch with a soft, elastic lens.</p></div>
             <div className="nothing-settings-row liquid-toggle-setting-row">
               <span className="nothing-settings-icon"><Sparkles size={22} /></span>
               <span className="nothing-settings-copy"><strong>Theme toggle</strong><small>Interactive liquid-glass switch</small></span>
-              <button className={`liquid-theme-toggle ${customDemoOn ? "is-on" : "is-off"}`} type="button" role="switch" aria-checked={customDemoOn} aria-label="Liquid Glass theme toggle demo" onClick={() => setCustomDemoOn(value => !value)}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
+              <button className={`liquid-theme-toggle ${customDemoOn ? "is-on" : "is-off"} ${demoAnimating ? "is-animating" : ""}`} type="button" role="switch" aria-checked={customDemoOn} aria-label="Liquid Glass theme toggle demo" onClick={toggleCustomDemo}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
             </div>
-            <p className="toggle-demo-note">Android implementation uses Jetpack Compose with a spring-animated glass lens.</p>
+            <p className="toggle-demo-note">The glass lens expands, glides and settles with each tap.</p>
           </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <button className="nothing-settings-row" onClick={() => onNotificationsChange(!notifications)}>
             <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span><span className={notifications ? "toggle on" : "toggle"}><i /></span>
           </button> : <div className="nothing-settings-info">
