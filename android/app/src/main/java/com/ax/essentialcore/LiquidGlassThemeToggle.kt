@@ -1,5 +1,7 @@
 package com.ax.essentialcore
 
+import androidx.compose.animation.core.animateFloatAsState
+
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
