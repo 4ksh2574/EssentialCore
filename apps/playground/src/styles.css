@@ -1608,3 +1608,27 @@ h1:not(.nothing-settings-title),
 .core-demo-slider::-moz-range-thumb{width:68.4px;height:43.2px}
 :root:not([data-theme="light"]) .core-demo-slider-track{background:#555b60!important}
 :root:not([data-theme="light"]) .core-demo-slider-track::before{background:#3988f5}
+
+
+/* Slider refinement: smaller capsule with the blue progress trail joined to its lower edge. */
+.core-demo-slider-track::before{
+  top:calc(50% + 14px)!important;
+  height:3.5px!important;
+  width:max(0px,calc(var(--slider-position) - 27.36px))!important;
+  border-radius:999px!important;
+}
+.core-demo-slider-thumb{
+  width:54.72px!important;
+  height:34.56px!important;
+}
+.core-demo-slider-thumb span{
+  inset:2.2px!important;
+}
+.core-demo-slider::-webkit-slider-thumb{
+  width:54.72px!important;
+  height:34.56px!important;
+}
+.core-demo-slider::-moz-range-thumb{
+  width:54.72px!important;
+  height:34.56px!important;
+}
