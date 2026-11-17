@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type TouchEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState, type TouchEvent, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import {
   ArrowLeft, ArrowUpRight, Bell, BookOpen, BriefcaseBusiness, Check, ChevronRight, CircleHelp,
   Command, Feather, Grid2X2, Home, Layers3, Moon, MoreHorizontal,
@@ -316,7 +316,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
     sliderDragging.current = false;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
-  const handleSliderKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleSliderKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     const step = event.shiftKey ? 10 : 1;
     if (event.key === "ArrowRight" || event.key === "ArrowUp") { event.preventDefault(); setSliderValue(value => Math.min(100, value + step)); }
     else if (event.key === "ArrowLeft" || event.key === "ArrowDown") { event.preventDefault(); setSliderValue(value => Math.max(0, value - step)); }
