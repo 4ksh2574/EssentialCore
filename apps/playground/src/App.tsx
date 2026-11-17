@@ -178,7 +178,7 @@ function App() {
                 onPointerMove={updatePillPreview}
                 onPointerUp={handlePillPointerUp}
                 onPointerCancel={() => { pillDragging.current = false; }}
-                onClick={() => { if (activeTab === "settings") navigateToTab("settings"); }}
+                onClick={() => { if (activeTab === "settings") navigateToTab("settings"); else if (activeTab === "profile") navigateToTab("home"); }}
                 role="slider"
                 aria-label="Slide to preview pages or tap Settings to return to its main page"
                 aria-valuemin={0}
