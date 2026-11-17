@@ -160,7 +160,7 @@ function App() {
         <div className="content-wrap">
           {activeTab === "home" && <HomeScreen onOpenEssential={() => navigateToTab("essential")} />}
           {activeTab === "essential" && <EssentialScreen />}
-          {activeTab === "settings" && <SettingsScreen theme={theme} notifications={notifications} onNotificationsChange={setNotifications} onOpenProfile={() => { setActiveTab("profile"); setHeaderCollapsed(false); setProfileActionsOpen(false); }} navigationResetKey={settingsNavigationKey} onDetailChange={setSettingsDetailOpen} />}
+          {activeTab === "settings" && <SettingsScreen key={settingsNavigationKey} theme={theme} notifications={notifications} onNotificationsChange={setNotifications} onOpenProfile={() => { setActiveTab("profile"); setHeaderCollapsed(false); setProfileActionsOpen(false); }} onDetailChange={setSettingsDetailOpen} />}
           {activeTab === "profile" && <ProfileScreen />}
         </div>
       </main>
@@ -178,8 +178,9 @@ function App() {
                 onPointerMove={updatePillPreview}
                 onPointerUp={handlePillPointerUp}
                 onPointerCancel={() => { pillDragging.current = false; }}
+                onClick={() => { if (activeTab === "settings") navigateToTab("settings"); }}
                 role="slider"
-                aria-label="Slide to preview pages"
+                aria-label="Slide to preview pages or tap Settings to return to its main page"
                 aria-valuemin={0}
                 aria-valuemax={navItems.length - 1}
                 aria-valuenow={navItems.findIndex(item => item.id === activeTab)}
@@ -279,10 +280,10 @@ function ProfileScreen() {
   );
 }
 
-function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenProfile, navigationResetKey, onDetailChange }: {
+function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenProfile, onDetailChange }: {
   theme: Theme; notifications: boolean;
   onNotificationsChange: (enabled: boolean) => void; onOpenProfile: () => void;
-  navigationResetKey: number; onDetailChange: (isOpen: boolean) => void;
+  onDetailChange: (isOpen: boolean) => void;
 }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -306,10 +307,6 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   useEffect(() => () => {
     if (demoAnimationTimer.current) clearTimeout(demoAnimationTimer.current);
   }, []);
-  useEffect(() => {
-    setSelectedCategory(null);
-    setSearch("");
-  }, [navigationResetKey]);
   useEffect(() => {
     onDetailChange(selectedCategory !== null);
     return () => onDetailChange(false);
