@@ -290,6 +290,39 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   const [customDemoOn, setCustomDemoOn] = useState(false);
   const [demoAnimating, setDemoAnimating] = useState(false);
   const [sliderValue, setSliderValue] = useState(65);
+  const sliderDragging = useRef(false);
+  const sliderPointerOffset = useRef(0);
+  const updateSliderFromPointer = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!sliderDragging.current) return;
+    const wrap = event.currentTarget.parentElement;
+    if (!wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    const centerX = event.clientX - sliderPointerOffset.current;
+    const next = Math.max(0, Math.min(100, ((centerX - rect.left) / rect.width) * 100));
+    setSliderValue(Math.round(next));
+  };
+  const handleSliderPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const wrap = event.currentTarget.parentElement;
+    if (!wrap) return;
+    const thumbRect = event.currentTarget.getBoundingClientRect();
+    sliderPointerOffset.current = event.clientX - (thumbRect.left + thumbRect.width / 2);
+    sliderDragging.current = true;
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+  const handleSliderPointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+    sliderDragging.current = false;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+  const handleSliderKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const step = event.shiftKey ? 10 : 1;
+    if (event.key === "ArrowRight" || event.key === "ArrowUp") { event.preventDefault(); setSliderValue(value => Math.min(100, value + step)); }
+    else if (event.key === "ArrowLeft" || event.key === "ArrowDown") { event.preventDefault(); setSliderValue(value => Math.max(0, value - step)); }
+    else if (event.key === "Home") { event.preventDefault(); setSliderValue(0); }
+    else if (event.key === "End") { event.preventDefault(); setSliderValue(100); }
+  };
   const [buttonDemoOn, setButtonDemoOn] = useState(false);
   const [selectionDemo, setSelectionDemo] = useState("Default");
   const [textDemo, setTextDemo] = useState("");
@@ -353,8 +386,20 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
               <div className="control-demo-label"><strong>Intensity</strong><span>{sliderValue}%</span></div>
               <div className="core-demo-slider-wrap" style={{ "--slider-progress": `${sliderValue}%`, "--slider-position": `${sliderValue}%` } as React.CSSProperties}>
                 <div className="core-demo-slider-track" />
-                <div className="core-demo-slider-thumb"><span /></div>
-                <input className="core-demo-slider" type="range" min="0" max="100" value={sliderValue} onChange={event => setSliderValue(Number(event.target.value))} aria-label="Slider intensity demo" />
+                <div
+                  className="core-demo-slider-thumb"
+                  role="slider"
+                  tabIndex={0}
+                  aria-label="Slider intensity demo"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={sliderValue}
+                  onPointerDown={handleSliderPointerDown}
+                  onPointerMove={updateSliderFromPointer}
+                  onPointerUp={handleSliderPointerEnd}
+                  onPointerCancel={handleSliderPointerEnd}
+                  onKeyDown={handleSliderKeyDown}
+                ><span /></div>
               </div>
               <div className="control-demo-caption"><span>0%</span><span>100%</span></div>
             </div>
