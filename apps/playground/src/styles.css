@@ -1692,3 +1692,21 @@ h1:not(.nothing-settings-title),
   outline:none!important;
   box-shadow:none!important;
 }
+
+
+/* The slider responds only when its glass capsule is held and dragged. */
+.core-demo-slider-thumb{
+  pointer-events:auto!important;
+  touch-action:none!important;
+  cursor:grab;
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none!important;
+}
+.core-demo-slider-thumb:active{cursor:grabbing}
+.core-demo-slider-thumb:focus{outline:none!important}
+.core-demo-slider-thumb:focus-visible{
+  outline:2px solid rgba(57,136,245,.45)!important;
+  outline-offset:4px;
+}
+.core-demo-slider-wrap{touch-action:pan-y!important}
