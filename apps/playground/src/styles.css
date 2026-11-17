@@ -1652,3 +1652,10 @@ h1:not(.nothing-settings-title),
   animation:none!important;
   will-change:auto;
 }
+
+
+/* Slider demo: remove the unnecessary inner panel outline. */
+.nothing-settings-detail .control-demo-panel{
+  border:0!important;
+  box-shadow:none!important;
+}
