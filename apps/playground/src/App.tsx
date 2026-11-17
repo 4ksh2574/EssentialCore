@@ -290,6 +290,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   const [customDemoOn, setCustomDemoOn] = useState(false);
   const [demoAnimating, setDemoAnimating] = useState(false);
   const [sliderValue, setSliderValue] = useState(65);
+  const [sliderPressed, setSliderPressed] = useState(false);
   const sliderDragging = useRef(false);
   const sliderPointerOffset = useRef(0);
   const updateSliderFromPointer = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -310,10 +311,12 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
     const thumbRect = event.currentTarget.getBoundingClientRect();
     sliderPointerOffset.current = event.clientX - (thumbRect.left + thumbRect.width / 2);
     sliderDragging.current = true;
+    setSliderPressed(true);
     event.currentTarget.setPointerCapture(event.pointerId);
   };
   const handleSliderPointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
     sliderDragging.current = false;
+    setSliderPressed(false);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
   const handleSliderKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
@@ -387,7 +390,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
               <div className="core-demo-slider-wrap" style={{ "--slider-progress": `${sliderValue}%`, "--slider-position": `${sliderValue}%` } as React.CSSProperties}>
                 <div className="core-demo-slider-track" />
                 <div
-                  className="core-demo-slider-thumb"
+                  className={`core-demo-slider-thumb ${sliderPressed ? "is-pressed" : ""}`}
                   role="slider"
                   tabIndex={0}
                   aria-label="Slider intensity demo"
