@@ -1710,3 +1710,30 @@ h1:not(.nothing-settings-title),
   outline-offset:4px;
 }
 .core-demo-slider-wrap{touch-action:pan-y!important}
+
+
+/* Press-and-hold liquid response: expand the glass capsule by ~13%, then spring back on release. */
+.core-demo-slider-thumb{
+  transform:translate3d(-50%,-50%,0) scale(1)!important;
+  transform-origin:center center;
+  transition:
+    transform 180ms cubic-bezier(.18,.82,.28,1),
+    box-shadow 180ms ease!important;
+  will-change:transform;
+}
+.core-demo-slider-thumb.is-pressed{
+  transform:translate3d(-50%,-50%,0) scale(1.13)!important;
+  box-shadow:
+    0 13px 25px rgba(0,0,0,.19),
+    0 3px 8px rgba(0,0,0,.09),
+    inset 0 2px 4px rgba(255,255,255,.98),
+    inset 0 -2px 5px rgba(130,140,150,.13)!important;
+  transition:
+    transform 150ms cubic-bezier(.2,.9,.25,1),
+    box-shadow 150ms ease!important;
+}
+.core-demo-slider-thumb:not(.is-pressed){
+  transition:
+    transform 520ms cubic-bezier(.2,1.35,.42,1),
+    box-shadow 420ms cubic-bezier(.2,.8,.25,1)!important;
+}
