@@ -1652,3 +1652,28 @@ h1:not(.nothing-settings-title),
   animation:none!important;
   will-change:auto;
 }
+
+/* Constrain the glass slider capsule to an inset travel lane.
+   The lane is exactly one half-capsule narrower on each side, matching
+   the native range thumb's travel so the visible pill never crosses its tile. */
+.core-demo-slider-track{
+  left:27.36px!important;
+  right:27.36px!important;
+  width:auto!important;
+  overflow:visible!important;
+}
+.core-demo-slider-track::before{
+  left:-27.36px!important;
+  width:var(--slider-position)!important;
+  top:0!important;
+  height:100%!important;
+  transform:none!important;
+}
+.core-demo-slider-thumb{
+  left:var(--slider-position)!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  z-index:1!important;
+  transition:none!important;
+  animation:none!important;
+}
