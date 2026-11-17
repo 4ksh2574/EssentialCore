@@ -1755,3 +1755,9 @@ h1:not(.nothing-settings-title),
     transform 640ms cubic-bezier(.2,.82,.28,1),
     box-shadow 560ms cubic-bezier(.2,.82,.28,1)!important;
 }
+
+
+/* Align the blue selection endpoint with the exact centre of the glass pill. */
+.core-demo-slider-track::before{
+  width:max(0px,var(--slider-position))!important;
+}
