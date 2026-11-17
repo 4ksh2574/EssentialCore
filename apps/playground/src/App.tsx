@@ -24,9 +24,19 @@ function App() {
   const [notifications, setNotifications] = useState(true);
   const [profileActionsOpen, setProfileActionsOpen] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
+  const [settingsNavigationKey, setSettingsNavigationKey] = useState(0);
+  const [settingsDetailOpen, setSettingsDetailOpen] = useState(false);
   const touchStartY = useRef(0);
   const touchStartX = useRef(0);
+  const touchStartedOnControl = useRef(false);
   const pillDragging = useRef(false);
+
+  const navigateToTab = (nextTab: Tab) => {
+    if (nextTab === "settings") setSettingsNavigationKey(value => value + 1);
+    setActiveTab(nextTab);
+    setHeaderCollapsed(false);
+    setProfileActionsOpen(false);
+  };
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -46,20 +56,26 @@ function App() {
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
     touchStartY.current = event.touches[0].clientY;
     touchStartX.current = event.touches[0].clientX;
+    const target = event.target as HTMLElement | null;
+    touchStartedOnControl.current = Boolean(target?.closest(
+      "input,button,textarea,select,[role='slider'],.core-demo-slider-wrap"
+    ));
   };
   const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
     const deltaY = touchStartY.current - event.changedTouches[0].clientY;
     const deltaX = touchStartX.current - event.changedTouches[0].clientX;
+    const startedOnControl = touchStartedOnControl.current;
+    touchStartedOnControl.current = false;
 
-    // Keep vertical gestures for the collapsing header; horizontal gestures navigate pages.
-    if (Math.abs(deltaX) > 64 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+    // Controls own their gestures; never reinterpret a slider drag as page navigation.
+    if (startedOnControl) return;
+
+    // Keep page swipes off profile and nested settings screens.
+    const horizontalSwipeDisabled = activeTab === "profile" || (activeTab === "settings" && settingsDetailOpen);
+    if (!horizontalSwipeDisabled && Math.abs(deltaX) > 64 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
       const currentIndex = navItems.findIndex(item => item.id === activeTab);
       const nextIndex = Math.max(0, Math.min(navItems.length - 1, currentIndex + (deltaX > 0 ? 1 : -1)));
-      if (nextIndex !== currentIndex) {
-        setActiveTab(navItems[nextIndex].id);
-        setHeaderCollapsed(false);
-        setProfileActionsOpen(false);
-      }
+      if (nextIndex !== currentIndex) navigateToTab(navItems[nextIndex].id);
       return;
     }
 
@@ -68,21 +84,21 @@ function App() {
   };
 
   const handlePillPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (activeTab === "profile" || (activeTab === "settings" && settingsDetailOpen)) return;
     if (event.pointerType === "mouse" && event.button !== 0) return;
     pillDragging.current = true;
     event.currentTarget.setPointerCapture(event.pointerId);
     setProfileActionsOpen(false);
   };
   const updatePillPreview = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!pillDragging.current) return;
+    if (!pillDragging.current || activeTab === "profile" || (activeTab === "settings" && settingsDetailOpen)) return;
     const track = event.currentTarget.parentElement;
     if (!track) return;
     const rect = track.getBoundingClientRect();
     const relativeX = Math.max(0, Math.min(rect.width - 1, event.clientX - rect.left));
     const index = Math.min(navItems.length - 1, Math.floor(relativeX / (rect.width / navItems.length)));
     const nextTab = navItems[index].id;
-    setActiveTab(nextTab);
-    setHeaderCollapsed(false);
+    if (nextTab !== activeTab) navigateToTab(nextTab);
   };
   const handlePillPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (!pillDragging.current) return;
@@ -106,14 +122,14 @@ function App() {
   return (
     <div className={headerCollapsed ? "app-shell header-is-collapsed" : "app-shell"}>
       <aside className="sidebar">
-        <a className="brand" href="#home" onClick={() => { setActiveTab("home"); setProfileActionsOpen(false); }}>
+        <a className="brand" href="#home" onClick={event => { event.preventDefault(); navigateToTab("home"); }}>
           <span className="brand-mark"><span>e</span></span>
           <span className="brand-copy"><strong>essential</strong><small>CORE SYSTEM</small></span>
         </a>
         <div className="side-label">WORKSPACE</div>
         <nav className="side-nav" aria-label="Main navigation">
           {navItems.map(({ id, label, icon: Icon }) => (
-            <button key={id} className={activeTab === id ? "side-link active" : "side-link"} onClick={() => { setActiveTab(id); setProfileActionsOpen(false); }}>
+            <button key={id} className={activeTab === id ? "side-link active" : "side-link"} onClick={() => navigateToTab(id)}>
               <Icon size={18} strokeWidth={1.8} /><span>{label}</span>
               {activeTab === id && <span className="active-dot" />}
             </button>
@@ -142,9 +158,9 @@ function App() {
         </header>
 
         <div className="content-wrap">
-          {activeTab === "home" && <HomeScreen onOpenEssential={() => setActiveTab("essential")} />}
+          {activeTab === "home" && <HomeScreen onOpenEssential={() => navigateToTab("essential")} />}
           {activeTab === "essential" && <EssentialScreen />}
-          {activeTab === "settings" && <SettingsScreen theme={theme} notifications={notifications} onNotificationsChange={setNotifications} onOpenProfile={() => setActiveTab("profile")} />}
+          {activeTab === "settings" && <SettingsScreen theme={theme} notifications={notifications} onNotificationsChange={setNotifications} onOpenProfile={() => { setActiveTab("profile"); setHeaderCollapsed(false); setProfileActionsOpen(false); }} navigationResetKey={settingsNavigationKey} onDetailChange={setSettingsDetailOpen} />}
           {activeTab === "profile" && <ProfileScreen />}
         </div>
       </main>
@@ -179,7 +195,7 @@ function App() {
               className={activeTab === id ? "mobile-nav-item active" : "mobile-nav-item"}
               aria-label={label}
               aria-current={activeTab === id ? "page" : undefined}
-              onClick={() => { setActiveTab(id); setHeaderCollapsed(false); setProfileActionsOpen(false); }}
+              onClick={() => navigateToTab(id)}
             >
               <Icon size={17} strokeWidth={1.9} />
             </button>
@@ -263,9 +279,10 @@ function ProfileScreen() {
   );
 }
 
-function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenProfile }: {
+function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenProfile, navigationResetKey, onDetailChange }: {
   theme: Theme; notifications: boolean;
   onNotificationsChange: (enabled: boolean) => void; onOpenProfile: () => void;
+  navigationResetKey: number; onDetailChange: (isOpen: boolean) => void;
 }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -289,6 +306,14 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   useEffect(() => () => {
     if (demoAnimationTimer.current) clearTimeout(demoAnimationTimer.current);
   }, []);
+  useEffect(() => {
+    setSelectedCategory(null);
+    setSearch("");
+  }, [navigationResetKey]);
+  useEffect(() => {
+    onDetailChange(selectedCategory !== null);
+    return () => onDetailChange(false);
+  }, [selectedCategory, onDetailChange]);
   const categories = [
     { title: "General", description: "Core preferences and behaviour", icon: Settings2 },
     { title: "Workspace", description: "Personal workspace", icon: BriefcaseBusiness },
