@@ -1659,3 +1659,36 @@ h1:not(.nothing-settings-title),
   border:0!important;
   box-shadow:none!important;
 }
+
+
+/* Prevent Android long-press selection/highlight on the custom slider without
+   interfering with pointer dragging or keyboard accessibility. */
+.core-demo-slider-wrap,
+.core-demo-slider-wrap *,
+.core-demo-slider-wrap::selection,
+.core-demo-slider-wrap *::selection{
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.core-demo-slider-wrap{
+  -webkit-touch-callout:none!important;
+  -webkit-user-select:none!important;
+  user-select:none!important;
+}
+.core-demo-slider{
+  outline:none!important;
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  touch-action:pan-y!important;
+}
+.core-demo-slider:focus,
+.core-demo-slider:focus-visible,
+.core-demo-slider:active{
+  outline:none!important;
+  box-shadow:none!important;
+}
