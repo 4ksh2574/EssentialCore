@@ -330,8 +330,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
             <div className="control-demo-panel">
               <div className="control-demo-label"><strong>Intensity</strong><span>{sliderValue}%</span></div>
               <div className="core-demo-slider-wrap" style={{ "--slider-progress": `${sliderValue}%`, "--slider-position": `${sliderValue}%` } as React.CSSProperties}>
-                <div className="core-demo-slider-track" />
-                <div className="core-demo-slider-thumb"><span /></div>
+                <div className="core-demo-slider-track"><div className="core-demo-slider-thumb"><span /></div></div>
                 <input className="core-demo-slider" type="range" min="0" max="100" value={sliderValue} onChange={event => setSliderValue(Number(event.target.value))} aria-label="Slider intensity demo" />
               </div>
               <div className="control-demo-caption"><span>0%</span><span>100%</span></div>
