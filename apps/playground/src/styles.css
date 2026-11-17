@@ -1737,3 +1737,21 @@ h1:not(.nothing-settings-title),
     transform 520ms cubic-bezier(.2,1.35,.42,1),
     box-shadow 420ms cubic-bezier(.2,.8,.25,1)!important;
 }
+
+
+/* Softer slider feedback: gentler press-in and a calm, cushioned return. */
+.core-demo-slider-thumb{
+  transition:
+    transform 240ms cubic-bezier(.22,.72,.24,1),
+    box-shadow 280ms cubic-bezier(.22,.72,.24,1)!important;
+}
+.core-demo-slider-thumb.is-pressed{
+  transition:
+    transform 220ms cubic-bezier(.22,.72,.24,1),
+    box-shadow 260ms cubic-bezier(.22,.72,.24,1)!important;
+}
+.core-demo-slider-thumb:not(.is-pressed){
+  transition:
+    transform 640ms cubic-bezier(.2,.82,.28,1),
+    box-shadow 560ms cubic-bezier(.2,.82,.28,1)!important;
+}
