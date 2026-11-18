@@ -2082,18 +2082,6 @@ h1:not(.nothing-settings-title),
 }
 
 
-/* Keep the Liquid Toggle free of browser blue tap/focus selection chrome. */
-.liquid-theme-toggle,
-.liquid-theme-toggle:focus,
-.liquid-theme-toggle:focus-visible,
-.liquid-theme-toggle:active{
-  outline:none!important;
-  -webkit-tap-highlight-color:transparent!important;
-  -webkit-appearance:none;
-  appearance:none;
-}
-.liquid-theme-toggle::-moz-focus-inner{border:0!important}
-
 
 /* Final override: no focus ring on either toggle demo or settings toggle. */
 .toggle-demo-list .liquid-theme-toggle:focus-visible,
