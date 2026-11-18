@@ -280,6 +280,58 @@ function ProfileScreen() {
   );
 }
 
+function LiquidToggle({ checked, onChange, label, className = "" }: { checked: boolean; onChange: (value: boolean) => void; label: string; className?: string }) {
+  const [dragProgress, setDragProgress] = useState<number | null>(null);
+  const dragStartX = useRef(0);
+  const dragStartProgress = useRef(checked ? 1 : 0);
+  const moved = useRef(false);
+  const getProgress = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const track = event.currentTarget.querySelector(".liquid-theme-track");
+    if (!track) return dragStartProgress.current;
+    const rect = track.getBoundingClientRect();
+    const thumbWidth = rect.width * 0.557;
+    const minCenter = rect.left + thumbWidth / 2 + 2;
+    const maxCenter = rect.right - thumbWidth / 2 - 2;
+    return Math.max(0, Math.min(1, (event.clientX - minCenter) / Math.max(1, maxCenter - minCenter)));
+  };
+  const handlePointerDown = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    event.preventDefault();
+    dragStartX.current = event.clientX;
+    dragStartProgress.current = checked ? 1 : 0;
+    moved.current = false;
+    setDragProgress(getProgress(event));
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+  const handlePointerMove = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (dragProgress === null) return;
+    if (Math.abs(event.clientX - dragStartX.current) > 3) moved.current = true;
+    setDragProgress(getProgress(event));
+  };
+  const handlePointerEnd = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (dragProgress === null) return;
+    const finalProgress = getProgress(event);
+    const next = moved.current ? finalProgress >= 0.5 : !checked;
+    setDragProgress(null);
+    onChange(next);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+  const visualProgress = dragProgress ?? (checked ? 1 : 0);
+  const visualOn = dragProgress === null ? checked : dragProgress >= 0.5;
+  return (
+    <button
+      className={`liquid-theme-toggle ${visualOn ? "is-on" : "is-off"} ${dragProgress !== null ? "is-dragging" : ""} ${className}`}
+      type="button" role="switch" aria-checked={checked} aria-label={label}
+      style={{ "--toggle-progress": visualProgress } as React.CSSProperties}
+      onPointerDown={handlePointerDown} onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerEnd} onPointerCancel={handlePointerEnd}
+      onKeyDown={event => { if (event.key === " " || event.key === "Enter") { event.preventDefault(); onChange(!checked); } }}
+    >
+      <span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span>
+    </button>
+  );
+}
+
 function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenProfile, onDetailChange }: {
   theme: Theme; notifications: boolean;
   onNotificationsChange: (enabled: boolean) => void; onOpenProfile: () => void;
@@ -288,7 +340,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [customDemoOn, setCustomDemoOn] = useState(false);
-  const [demoAnimating, setDemoAnimating] = useState(false);
+
   const [sliderValue, setSliderValue] = useState(65);
   const [sliderPressed, setSliderPressed] = useState(false);
   const sliderDragging = useRef(false);
@@ -329,20 +381,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
   const [buttonDemoOn, setButtonDemoOn] = useState(false);
   const [selectionDemo, setSelectionDemo] = useState("Default");
   const [textDemo, setTextDemo] = useState("");
-  const demoAnimationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const toggleCustomDemo = () => {
-    const nextValue = !customDemoOn;
-    setCustomDemoOn(nextValue);
-    setDemoAnimating(true);
-    if (demoAnimationTimer.current) clearTimeout(demoAnimationTimer.current);
-    demoAnimationTimer.current = setTimeout(() => {
-      setDemoAnimating(false);
-      demoAnimationTimer.current = null;
-    }, 920);
-  };
-  useEffect(() => () => {
-    if (demoAnimationTimer.current) clearTimeout(demoAnimationTimer.current);
-  }, []);
+
   useEffect(() => {
     onDetailChange(selectedCategory !== null);
     return () => onDetailChange(false);
@@ -380,9 +419,9 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
             <div className="nothing-settings-row liquid-toggle-setting-row">
               <span className="nothing-settings-icon"><Sparkles size={22} /></span>
               <span className="nothing-settings-copy"><strong>Theme toggle</strong><small>Interactive liquid-glass switch</small></span>
-              <button className={`liquid-theme-toggle ${customDemoOn ? "is-on" : "is-off"} ${demoAnimating ? "is-animating" : ""}`} type="button" role="switch" aria-checked={customDemoOn} aria-label="Liquid Glass theme toggle demo" onClick={toggleCustomDemo}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
+              <LiquidToggle checked={customDemoOn} onChange={setCustomDemoOn} label="Liquid Glass theme toggle demo" />
             </div>
-            <p className="toggle-demo-note">The white capsule slides smoothly between the two sides of the green track.</p>
+            <p className="toggle-demo-note">Hold and slide the white capsule anywhere along the track. Release on either side to set the switch.</p>
           </div> : selected.title === "Slider" ? <div className="control-demo-list">
             <div className="control-demo-intro"><strong>Slider</strong><p>A simple range control for adjusting a value.</p></div>
             <div className="control-demo-panel">
@@ -426,7 +465,7 @@ function SettingsScreen({ theme, notifications, onNotificationsChange, onOpenPro
             </div>
           </div> : selected.title === "Appearance" ? <div className="nothing-settings-info"><span className="nothing-settings-icon"><Palette size={23} /></span><strong>Appearance</strong><p>Display preferences and visual customisation for Essential Core.</p></div> : selected.title === "Notifications" ? <div className="nothing-settings-row">
             <span className="nothing-settings-icon"><Bell size={22} /></span><span className="nothing-settings-copy"><strong>Notifications</strong><small>Product updates and activity</small></span>
-            <button className={"liquid-theme-toggle " + (notifications ? "is-on" : "is-off")} type="button" role="switch" aria-checked={notifications} aria-label="Notifications" onClick={() => onNotificationsChange(!notifications)}><span className="liquid-theme-track"><span className="liquid-theme-thumb"><span className="liquid-theme-glint" /></span></span></button>
+            <LiquidToggle checked={notifications} onChange={onNotificationsChange} label="Notifications" />
           </div> : <div className="nothing-settings-info">
             <span className="nothing-settings-icon"><selected.icon size={23} /></span>
             <strong>{selected.title}</strong>
