@@ -322,7 +322,7 @@ function LiquidToggle({ checked, onChange, label, className = "" }: { checked: b
     <button
       className={`liquid-theme-toggle ${visualOn ? "is-on" : "is-off"} ${dragProgress !== null ? "is-dragging" : ""} ${className}`}
       type="button" role="switch" aria-checked={checked} aria-label={label}
-      style={{ "--toggle-progress": visualProgress } as React.CSSProperties}
+      style={{ "--toggle-progress": visualProgress, "--toggle-x": `${visualProgress * 24.5}px` } as React.CSSProperties}
       onPointerDown={handlePointerDown} onPointerMove={handlePointerMove}
       onPointerUp={handlePointerEnd} onPointerCancel={handlePointerEnd}
       onKeyDown={event => { if (event.key === " " || event.key === "Enter") { event.preventDefault(); onChange(!checked); } }}
