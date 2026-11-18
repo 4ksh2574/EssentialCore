@@ -2080,3 +2080,16 @@ h1:not(.nothing-settings-title),
 @media(prefers-reduced-motion:reduce){
   .liquid-theme-toggle .liquid-theme-thumb{transition:none!important}
 }
+
+
+/* Keep the Liquid Toggle free of browser blue tap/focus selection chrome. */
+.liquid-theme-toggle,
+.liquid-theme-toggle:focus,
+.liquid-theme-toggle:focus-visible,
+.liquid-theme-toggle:active{
+  outline:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.liquid-theme-toggle::-moz-focus-inner{border:0!important}
