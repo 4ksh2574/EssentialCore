@@ -2093,3 +2093,19 @@ h1:not(.nothing-settings-title),
   appearance:none;
 }
 .liquid-theme-toggle::-moz-focus-inner{border:0!important}
+
+
+/* Final override: no focus ring on either toggle demo or settings toggle. */
+.toggle-demo-list .liquid-theme-toggle:focus-visible,
+.toggle-demo-list .liquid-theme-toggle:focus,
+.nothing-settings-detail .liquid-theme-toggle:focus-visible,
+.nothing-settings-detail .liquid-theme-toggle:focus,
+.liquid-theme-toggle:focus-visible{
+  outline:0!important;
+  outline-offset:0!important;
+  box-shadow:none!important;
+}
+.toggle-demo-list .liquid-theme-toggle,
+.nothing-settings-detail .liquid-theme-toggle{
+  -webkit-tap-highlight-color:transparent!important;
+}
