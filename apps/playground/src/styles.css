@@ -1761,3 +1761,113 @@ h1:not(.nothing-settings-title),
 .core-demo-slider-track::before{
   width:max(0px,var(--slider-position))!important;
 }
+
+
+/* Essential Core optical Liquid Glass material.
+   Applies to floating navigation and quick controls; preserves control geometry and motion. */
+@media (max-width:760px){
+  .liquid-nav-track{
+    background:color-mix(in srgb,var(--ec-bg) 34%,transparent)!important;
+    border:1px solid color-mix(in srgb,var(--ec-text) 15%,transparent)!important;
+    box-shadow:
+      0 14px 34px rgba(0,0,0,.22),
+      inset 0 1px 0 rgba(255,255,255,.20),
+      inset 0 -1px 0 rgba(255,255,255,.035)!important;
+    -webkit-backdrop-filter:blur(24px) saturate(190%) contrast(1.08);
+    backdrop-filter:blur(24px) saturate(190%) contrast(1.08);
+  }
+  .liquid-nav-drop{
+    background:
+      radial-gradient(115% 100% at 18% 0%,rgba(255,255,255,.34),transparent 52%),
+      radial-gradient(90% 120% at 100% 100%,color-mix(in srgb,var(--ec-accent) 20%,transparent),transparent 68%),
+      linear-gradient(155deg,color-mix(in srgb,var(--ec-surface) 60%,transparent),color-mix(in srgb,var(--ec-surface-raised) 34%,transparent))!important;
+    border:1px solid rgba(255,255,255,.38)!important;
+    box-shadow:
+      0 7px 18px rgba(0,0,0,.22),
+      0 1px 2px rgba(0,0,0,.10),
+      inset 0 1.2px 1px rgba(255,255,255,.68),
+      inset 0 -1px 1px rgba(255,255,255,.16),
+      inset 1px 0 1px rgba(255,255,255,.20),
+      inset -1px 0 1px rgba(255,255,255,.16)!important;
+    -webkit-backdrop-filter:blur(18px) saturate(205%) contrast(1.10)!important;
+    backdrop-filter:blur(18px) saturate(205%) contrast(1.10)!important;
+  }
+  .liquid-nav-drop::before{
+    inset:1px!important;
+    background:
+      linear-gradient(112deg,rgba(255,255,255,.32),transparent 34% 66%,rgba(255,255,255,.13)),
+      radial-gradient(75% 55% at 50% 115%,rgba(255,255,255,.24),transparent 100%)!important;
+    opacity:.9!important;
+    pointer-events:none;
+  }
+  .liquid-nav-drop::after{
+    left:12%!important;right:12%!important;top:1px!important;height:1.5px!important;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.96),rgba(255,255,255,.52),transparent)!important;
+    filter:blur(.45px)!important;opacity:.92!important;
+  }
+}
+.profile-quick-actions{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:color-mix(in srgb,var(--ec-surface) 38%,transparent)!important;
+  border:1px solid color-mix(in srgb,var(--ec-text) 17%,transparent)!important;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.30),
+    inset 0 -1px 0 rgba(255,255,255,.07)!important;
+  -webkit-backdrop-filter:blur(24px) saturate(190%) contrast(1.08)!important;
+  backdrop-filter:blur(24px) saturate(190%) contrast(1.08)!important;
+}
+.profile-quick-actions::before{
+  content:"";
+  position:absolute;inset:1px;border-radius:inherit;pointer-events:none;z-index:0;
+  background:
+    linear-gradient(125deg,rgba(255,255,255,.28),transparent 38% 70%,rgba(255,255,255,.10)),
+    radial-gradient(90% 48% at 50% 0%,rgba(255,255,255,.22),transparent 100%);
+}
+.profile-quick-actions .icon-button{
+  position:relative;z-index:1;
+  border:1px solid rgba(255,255,255,.24);
+  background:color-mix(in srgb,var(--ec-surface-raised) 34%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 2px 7px rgba(0,0,0,.10);
+  -webkit-backdrop-filter:blur(12px) saturate(180%);
+  backdrop-filter:blur(12px) saturate(180%);
+}
+.profile-quick-actions .icon-button:hover{
+  background:color-mix(in srgb,var(--ec-accent) 22%,transparent)!important;
+}
+.top-avatar{
+  -webkit-backdrop-filter:blur(16px) saturate(175%);
+  backdrop-filter:blur(16px) saturate(175%);
+  background:
+    radial-gradient(90% 80% at 28% 12%,rgba(255,255,255,.30),transparent 72%),
+    color-mix(in srgb,var(--ec-surface) 48%,transparent)!important;
+}
+.nothing-avatar{
+  border:1px solid color-mix(in srgb,var(--ec-text) 12%,transparent)!important;
+  background:color-mix(in srgb,var(--ec-surface) 48%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 4px 14px rgba(0,0,0,.07);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  backdrop-filter:blur(16px) saturate(180%);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  @media(max-width:760px){
+    .liquid-nav-track{background:var(--ec-surface)!important}
+    .liquid-nav-drop{background:var(--ec-surface-raised)!important}
+  }
+  .profile-quick-actions{background:var(--ec-surface)!important}
+}
+:root[data-theme="light"] .liquid-nav-drop{
+  color:#10221b;
+  border-color:rgba(255,255,255,.78)!important;
+  box-shadow:
+    0 7px 20px rgba(31,63,47,.14),
+    inset 0 1px 1px rgba(255,255,255,.96),
+    inset 0 -1px 1px rgba(255,255,255,.38)!important;
+}
+:root[data-theme="light"] .liquid-nav-drop span,
+:root[data-theme="light"] .liquid-nav-active-icon{color:#163b2d!important;filter:none!important}
+:root[data-theme="light"] .liquid-nav-track{
+  box-shadow:0 12px 30px rgba(34,66,49,.12),inset 0 1px 0 rgba(255,255,255,.82)!important;
+}
