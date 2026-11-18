@@ -1871,3 +1871,180 @@ h1:not(.nothing-settings-title),
 :root[data-theme="light"] .liquid-nav-track{
   box-shadow:0 12px 30px rgba(34,66,49,.12),inset 0 1px 0 rgba(255,255,255,.82)!important;
 }
+
+
+/* APP-WIDE LIQUID GLASS MATERIAL
+   Extend the same optical surface language beyond navigation and profile controls.
+   Keep layout geometry and the dedicated toggle/slider mechanics untouched. */
+:root{
+  --ec-glass-edge:color-mix(in srgb,var(--ec-text) 13%,transparent);
+  --ec-glass-fill:color-mix(in srgb,var(--ec-surface) 72%,transparent);
+  --ec-glass-highlight:rgba(255,255,255,.34);
+  --ec-glass-shadow:0 12px 30px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.30);
+}
+.sidebar{
+  background:color-mix(in srgb,var(--ec-bg) 78%,transparent);
+  border-right-color:var(--ec-glass-edge);
+  -webkit-backdrop-filter:blur(24px) saturate(165%);
+  backdrop-filter:blur(24px) saturate(165%);
+}
+.topbar{
+  background:color-mix(in srgb,var(--ec-bg) 66%,transparent);
+  border-bottom-color:var(--ec-glass-edge);
+  -webkit-backdrop-filter:blur(22px) saturate(175%);
+  backdrop-filter:blur(22px) saturate(175%);
+}
+.system-card,.overview-card,.quick-card,.product-card,.principle-banner,
+.profile-card,.settings-card,.control-demo-panel,
+.nothing-settings-group,.nothing-detail-card,.nothing-settings-search,
+.nothing-settings-info{
+  background:var(--ec-glass-fill)!important;
+  border:1px solid var(--ec-glass-edge)!important;
+  box-shadow:var(--ec-glass-shadow),0 5px 18px rgba(0,0,0,.045)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(175%) contrast(1.025);
+  backdrop-filter:blur(20px) saturate(175%) contrast(1.025);
+}
+.hero-card,.essential-feature{
+  border-color:rgba(255,255,255,.23)!important;
+  box-shadow:0 18px 42px rgba(0,0,0,.13),
+    inset 0 1px 0 rgba(255,255,255,.36),
+    inset 0 -1px 0 rgba(255,255,255,.08)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(165%);
+  backdrop-filter:blur(18px) saturate(165%);
+}
+.overview-card,.quick-card,.product-card,.principle-banner,.profile-card,
+.system-card,.control-demo-panel,.nothing-settings-group,.nothing-detail-card,
+.nothing-settings-search,.nothing-settings-info{
+  position:relative;
+}
+.overview-card,.quick-card,.product-card,.principle-banner,.profile-card,
+.system-card,.control-demo-panel,.nothing-settings-group,.nothing-detail-card,
+.nothing-settings-search{
+  overflow:hidden;
+}
+.overview-card::after,.quick-card::after,.product-card::after,
+.principle-banner::after,.profile-card::after,.system-card::after,
+.control-demo-panel::after,.nothing-settings-group::after,
+.nothing-detail-card::after,.nothing-settings-search::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:
+    linear-gradient(118deg,rgba(255,255,255,.15),transparent 31% 72%,rgba(255,255,255,.045)),
+    radial-gradient(90% 45% at 50% 0%,rgba(255,255,255,.12),transparent 100%);
+  opacity:.8;
+}
+.overview-card>*,.quick-card>*,.product-card>*,
+.principle-banner>*,.profile-card>*,.system-card>*,
+.control-demo-panel>*,.nothing-settings-group>*,
+.nothing-detail-card>*,.nothing-settings-search>*{
+  position:relative;
+  z-index:1;
+}
+.nothing-settings-row{
+  transition:background .22s ease,color .22s ease;
+}
+.nothing-settings-row:hover,.nothing-settings-row:active{
+  background:color-mix(in srgb,var(--ec-text) 5%,transparent);
+}
+.nothing-settings-search input{
+  background:transparent!important;
+}
+.nothing-settings-back,.outline-button,.filter-chip,
+.core-demo-primary,.core-demo-secondary,.core-demo-segmented button,
+.core-demo-field input,.icon-button,.theme-switch{
+  -webkit-backdrop-filter:blur(14px) saturate(165%);
+  backdrop-filter:blur(14px) saturate(165%);
+}
+.nothing-settings-back,.outline-button,.filter-chip,
+.core-demo-secondary,.core-demo-segmented{
+  background:color-mix(in srgb,var(--ec-surface) 58%,transparent)!important;
+  border-color:var(--ec-glass-edge)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 3px 10px rgba(0,0,0,.045);
+}
+.core-demo-primary{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--ec-text) 92%,transparent),color-mix(in srgb,var(--ec-text) 78%,var(--ec-accent)))!important;
+  border:1px solid color-mix(in srgb,var(--ec-text) 32%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 5px 14px rgba(0,0,0,.12);
+}
+.core-demo-field input{
+  background:color-mix(in srgb,var(--ec-bg) 56%,transparent)!important;
+  border-color:var(--ec-glass-edge)!important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.045),inset 0 1px 0 rgba(255,255,255,.16);
+}
+.core-demo-segmented button.active{
+  background:color-mix(in srgb,var(--ec-surface-raised) 76%,transparent)!important;
+  box-shadow:0 3px 10px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.42);
+}
+.filter-chip.selected{
+  background:color-mix(in srgb,var(--ec-accent-soft) 76%,transparent)!important;
+  border-color:color-mix(in srgb,var(--ec-accent) 28%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.36),0 3px 10px rgba(0,0,0,.045);
+}
+.icon-button:hover,.outline-button:hover,.filter-chip:hover,
+.core-demo-secondary:hover,.nothing-settings-back:hover{
+  background:color-mix(in srgb,var(--ec-surface-raised) 82%,transparent)!important;
+  border-color:color-mix(in srgb,var(--ec-accent) 28%,var(--ec-glass-edge))!important;
+}
+.hero-button{
+  border:1px solid rgba(255,255,255,.42);
+  background:linear-gradient(145deg,rgba(210,255,231,.82),rgba(119,214,171,.72));
+  box-shadow:0 5px 15px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.82);
+  -webkit-backdrop-filter:blur(12px) saturate(160%);
+  backdrop-filter:blur(12px) saturate(160%);
+}
+:root[data-theme="light"]{
+  --ec-glass-edge:rgba(36,66,48,.13);
+  --ec-glass-fill:rgba(255,255,255,.62);
+  --ec-glass-highlight:rgba(255,255,255,.78);
+  --ec-glass-shadow:0 10px 26px rgba(38,67,48,.075),inset 0 1px 0 rgba(255,255,255,.88);
+}
+:root[data-theme="light"] .hero-card,
+:root[data-theme="light"] .essential-feature{
+  border-color:rgba(255,255,255,.72)!important;
+  box-shadow:0 16px 36px rgba(39,75,51,.10),
+    inset 0 1px 0 rgba(255,255,255,.92),
+    inset 0 -1px 0 rgba(255,255,255,.48)!important;
+}
+:root:not([data-theme="light"]){
+  --ec-glass-edge:rgba(255,255,255,.12);
+  --ec-glass-fill:rgba(19,24,21,.58);
+  --ec-glass-highlight:rgba(255,255,255,.18);
+  --ec-glass-shadow:0 14px 34px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.16);
+}
+:root:not([data-theme="light"]) .nothing-settings-group,
+:root:not([data-theme="light"]) .nothing-settings-search{
+  background:rgba(28,34,30,.62)!important;
+}
+:root:not([data-theme="light"]) .core-demo-primary{
+  color:#08130e!important;
+  background:linear-gradient(145deg,#e1f5e9,#8fd6b2)!important;
+  border-color:rgba(255,255,255,.52)!important;
+}
+:root:not([data-theme="light"]) .core-demo-secondary,
+:root:not([data-theme="light"]) .nothing-settings-back,
+:root:not([data-theme="light"]) .outline-button{
+  color:var(--ec-text)!important;
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .sidebar,.topbar,.system-card,.overview-card,.quick-card,.product-card,
+  .principle-banner,.profile-card,.settings-card,.control-demo-panel,
+  .nothing-settings-group,.nothing-detail-card,.nothing-settings-search,
+  .nothing-settings-info{
+    background:var(--ec-surface)!important;
+  }
+}
+@media(max-width:760px){
+  .topbar{background:color-mix(in srgb,var(--ec-bg) 72%,transparent)}
+  .overview-card,.quick-card,.product-card,.principle-banner,.profile-card,
+  .control-demo-panel,.nothing-settings-group,.nothing-settings-search{
+    -webkit-backdrop-filter:blur(18px) saturate(175%);
+    backdrop-filter:blur(18px) saturate(175%);
+  }
+}
+/* The reference switch and precision slider retain their established geometry and response. */
+.nothing-settings-detail .liquid-theme-toggle,
+.toggle-demo-list .liquid-theme-toggle,
+.core-demo-slider-wrap,.core-demo-slider-thumb{isolation:isolate}
