@@ -2048,3 +2048,35 @@ h1:not(.nothing-settings-title),
 .nothing-settings-detail .liquid-theme-toggle,
 .toggle-demo-list .liquid-theme-toggle,
 .core-demo-slider-wrap,.core-demo-slider-thumb{isolation:isolate}
+
+
+/* Drag-anywhere Liquid Toggle: the white capsule tracks the pointer continuously. */
+.liquid-theme-toggle{
+  touch-action:none!important;
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none!important;
+}
+.liquid-theme-toggle .liquid-theme-thumb{
+  transform:translate3d(var(--toggle-x,0px),-50%,0)!important;
+  transition:transform 240ms cubic-bezier(.22,.72,.24,1)!important;
+  will-change:transform;
+}
+.liquid-theme-toggle.is-dragging .liquid-theme-thumb{
+  transition:none!important;
+}
+.liquid-theme-toggle.is-dragging .liquid-theme-track{
+  transition:none!important;
+}
+.liquid-theme-toggle.is-dragging{
+  cursor:grabbing;
+}
+.toggle-demo-list .liquid-theme-toggle.is-on .liquid-theme-thumb,
+.toggle-demo-list .liquid-theme-toggle.is-off .liquid-theme-thumb,
+.nothing-settings-detail .liquid-theme-toggle.is-on .liquid-theme-thumb,
+.nothing-settings-detail .liquid-theme-toggle.is-off .liquid-theme-thumb{
+  transform:translate3d(var(--toggle-x,0px),-50%,0)!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .liquid-theme-toggle .liquid-theme-thumb{transition:none!important}
+}
